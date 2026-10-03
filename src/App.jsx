@@ -58,12 +58,12 @@ const DEMO_REPORTS = [
 ];
 
 const DEMO_USERS = [
-  { id: 1, s_no: 1, name: 'Admin User', email: 'admin@iocl.com', role: 'Super Admin', status: 'Active', remarks: 'System admin' },
+  { id: 1, s_no: 1, name: 'Admin User', email: 'admin@solar.com', role: 'Super Admin', status: 'Active', remarks: 'System admin' },
   { id: 2, s_no: 2, name: 'SunPower Ltd', email: 'info@sunpower.com', role: 'Contractor', status: 'Active', remarks: 'Approved' },
   { id: 3, s_no: 3, name: 'GreenTech Solutions', email: 'contact@greentech.com', role: 'Contractor', status: 'Active', remarks: 'Approved' },
-  { id: 4, s_no: 4, name: 'Rajesh Kumar', email: 'rajesh@iocl.com', role: 'Field Worker', status: 'Active', remarks: 'Assigned' },
+  { id: 4, s_no: 4, name: 'Rajesh Kumar', email: 'rajesh@solar.com', role: 'Field Worker', status: 'Active', remarks: 'Assigned' },
   { id: 5, s_no: 5, name: 'EcoEnergy Pvt Ltd', email: 'sales@ecoenergy.com', role: 'Contractor', status: 'Active', remarks: 'Approved' },
-  { id: 6, s_no: 6, name: 'Suresh Patel', email: 'suresh@iocl.com', role: 'Field Worker', status: 'Active', remarks: 'Assigned' },
+  { id: 6, s_no: 6, name: 'Suresh Patel', email: 'suresh@solar.com', role: 'Field Worker', status: 'Active', remarks: 'Assigned' },
 ];
 
 const DEMO_PHOTOS = Array.from({ length: 12 }, (_, i) => ({
@@ -426,7 +426,7 @@ const getNames = (arr) => arr.filter(a => a.status === 'Active').map(a => a.name
 // LOGIN
 // =============================================
 const Login = ({ onLogin }) => {
-  const [email, setEmail] = useState('admin@iocl.com');
+  const [email, setEmail] = useState('admin@solar.com');
   const [password, setPassword] = useState('admin123');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -435,7 +435,7 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setLoading(true); setError('');
     setTimeout(() => {
-      if (email === 'admin@iocl.com' && password === 'admin123') {
+      if (email === 'admin@solar.com' && password === 'admin123') {
         const u = { id: 1, name: 'Admin User', email, role: 'Super Admin' };
         localStorage.setItem('authToken', 'demo-token-' + Date.now());
         localStorage.setItem('user', JSON.stringify(u));
@@ -449,7 +449,7 @@ const Login = ({ onLogin }) => {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', padding: '20px', fontFamily: 'system-ui, sans-serif' }}>
       <div style={{ background: '#fff', padding: '40px', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', width: '100%', maxWidth: '420px' }}>
         <div style={{ width: '64px', height: '64px', background: '#dbeafe', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#2563eb' }}><Shield size={32} /></div>
-        <h1 style={{ fontSize: '24px', fontWeight: 'bold', textAlign: 'center', color: '#1e3a8a', marginBottom: '4px' }}>IOCL ERP Portal</h1>
+        <h1 style={{ fontSize: '24px', fontWeight: 'bold', textAlign: 'center', color: '#1e3a8a', marginBottom: '4px' }}>solar ERP Portal</h1>
         <p style={{ fontSize: '13px', textAlign: 'center', color: '#6b7280', marginBottom: '24px' }}>Solar Project Management</p>
         {error && <div style={{ background: '#fee2e2', color: '#991b1b', padding: '10px 14px', borderRadius: '8px', fontSize: '13px', marginBottom: '16px' }}>{error}</div>}
         <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -464,7 +464,7 @@ const Login = ({ onLogin }) => {
           </button>
         </form>
         <div style={{ marginTop: '20px', textAlign: 'center', fontSize: '12px', color: '#6b7280', background: '#f3f4f6', padding: '10px', borderRadius: '8px' }}>
-          <strong>Demo:</strong> admin@iocl.com / admin123
+          <strong>Demo:</strong> admin@solar.com / admin123
         </div>
       </div>
     </div>
@@ -1883,7 +1883,7 @@ const App = () => {
         {/* SIDEBAR */}
         <div style={{ background: '#111827', color: '#fff', display: 'flex', flexDirection: 'column', width: sidebarOpen ? '250px' : '60px', transition: 'width 0.3s', flexShrink: 0 }}>
           <div style={{ padding: '16px', borderBottom: '1px solid #1f2937', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            {sidebarOpen && <span style={{ fontWeight: 'bold', fontSize: '15px', letterSpacing: '1px' }}>IOCL ERP</span>}
+            {sidebarOpen && <span style={{ fontWeight: 'bold', fontSize: '15px', letterSpacing: '1px' }}>solar ERP</span>}
             <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex' }}>
               {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
             </button>
