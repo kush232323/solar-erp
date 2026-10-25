@@ -12,11 +12,11 @@ import {
   Phone, Award, TrendingUp, AlertCircle, Clock, Database, Columns,
   Smartphone, Download, Upload, Activity, Layers, FileCheck,
   MapPinned, Banknote, Wallet, List, Wifi, Bug, Rocket, Server,
-  BellRing, PlayCircle, Box
+  BellRing, PlayCircle, Box, Zap, Ruler, TreePine, FileWarning
 } from 'lucide-react';
 
 // =============================================
-// DEMO DATA
+// DEMO DATA (Existing - shortened reference)
 // =============================================
 const DEMO_PROJECTS = [
   { id: 1, s_no: 1, site_code: 'SP-MUM-001', name: 'Rooftop Solar Plant - Unit A', location: 'Mumbai Refinery', category: 'Rooftop Solar', capacity: '250 kW', contractor: 'SunPower Ltd', field_worker: 'Rajesh Kumar', status: 'Approved', progress: 75, start_date: '2024-01-10', end_date: '2024-03-15', remarks: 'On track' },
@@ -90,7 +90,6 @@ const DEMO_ACTIVITIES = [
   { id: 5, s_no: 5, type: 'Photo Upload', description: '12 photos uploaded', user: 'Suresh Patel', date: '2024-03-08 15:00', status: 'Completed' },
 ];
 
-// Project sub-pages
 const DEMO_PROJECT_SITES = [
   { id: 1, s_no: 1, site_code: 'SITE-MUM-01', project: 'Rooftop Solar Plant - Unit A', category: 'Rooftop Solar', location: 'Mumbai Refinery', area: '2500 sqft', gps: '19.0760, 72.8777', status: 'Active', remarks: 'Prime location' },
   { id: 2, s_no: 2, site_code: 'SITE-KOY-02', project: 'Ground Mount Solar - Plant 2', category: 'Ground Mount', location: 'Koyali Refinery', area: '5000 sqft', gps: '22.3126, 73.1812', status: 'Active', remarks: 'Large ground area' },
@@ -124,7 +123,6 @@ const DEMO_PROJECT_ASSIGNMENTS = [
   { id: 3, s_no: 3, project: 'Solar Water Heater - Admin Block', contractor: 'EcoEnergy Pvt Ltd', worker: 'Amit Singh', role: 'Technician', assigned_date: '2024-01-22', status: 'Active', remarks: 'Technical work' },
 ];
 
-// Application data
 const DEMO_CONTRACTOR_APPS = [
   { id: 1, s_no: 1, contractor: 'SunPower Ltd', app_name: 'Contractor App', version: '1.2.0', device: 'Android 12', os_version: '12.0', last_sync: '2024-03-10 14:30', status: 'Active', projects: 3, remarks: 'Latest version' },
   { id: 2, s_no: 2, contractor: 'GreenTech Solutions', app_name: 'Contractor App', version: '1.1.5', device: 'Android 11', os_version: '11.0', last_sync: '2024-03-12 09:15', status: 'Active', projects: 3, remarks: 'Update available' },
@@ -168,8 +166,96 @@ const DEMO_APP_RELEASES = [
   { id: 3, s_no: 3, app: 'Field Worker App', version: '1.3.0', release_type: 'Major', released: '2024-04-01', features: 'Offline mode, GPS enhance', status: 'In Development', remarks: 'Dev stage' },
 ];
 
+// MSKVY DATA (from list-1.xlsx)
+const MSKVY_CONTRACTORS = [
+  { id: 1, s_no: 1, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 01', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '8380868899', substation: '33/11 KV NIGHOJ', area: '34.05', solar: '', remarks: '' },
+  { id: 2, s_no: 2, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 02', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV JAWLA', area: '33.55', solar: '', remarks: '' },
+  { id: 3, s_no: 3, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 03', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV SUPA OLD', area: '28.1', solar: '', remarks: '' },
+  { id: 4, s_no: 4, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 04', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV LONI MAWALA', area: '25.65', solar: '', remarks: '' },
+  { id: 5, s_no: 5, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 01', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV WADZIRE', area: '24.45', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
+  { id: 6, s_no: 6, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 02', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV SUPA MIDC', area: '11', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
+  { id: 7, s_no: 7, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 03', district: 'AHILYANAGAR', taluka: 'Pathardi', supervisor: 'Asif Sayyad', contact: '9970289478', substation: '33/11 KV KASAR PIMPALGAON', area: '27.35', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
+  { id: 8, s_no: 8, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 04', district: 'AHILYANAGAR', taluka: 'Pathardi', supervisor: 'Asif Sayyad', contact: '', substation: '33/11 KV MANIKDAUNDI', area: '14.05', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
+  { id: 9, s_no: 9, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 05', district: 'AHILYANAGAR', taluka: 'Rahata', supervisor: 'Shrikant Labade', contact: '8010029784', substation: '33/11 KV KORHALE', area: '26.6', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
+  { id: 10, s_no: 10, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 06', district: 'AHILYANAGAR', taluka: 'Sangamner', supervisor: 'Shrikant Labade', contact: '', substation: '33/11 KV PEMGIRI', area: '34.85', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
+  { id: 11, s_no: 11, contractor: 'R K Engineers & Consultants', director: 'Mr. Karan Masuria', director_contact: '9601199047', file_name: 'RK 01', district: 'AHILYANAGAR', taluka: 'Sangamner', supervisor: 'Shrikant Labade', contact: '', substation: '33/11 KV NIMON', area: '30.65', solar: '', remarks: '6 MW plant already connected. Land in KMZ was private, farmer unaware of lease.' },
+  { id: 12, s_no: 12, contractor: 'R K Engineers & Consultants', director: 'Mr. Karan Masuria', director_contact: '9601199047', file_name: 'RK 02', district: 'AHILYANAGAR', taluka: 'Shrigonda', supervisor: 'Yogesh Parkhe', contact: '9890440425', substation: '33/11 KV PIMPALGAON PISA', area: '42.65', solar: '', remarks: 'Land private, farmer growing sugarcane, unaware of lease.' },
+  { id: 13, s_no: 13, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 01', district: 'AHILYANAGAR', taluka: 'Karjat', supervisor: 'Yogesh Parkhe', contact: '', substation: '33/11 KV PATEWADI', area: '25.7', solar: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
+  { id: 14, s_no: 14, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 02', district: 'AHILYANAGAR', taluka: 'Nevasa', supervisor: 'Asif Sayyad', contact: '', substation: '33/11 KV MIDC PANDHARIPUL', area: '31.40', solar: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
+  { id: 15, s_no: 15, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 03', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Parkhe', contact: '', substation: '33/11 KV TAKALI DHOKESHWAR', area: '43.95', solar: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
+  { id: 16, s_no: 16, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 04', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Parkhe', contact: '', substation: '33/11 KV RALEGAN THERPAL', area: '34.45', solar: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
+  { id: 17, s_no: 17, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 01', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '9359874996', substation: '33/11 KV KURHE', area: '26', solar: '', remarks: '5 MW already connected. Private land, farmer unaware of lease.' },
+  { id: 18, s_no: 18, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 02', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '', substation: '33/11 KV BHARWAS', area: '19.75', solar: '', remarks: '' },
+  { id: 19, s_no: 19, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 03', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '', substation: '33/11KV GANDHALI', area: '19.05', solar: '', remarks: '3 MW connected, 4 MW under construction. Private land, farmer unaware of lease.' },
+  { id: 20, s_no: 20, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 04', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '', substation: '33/11 KV WAWADE', area: '16.05', solar: '', remarks: '8 MW already connected. Private land, farmer unaware of lease.' },
+  { id: 21, s_no: 21, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 05', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '', substation: '33/11 KV ANTURLI (DHAR)', area: '15.65', solar: '', remarks: 'Only 4 MW spare capacity. Land owner unaware of lease.' },
+  { id: 22, s_no: 22, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 06', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Prithviraj Bhoi', contact: '9096472314', substation: '33/11 KV JANVA', area: '11.65', solar: '', remarks: '2.25 MW already connected. Land in KMZ was Forest Land.' },
+  { id: 23, s_no: 23, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 07', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Prithviraj Bhoi', contact: '', substation: 'DAHIWAD', area: '6.55', solar: '', remarks: '' },
+  { id: 24, s_no: 24, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 01', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '9922140587', substation: '33/11 KV KURWEL', area: '34.25', solar: '', remarks: '7 MW connected, only 3 MW required. Farming land, farmer denied lease.' },
+  { id: 25, s_no: 25, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 02', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 KV VIRWADE', area: '27.3', solar: '', remarks: 'Land is farming land.' },
+  { id: 26, s_no: 26, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 03', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 KV NIMGAVHAN', area: '15.45', solar: '', remarks: '7 MW connected, only 3 MW required.' },
+  { id: 27, s_no: 27, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 04', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 KV BUDHGAON', area: '11.15', solar: '', remarks: 'Land clear, ownership not identified.' },
+  { id: 28, s_no: 28, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 05', district: 'JALGAON', taluka: 'Erandol', supervisor: 'Gajanan Sonawane', contact: '9529887256', substation: '33/11 KV KASODA', area: '40.65', solar: '', remarks: '' },
+  { id: 29, s_no: 29, contractor: 'RKBG Greentech Pvt Ltd', director: '', director_contact: '', file_name: 'RKBG 01', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 KV LASUR', area: '70.7', solar: '', remarks: '14 MW connected, only 1 MW spare. Farming land.' },
+  { id: 30, s_no: 30, contractor: 'RKBG Greentech Pvt Ltd', director: '', director_contact: '', file_name: 'RKBG 02', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 KV MANGARUL', area: '40.5', solar: '', remarks: '8 MW connected, only 2 MW spare. Farming land.' },
+  { id: 31, s_no: 31, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 01', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV KAJGAON', area: '41.1', solar: '', remarks: 'Survey with EPC & design team. Farming land, farmer denied lease.' },
+  { id: 32, s_no: 32, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 02', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV GIRAD', area: '29.7', solar: '', remarks: 'Survey with EPC. Farming land, farmer denied lease.' },
+  { id: 33, s_no: 33, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 03', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV LON PIRACHE', area: '22.2', solar: '', remarks: 'Survey with EPC. Farming land, farmer denied lease.' },
+  { id: 34, s_no: 34, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 04', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV AMADADA', area: '5.4', solar: '', remarks: 'Survey with EPC. Farming land, farmer denied lease.' },
+  { id: 35, s_no: 35, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 05', district: 'JALGAON', taluka: 'Bhusawal', supervisor: 'Hemant Agarwal', contact: '', substation: '33/11 KV VELHALE', area: '39.75', solar: '', remarks: 'Farming land, farmer denied lease. Road too thin for heavy vehicles.' },
+];
+
+const MSKVY_SUBSTATION_SURVEYS = [
+  {
+    id: 1, s_no: 1, substation: 'KAJGAON 33/11 KV Substation', subdivision: 'Bhadgaon', surveyor: 'Hemant Agrawal',
+    district: 'JALGAON', taluka: 'Bhadgaon', contractor: 'WAN Technology (OPC) Pvt Ltd',
+    survey_date: '2026-10-22', status: 'Completed',
+    voltage_level: '33/11 kV', discom_division: 'Division - Bhadgaon',
+    connected_feeders: '5 Agri, 6 Domestic', feeder_length: '10km, 12km, 7km',
+    agri_pumps_load: '', peak_load: '', supply_hours: '8 Hours', outage_history: '',
+    transformer_capacity: '5 MVA X 4 Nos', transformer_make: '', transformer_year: '',
+    loading_percent: '', spare_capacity: '', tap_changer: '33/11',
+    oil_condition: 'Good', bushing_condition: 'Good', earthing_condition: 'Good',
+    spare_bay: 'New Bay Needed', bay_space: 'Available', switchgear: 'Good',
+    protection_relays: 'Yes', scada_rtu: 'Yes', metering: 'Available',
+    evacuation_distance: '1.5 Km', right_of_way: 'Not Found Any',
+    received_voltage: '11 KV', fault_level: '', lightning_protection: 'Yes',
+    fire_safety: 'Yes', feeder_demand: '15 MW', existing_capacity: '5 MW', pending_capacity: '0.464 MW',
+    transformer_capacity_check: '4 X 5 MVA',
+    sld_available: 'Available', environmental_clearance: 'Yes', feeder_load_data: '89Amp, 41Amp, 73Amp',
+    geotagged_photos: 'Attached', coordinates: '20.571375, 75.150647',
+    surveyor_sign: 'Signed', discom_sign: 'Signed', remarks: '1 transformer add come to 8 to 10 days'
+  },
+];
+
+const MSKVY_LAND_SURVEYS = [
+  {
+    id: 1, s_no: 1, village: 'KAJGAON', block: 'Bhadgaon', district: 'JALGAON',
+    feeder: 'KAJGAON 33/11 KV', surveyor: 'Hemant Agrawal', survey_date: '2026-10-22',
+    contractor: 'WAN Technology (OPC) Pvt Ltd', status: 'Completed',
+    land_nearby: 'YES', distance_km: '1.7 KM', ownership: 'Private', area_acres: '',
+    title_status: 'Farming Land', litigation: '',
+    topography: 'No', waterlogging: 'NA', soil_type: '', approach_road: 'access for heavy vehicles',
+    water_availability: 'Yes', environmental_clearance: 'NA',
+    geotagged_photos: 'Yes', coordinates: '20.561303, 75.159826', survey_map: 'Yes',
+    remarks: 'Village KAJGAON, Block Bhadgaon, Dist - Jalgaon, Maharashtra.'
+  },
+];
+
+const MASTER_MSKVY_DISTRICT = [
+  { id: 1, s_no: 1, code: 'AHI', name: 'AHILYANAGAR', status: 'Active', remarks: '' },
+  { id: 2, s_no: 2, code: 'JAL', name: 'JALGAON', status: 'Active', remarks: '' },
+  { id: 3, s_no: 3, code: 'SOL', name: 'SOLAPUR', status: 'Active', remarks: '' },
+  { id: 4, s_no: 4, code: 'NAS', name: 'NASHIK', status: 'Active', remarks: '' },
+];
+const MASTER_MSKVY_SURVEY_STATUS = [
+  { id: 1, s_no: 1, code: 'PEND', name: 'Pending', status: 'Active', remarks: '' },
+  { id: 2, s_no: 2, code: 'PROG', name: 'In Progress', status: 'Active', remarks: '' },
+  { id: 3, s_no: 3, code: 'COMP', name: 'Completed', status: 'Active', remarks: '' },
+];
+
 // =============================================
-// MASTER DATA - Sab form fields ke liye
+// MASTER DATA
 // =============================================
 const MASTER_PROJ_STATUS = [
   { id: 1, s_no: 1, code: 'PEND', name: 'Pending', color: '#f59e0b', status: 'Active', remarks: 'Awaiting review' },
@@ -376,6 +462,7 @@ const S = {
   modalBody: { padding: '24px' },
   modalFooter: { padding: '20px 24px', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', justifyContent: 'flex-end', gap: '12px' },
   formGrid3: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px 24px' },
+  formGrid2: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px 24px' },
   formGroup: { display: 'flex', flexDirection: 'column', gap: '8px' },
   formGroupFull: { display: 'flex', flexDirection: 'column', gap: '8px', gridColumn: '1 / -1' },
   formLabel: { fontSize: '12px', fontWeight: '600', color: '#374151', display: 'flex', alignItems: 'center', gap: '6px' },
@@ -421,6 +508,16 @@ const getStatusStyle = (status) => {
 
 const formatDate = (d) => d ? dayjs(d).format('DD/MM/YYYY') : '—';
 const getNames = (arr) => arr.filter(a => a.status === 'Active').map(a => a.name);
+
+const loadMSKVY = (key, fallback) => {
+  try {
+    const s = localStorage.getItem(key);
+    return s ? JSON.parse(s) : fallback;
+  } catch { return fallback; }
+};
+const saveMSKVY = (key, data) => {
+  try { localStorage.setItem(key, JSON.stringify(data)); } catch {}
+};
 
 // =============================================
 // LOGIN
@@ -607,7 +704,7 @@ const printReport = (data, columns, title) => {
 };
 
 // =============================================
-// FORM FIELD (with dropdown)
+// FORM FIELD
 // =============================================
 const Field = ({ label, icon, name, value, onChange, type = 'text', placeholder, required, options }) => (
   <div style={S.formGroup}>
@@ -626,7 +723,79 @@ const Field = ({ label, icon, name, value, onChange, type = 'text', placeholder,
 );
 
 // =============================================
-// TABLE PAGE
+// BOTTOM BAR (Excel, Print + Pagination) - Reusable
+// =============================================
+const BottomBar = ({
+  currentPage, totalPages, totalItems, itemsPerPage, onPageChange, onItemsPerPageChange,
+  onExcel, onPrint, showPagination = true
+}) => {
+  const pages = [];
+  if (totalPages > 1) {
+    let start = Math.max(1, currentPage - 2);
+    let end = Math.min(totalPages, start + 4);
+    if (end - start < 4) start = Math.max(1, end - 4);
+    for (let i = start; i <= end; i++) pages.push(i);
+  }
+
+  return (
+    <div style={{
+      padding: '14px 20px',
+      borderTop: '1px solid #e5e7eb',
+      background: '#f9fafb',
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: '12px'
+    }}>
+      {/* LEFT: Excel + Print + Show selector + Showing info */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '12px' }}>
+        <button onClick={onExcel} style={S.btn} title="Export to Excel">
+          <FileSpreadsheet size={14} /> Excel
+        </button>
+        <button onClick={onPrint} style={S.btn} title="Print report">
+          <Printer size={14} /> Print
+        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{ fontSize: '12px', color: '#6b7280' }}>Show:</span>
+          <select
+            value={itemsPerPage}
+            onChange={e => onItemsPerPageChange(Number(e.target.value))}
+            style={{ fontSize: '12px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', cursor: 'pointer' }}
+          >
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        {showPagination && totalItems > 0 && (
+          <span style={{ fontSize: '12px', color: '#6b7280' }}>
+            Showing <b>{(currentPage - 1) * itemsPerPage + 1}</b>–<b>{Math.min(currentPage * itemsPerPage, totalItems)}</b> of <b>{totalItems}</b>
+          </span>
+        )}
+      </div>
+
+      {/* RIGHT: Pagination buttons */}
+      {showPagination && totalPages > 1 && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} style={{ ...S.pageBtn, ...(currentPage === 1 ? S.pageBtnDisabled : {}) }}>
+            <ChevronLeft size={14} /> Prev
+          </button>
+          {pages.map(p => (
+            <button key={p} onClick={() => onPageChange(p)} style={{ ...S.pageBtn, ...(currentPage === p ? S.pageBtnActive : {}) }}>{p}</button>
+          ))}
+          <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} style={{ ...S.pageBtn, ...(currentPage === totalPages ? S.pageBtnDisabled : {}) }}>
+            Next <ChevronRight size={14} />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// =============================================
+// TABLE PAGE (Generic)
 // =============================================
 const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOptions, renderForm, formInitial, validateForm, stats, addLabel }) => {
   const { allData, setAllData, displayData, searchTerm, setSearchTerm, currentPage, setCurrentPage, totalPages, totalItems, itemsPerPage, setItemsPerPage, filters, setFilters } = useTablePage(initialData, searchKeys);
@@ -704,8 +873,6 @@ const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOp
         </div>
         <button onClick={refresh} style={S.btn}><RefreshCw size={14} /> Refresh</button>
         <button onClick={() => setShowFilters(!showFilters)} style={{ ...S.btn, ...(showFilters ? S.btnActive : {}) }}><Filter size={14} /> {showFilters ? 'Hide' : 'Filters'}</button>
-        <button onClick={() => exportToExcel(allData, columns, title.toLowerCase().replace(/\s+/g, '_'))} style={S.btn}><FileSpreadsheet size={14} /> Excel</button>
-        <button onClick={() => printReport(allData, columns, title)} style={S.btn}><Printer size={14} /> Print</button>
         {activeFilters && <button onClick={clearFilters} style={S.btnDanger}>Clear</button>}
         <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> {addLabel || `Add`}</button>
       </div>
@@ -736,12 +903,6 @@ const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOp
               <h2 style={S.tableTitle}>All {title}</h2>
               <span style={S.countBadge}>{totalItems}</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontSize: '11px', color: '#6b7280' }}>Show:</span>
-              <select value={itemsPerPage} onChange={e => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1); }} style={{ fontSize: '12px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '4px 6px', background: '#fff' }}>
-                <option value="5">5</option><option value="10">10</option><option value="25">25</option><option value="50">50</option>
-              </select>
-            </div>
           </div>
           <div style={S.tableWrap}>
             <table style={S.table}>
@@ -757,9 +918,9 @@ const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOp
                       {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
                       <td style={S.td}>
                         <div style={{ display: 'flex', gap: '2px' }}>
-                          <button onClick={() => openView(item)} style={{ ...S.iconBtn, color: '#2563eb' }}><Eye size={15} /></button>
-                          <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }}><Edit size={15} /></button>
-                          <button onClick={() => handleDelete(item)} style={{ ...S.iconBtn, color: '#dc2626' }}><Trash2 size={15} /></button>
+                          <button onClick={() => openView(item)} style={{ ...S.iconBtn, color: '#2563eb' }} title="View"><Eye size={15} /></button>
+                          <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }} title="Edit"><Edit size={15} /></button>
+                          <button onClick={() => handleDelete(item)} style={{ ...S.iconBtn, color: '#dc2626' }} title="Delete"><Trash2 size={15} /></button>
                         </div>
                       </td>
                     </tr>
@@ -768,7 +929,16 @@ const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOp
               </tbody>
             </table>
           </div>
-          <Pagination currentPage={currentPage} totalPages={totalPages} totalItems={totalItems} itemsPerPage={itemsPerPage} onPageChange={setCurrentPage} />
+          <BottomBar
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+            onItemsPerPageChange={(v) => { setItemsPerPage(v); setCurrentPage(1); }}
+            onExcel={() => exportToExcel(allData, columns, title.toLowerCase().replace(/\s+/g, '_'))}
+            onPrint={() => printReport(allData, columns, title)}
+          />
         </div>
       )}
 
@@ -887,8 +1057,6 @@ const SimpleMasterPage = ({ title, subtitle, storageKey, defaultColumns, default
         </div>
         <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> Add</button>
         <button onClick={() => setShowColForm(true)} style={S.btnPurple}><Columns size={14} /> Add Column</button>
-        <button onClick={() => exportToExcel(data, columns, title.toLowerCase().replace(/\s+/g, '_'))} style={S.btn}><FileSpreadsheet size={14} /> Excel</button>
-        <button onClick={() => printReport(data, columns, title)} style={S.btn}><Printer size={14} /> Print</button>
       </div>
 
       {showColForm && (
@@ -943,18 +1111,18 @@ const SimpleMasterPage = ({ title, subtitle, storageKey, defaultColumns, default
         ))}
       </div>
 
-      {totalPages > 1 && (
-        <div style={{ ...S.tableCard, padding: '16px 20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ fontSize: '13px', color: '#4b5563' }}>Showing <b>{start + 1}</b> to <b>{Math.min(start + perPage, filtered.length)}</b> of <b>{filtered.length}</b></div>
-            <div style={{ display: 'flex', gap: '6px' }}>
-              <button onClick={() => setPage(page - 1)} disabled={page === 1} style={{ ...S.pageBtn, ...(page === 1 ? S.pageBtnDisabled : {}) }}><ChevronLeft size={14} /> Prev</button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => <button key={p} onClick={() => setPage(p)} style={{ ...S.pageBtn, ...(page === p ? S.pageBtnActive : {}) }}>{p}</button>)}
-              <button onClick={() => setPage(page + 1)} disabled={page === totalPages} style={{ ...S.pageBtn, ...(page === totalPages ? S.pageBtnDisabled : {}) }}>Next <ChevronRight size={14} /></button>
-            </div>
-          </div>
-        </div>
-      )}
+      <div style={{ ...S.tableCard }}>
+        <BottomBar
+          currentPage={page}
+          totalPages={totalPages}
+          totalItems={filtered.length}
+          itemsPerPage={perPage}
+          onPageChange={setPage}
+          onItemsPerPageChange={() => {}}
+          onExcel={() => exportToExcel(data, columns, title.toLowerCase().replace(/\s+/g, '_'))}
+          onPrint={() => printReport(data, columns, title)}
+        />
+      </div>
 
       {filtered.length === 0 && (
         <div style={S.emptyState}>
@@ -995,10 +1163,8 @@ const SimpleMasterPage = ({ title, subtitle, storageKey, defaultColumns, default
 };
 
 // =============================================
-// PAGE WRAPPERS WITH DROPDOWNS
+// OTHER PAGE WRAPPERS (Shortened for brevity)
 // =============================================
-
-// Projects
 const ProjectListPage = () => {
   const columns = [
     { key: 'site_code', label: 'Site Code', strong: true },
@@ -1037,12 +1203,9 @@ const ProjectListPage = () => {
 
 const ProjectSitesPage = () => {
   const columns = [
-    { key: 'site_code', label: 'Site Code', strong: true },
-    { key: 'project', label: 'Project' },
-    { key: 'category', label: 'Category' },
-    { key: 'location', label: 'Location' },
-    { key: 'area', label: 'Area' },
-    { key: 'gps', label: 'GPS' },
+    { key: 'site_code', label: 'Site Code', strong: true }, { key: 'project', label: 'Project' },
+    { key: 'category', label: 'Category' }, { key: 'location', label: 'Location' },
+    { key: 'area', label: 'Area' }, { key: 'gps', label: 'GPS' },
     { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
   ];
   const formInitial = { s_no: '', site_code: '', project: '', category: '', location: '', area: '', gps: '', status: 'Active', remarks: '' };
@@ -1068,10 +1231,8 @@ const ProjectSitesPage = () => {
 
 const ProjectMilestonesPage = () => {
   const columns = [
-    { key: 'project', label: 'Project', strong: true },
-    { key: 'milestone_type', label: 'Type' },
-    { key: 'milestone', label: 'Milestone' },
-    { key: 'target_date', label: 'Target', render: (i) => formatDate(i.target_date) },
+    { key: 'project', label: 'Project', strong: true }, { key: 'milestone_type', label: 'Type' },
+    { key: 'milestone', label: 'Milestone' }, { key: 'target_date', label: 'Target', render: (i) => formatDate(i.target_date) },
     { key: 'actual_date', label: 'Actual', render: (i) => formatDate(i.actual_date) },
     { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
   ];
@@ -1097,8 +1258,7 @@ const ProjectMilestonesPage = () => {
 
 const ProjectBudgetPage = () => {
   const columns = [
-    { key: 'project', label: 'Project', strong: true },
-    { key: 'category', label: 'Category' },
+    { key: 'project', label: 'Project', strong: true }, { key: 'category', label: 'Category' },
     { key: 'sanctioned', label: 'Sanctioned', render: (i) => `₹${Number(i.sanctioned).toLocaleString('en-IN')}` },
     { key: 'spent', label: 'Spent', render: (i) => `₹${Number(i.spent).toLocaleString('en-IN')}` },
     { key: 'balance', label: 'Balance', render: (i) => `₹${Number(i.balance).toLocaleString('en-IN')}` },
@@ -1128,10 +1288,8 @@ const ProjectBudgetPage = () => {
 
 const ProjectDocumentsPage = () => {
   const columns = [
-    { key: 'project', label: 'Project', strong: true },
-    { key: 'doc_name', label: 'Document' },
-    { key: 'doc_type', label: 'Type' },
-    { key: 'size', label: 'Size' },
+    { key: 'project', label: 'Project', strong: true }, { key: 'doc_name', label: 'Document' },
+    { key: 'doc_type', label: 'Type' }, { key: 'size', label: 'Size' },
     { key: 'uploaded', label: 'Uploaded', render: (i) => formatDate(i.uploaded) },
     { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
   ];
@@ -1157,10 +1315,8 @@ const ProjectDocumentsPage = () => {
 
 const ProjectAssignmentsPage = () => {
   const columns = [
-    { key: 'project', label: 'Project', strong: true },
-    { key: 'contractor', label: 'Contractor' },
-    { key: 'worker', label: 'Worker' },
-    { key: 'role', label: 'Role' },
+    { key: 'project', label: 'Project', strong: true }, { key: 'contractor', label: 'Contractor' },
+    { key: 'worker', label: 'Worker' }, { key: 'role', label: 'Role' },
     { key: 'assigned_date', label: 'Assigned', render: (i) => formatDate(i.assigned_date) },
     { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
   ];
@@ -1184,7 +1340,6 @@ const ProjectAssignmentsPage = () => {
   return <TablePage title="Assignments" subtitle="Manage assignments" columns={columns} initialData={DEMO_PROJECT_ASSIGNMENTS} searchKeys={['project', 'contractor', 'worker']} statusOptions={['Active', 'Completed', 'Inactive']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.project ? 'Required' : null} addLabel="Add Assignment" />;
 };
 
-// Contractors
 const ContractorPage = () => {
   const columns = [
     { key: 'name', label: 'Contractor Name', strong: true }, { key: 'type', label: 'Type' },
@@ -1215,7 +1370,6 @@ const ContractorPage = () => {
   return <TablePage title="Contractors" subtitle="Manage contractors" columns={columns} initialData={DEMO_CONTRACTORS} searchKeys={['name', 'email', 'license']} statusOptions={['Pending', 'Approved', 'Rejected']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.name ? 'Name required' : null} addLabel="Add Contractor" />;
 };
 
-// Field Workers
 const FieldWorkerPage = () => {
   const columns = [
     { key: 'name', label: 'Worker Name', strong: true }, { key: 'role', label: 'Role' },
@@ -1245,7 +1399,6 @@ const FieldWorkerPage = () => {
   return <TablePage title="Field Workers" subtitle="Manage workers" columns={columns} initialData={DEMO_FIELD_WORKERS} searchKeys={['name', 'phone', 'contractor']} statusOptions={['Active', 'Inactive']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.name ? 'Required' : null} addLabel="Add Worker" />;
 };
 
-// Reports
 const ReportsPage = () => {
   const columns = [
     { key: 'project', label: 'Project', strong: true }, { key: 'worker', label: 'Worker' },
@@ -1275,7 +1428,6 @@ const ReportsPage = () => {
   return <TablePage title="Reports" subtitle="Field reports" columns={columns} initialData={DEMO_REPORTS} searchKeys={['project', 'worker']} statusOptions={['Pending', 'Approved', 'Correction', 'Rejected']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.project ? 'Required' : null} addLabel="Add Report" />;
 };
 
-// Users
 const UsersPage = () => {
   const columns = [
     { key: 'name', label: 'Name', strong: true }, { key: 'email', label: 'Email' },
@@ -1301,7 +1453,6 @@ const UsersPage = () => {
   return <TablePage title="Users" subtitle="Manage users" columns={columns} initialData={DEMO_USERS} searchKeys={['name', 'email', 'role']} statusOptions={['Active', 'Inactive']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => (!fd.name || !fd.email) ? 'Required' : null} addLabel="Add User" />;
 };
 
-// Applications
 const ContractorAppPage = () => {
   const columns = [
     { key: 'contractor', label: 'Contractor', strong: true }, { key: 'app_name', label: 'App' },
@@ -1473,7 +1624,6 @@ const AppFeedbackPage = () => {
   return <TablePage title="Feedback" subtitle="App feedback" columns={columns} initialData={DEMO_APP_FEEDBACK} searchKeys={['app', 'user']} statusOptions={['Pending', 'Reviewed']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.app ? 'Required' : null} addLabel="Add Feedback" />;
 };
 
-// Media
 const PhotosPage = () => {
   const columns = [
     { key: 'name', label: 'Photo', strong: true }, { key: 'project', label: 'Project' },
@@ -1485,14 +1635,6 @@ const PhotosPage = () => {
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
       <div style={S.header}><h1 style={S.title}>Photo Gallery</h1><p style={S.subtitle}>View photographs</p></div>
-      <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 300px', maxWidth: '500px' }}>
-          <Search size={16} style={S.searchIcon} />
-          <input type="text" placeholder="Search..." style={S.searchInput} />
-        </div>
-        <button onClick={() => exportToExcel(DEMO_PHOTOS, columns, 'photos')} style={S.btn}><FileSpreadsheet size={14} /> Excel</button>
-        <button onClick={() => printReport(DEMO_PHOTOS, columns, 'Photos')} style={S.btn}><Printer size={14} /> Print</button>
-      </div>
       <div style={S.tableCard}>
         <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Photos</h2><span style={S.countBadge}>{DEMO_PHOTOS.length}</span></div>
         <div style={{ padding: '20px' }}>
@@ -1509,6 +1651,13 @@ const PhotosPage = () => {
             ))}
           </div>
         </div>
+        <BottomBar
+          currentPage={1} totalPages={1} totalItems={DEMO_PHOTOS.length} itemsPerPage={12}
+          onPageChange={() => {}} onItemsPerPageChange={() => {}}
+          onExcel={() => exportToExcel(DEMO_PHOTOS, columns, 'photos')}
+          onPrint={() => printReport(DEMO_PHOTOS, columns, 'Photos')}
+          showPagination={false}
+        />
       </div>
     </div>
   );
@@ -1525,14 +1674,6 @@ const DocumentsPage = () => {
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
       <div style={S.header}><h1 style={S.title}>Documents</h1><p style={S.subtitle}>Manage documents</p></div>
-      <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 300px', maxWidth: '500px' }}>
-          <Search size={16} style={S.searchIcon} />
-          <input type="text" placeholder="Search..." style={S.searchInput} />
-        </div>
-        <button onClick={() => exportToExcel(DEMO_DOCUMENTS, columns, 'documents')} style={S.btn}><FileSpreadsheet size={14} /> Excel</button>
-        <button onClick={() => printReport(DEMO_DOCUMENTS, columns, 'Documents')} style={S.btn}><Printer size={14} /> Print</button>
-      </div>
       <div style={S.tableCard}>
         <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Documents</h2><span style={S.countBadge}>{DEMO_DOCUMENTS.length}</span></div>
         <div style={S.tableWrap}>
@@ -1548,12 +1689,18 @@ const DocumentsPage = () => {
             </tbody>
           </table>
         </div>
+        <BottomBar
+          currentPage={1} totalPages={1} totalItems={DEMO_DOCUMENTS.length} itemsPerPage={10}
+          onPageChange={() => {}} onItemsPerPageChange={() => {}}
+          onExcel={() => exportToExcel(DEMO_DOCUMENTS, columns, 'documents')}
+          onPrint={() => printReport(DEMO_DOCUMENTS, columns, 'Documents')}
+          showPagination={false}
+        />
       </div>
     </div>
   );
 };
 
-// Approvals
 const ApprovalsPage = () => {
   const items = [
     { id: 1, s_no: 1, step: 'Registration', title: 'Contractor Registration', desc: 'EcoEnergy Pvt Ltd', status: 'Pending', date: '2024-03-10' },
@@ -1570,14 +1717,6 @@ const ApprovalsPage = () => {
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
       <div style={S.header}><h1 style={S.title}>Approvals</h1><p style={S.subtitle}>Approval workflow</p></div>
-      <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 300px', maxWidth: '500px' }}>
-          <Search size={16} style={S.searchIcon} />
-          <input type="text" placeholder="Search..." style={S.searchInput} />
-        </div>
-        <button onClick={() => exportToExcel(items, columns, 'approvals')} style={S.btn}><FileSpreadsheet size={14} /> Excel</button>
-        <button onClick={() => printReport(items, columns, 'Approvals')} style={S.btn}><Printer size={14} /> Print</button>
-      </div>
       <div style={S.tableCard}>
         <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>Pending Approvals</h2><span style={S.countBadge}>{items.length}</span></div>
         <div style={S.tableWrap}>
@@ -1604,12 +1743,18 @@ const ApprovalsPage = () => {
             </tbody>
           </table>
         </div>
+        <BottomBar
+          currentPage={1} totalPages={1} totalItems={items.length} itemsPerPage={10}
+          onPageChange={() => {}} onItemsPerPageChange={() => {}}
+          onExcel={() => exportToExcel(items, columns, 'approvals')}
+          onPrint={() => printReport(items, columns, 'Approvals')}
+          showPagination={false}
+        />
       </div>
     </div>
   );
 };
 
-// Activity
 const ActivityPage = () => {
   const columns = [
     { key: 'type', label: 'Type', strong: true }, { key: 'description', label: 'Description' },
@@ -1620,14 +1765,6 @@ const ActivityPage = () => {
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
       <div style={S.header}><h1 style={S.title}>Activity Log</h1><p style={S.subtitle}>Recent activities</p></div>
-      <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 300px', maxWidth: '500px' }}>
-          <Search size={16} style={S.searchIcon} />
-          <input type="text" placeholder="Search..." style={S.searchInput} />
-        </div>
-        <button onClick={() => exportToExcel(DEMO_ACTIVITIES, columns, 'activities')} style={S.btn}><FileSpreadsheet size={14} /> Excel</button>
-        <button onClick={() => printReport(DEMO_ACTIVITIES, columns, 'Activities')} style={S.btn}><Printer size={14} /> Print</button>
-      </div>
       <div style={S.tableCard}>
         <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Activities</h2><span style={S.countBadge}>{DEMO_ACTIVITIES.length}</span></div>
         <div style={S.tableWrap}>
@@ -1643,12 +1780,18 @@ const ActivityPage = () => {
             </tbody>
           </table>
         </div>
+        <BottomBar
+          currentPage={1} totalPages={1} totalItems={DEMO_ACTIVITIES.length} itemsPerPage={10}
+          onPageChange={() => {}} onItemsPerPageChange={() => {}}
+          onExcel={() => exportToExcel(DEMO_ACTIVITIES, columns, 'activities')}
+          onPrint={() => printReport(DEMO_ACTIVITIES, columns, 'Activities')}
+          showPagination={false}
+        />
       </div>
     </div>
   );
 };
 
-// Dashboard
 const DashboardPage = () => {
   const stats = [
     { label: 'Total Projects', value: DEMO_PROJECTS.length, color: '#3b82f6', icon: <FolderOpen size={20} /> },
@@ -1658,7 +1801,7 @@ const DashboardPage = () => {
     { label: 'Contractors', value: DEMO_CONTRACTORS.length, color: '#0891b2', icon: <Building2 size={20} /> },
     { label: 'Workers', value: DEMO_FIELD_WORKERS.length, color: '#7c3aed', icon: <Users size={20} /> },
     { label: 'Reports', value: DEMO_REPORTS.length, color: '#dc2626', icon: <ClipboardList size={20} /> },
-    { label: 'Documents', value: DEMO_DOCUMENTS.length, color: '#ea580c', icon: <FileText size={20} /> },
+    { label: 'MSKVY Records', value: MSKVY_CONTRACTORS.length, color: '#ea580c', icon: <Zap size={20} /> },
   ];
   return (
     <div style={S.page}>
@@ -1702,7 +1845,783 @@ const DashboardPage = () => {
 };
 
 // =============================================
-// MENU CONFIG - MORE SUB-MENUS
+// MSKVY PAGES - UPDATED WITH FULL CRUD + BOTTOM BAR
+// =============================================
+const MSKVYContractorPage = () => {
+  const [data, setData] = useState(() => loadMSKVY('mskvy_contractors_v3', MSKVY_CONTRACTORS));
+  const [searchTerm, setSearchTerm] = useState('');
+  const [districtFilter, setDistrictFilter] = useState('');
+  const [showView, setShowView] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  useEffect(() => { saveMSKVY('mskvy_contractors_v3', data); }, [data]);
+
+  const emptyForm = {
+    contractor: '', director: '', director_contact: '', file_name: '', district: 'AHILYANAGAR', taluka: '',
+    supervisor: '', contact: '', substation: '', area: '', solar: '', remarks: ''
+  };
+  const [formData, setFormData] = useState(emptyForm);
+
+  const filtered = data.filter(i =>
+    (!searchTerm || ['contractor', 'file_name', 'substation', 'district', 'taluka', 'supervisor'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase())))
+    && (!districtFilter || i.district === districtFilter)
+  );
+
+  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+  const start = (page - 1) * itemsPerPage;
+  const display = filtered.slice(start, start + itemsPerPage);
+
+  const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
+  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
+  const del = (item) => {
+    if (!window.confirm(`Delete "${item.contractor} - ${item.file_name}"?`)) return;
+    setData(data.filter(d => d.id !== item.id));
+    toast.success('Deleted successfully');
+    setShowView(false);
+  };
+  const submit = (e) => {
+    e.preventDefault();
+    if (!formData.contractor || !formData.file_name) { toast.error('Contractor and File Name required'); return; }
+    if (editingId) {
+      setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d));
+      toast.success('Updated successfully');
+    } else {
+      const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1;
+      setData([{ ...formData, id: Date.now(), s_no: n }, ...data]);
+      toast.success('Added successfully');
+    }
+    setShowForm(false); setEditingId(null);
+  };
+
+  const stats = [
+    { label: 'Total Records', value: data.length, color: '#2563eb', icon: <Building2 size={20} /> },
+    { label: 'Districts', value: [...new Set(data.map(c => c.district))].length, color: '#7c3aed', icon: <MapPin size={20} /> },
+    { label: 'Total Area (acres)', value: data.reduce((s, c) => s + (parseFloat(c.area) || 0), 0).toFixed(2), color: '#16a34a', icon: <Ruler size={20} /> },
+    { label: 'Unique Substations', value: [...new Set(data.map(c => c.substation))].length, color: '#ea580c', icon: <Zap size={20} /> },
+  ];
+
+  const exportCols = [
+    { key: 'contractor', label: 'Contractor' }, { key: 'file_name', label: 'File Name' },
+    { key: 'district', label: 'District' }, { key: 'taluka', label: 'Taluka' },
+    { key: 'supervisor', label: 'Supervisor' }, { key: 'contact', label: 'Contact' },
+    { key: 'substation', label: 'Substation' }, { key: 'area', label: 'Area (acres)' },
+    { key: 'solar', label: 'Solar (MW)' }, { key: 'remarks', label: 'Remarks' },
+  ];
+
+  if (showForm) {
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    return (
+      <div style={S.page}>
+        <ToastContainer position="top-right" autoClose={3000} />
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div><h1 style={S.title}>{editingId ? 'Edit Contractor Record' : 'New Contractor Record'}</h1><p style={S.subtitle}>Fill contractor details</p></div>
+            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
+          </div>
+          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: '28px' }}>
+            <form onSubmit={submit}>
+              <div style={S.formGrid3}>
+                <Field label="Contractor" icon={<Building2 size={12} />} name="contractor" value={formData.contractor} onChange={onChange} required />
+                <Field label="Director" icon={<User size={12} />} name="director" value={formData.director} onChange={onChange} />
+                <Field label="Director Contact" icon={<Phone size={12} />} name="director_contact" value={formData.director_contact} onChange={onChange} />
+                <Field label="File Name" icon={<FileText size={12} />} name="file_name" value={formData.file_name} onChange={onChange} required />
+                <Field label="District" icon={<MapPin size={12} />} name="district" value={formData.district} onChange={onChange} options={['AHILYANAGAR', 'JALGAON', 'SOLAPUR', 'NASHIK']} />
+                <Field label="Taluka" icon={<MapPin size={12} />} name="taluka" value={formData.taluka} onChange={onChange} />
+                <Field label="Site Supervisor" icon={<User size={12} />} name="supervisor" value={formData.supervisor} onChange={onChange} />
+                <Field label="Supervisor Contact" icon={<Phone size={12} />} name="contact" value={formData.contact} onChange={onChange} />
+                <Field label="Substation" icon={<Zap size={12} />} name="substation" value={formData.substation} onChange={onChange} />
+                <Field label="Area (acres)" icon={<Ruler size={12} />} name="area" type="number" value={formData.area} onChange={onChange} />
+                <Field label="Solar (MW)" icon={<Gauge size={12} />} name="solar" type="number" value={formData.solar} onChange={onChange} />
+                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
+                  <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
+                </div>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', paddingTop: '24px', marginTop: '28px', borderTop: '1px solid #e5e7eb' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
+                <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={S.page}>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div style={S.header}><h1 style={S.title}>MSKVY - Contractor List</h1><p style={S.subtitle}>EPC Sub-Contractors & Site Details</p></div>
+      <StatsRow stats={stats} />
+      <div style={S.searchBarTop}>
+        <div style={{ position: 'relative', flex: '1 1 340px', maxWidth: '520px' }}>
+          <Search size={16} style={S.searchIcon} />
+          <input type="text" placeholder="Search contractor, file, substation..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
+          {searchTerm && <button onClick={() => { setSearchTerm(''); setPage(1); }} style={S.clearIcon}><X size={14} /></button>}
+        </div>
+        <select value={districtFilter} onChange={e => { setDistrictFilter(e.target.value); setPage(1); }} style={{ ...S.filterInput, width: 'auto', minWidth: '150px' }}>
+          <option value="">All Districts</option>
+          {[...new Set(data.map(c => c.district))].map(d => <option key={d} value={d}>{d}</option>)}
+        </select>
+        <button onClick={() => { setSearchTerm(''); setDistrictFilter(''); setPage(1); }} style={S.btnDanger}>Clear</button>
+        <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> Add Record</button>
+      </div>
+
+      <div style={S.tableCard}>
+        <div style={S.tableHeaderBar}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <h2 style={S.tableTitle}>All Contractor Records</h2>
+            <span style={S.countBadge}>{filtered.length}</span>
+          </div>
+        </div>
+        <div style={S.tableWrap}>
+          <table style={S.table}>
+            <thead style={S.thead}>
+              <tr>
+                <th style={S.th}>S/No.</th>
+                <th style={S.th}>Contractor</th>
+                <th style={S.th}>File Name</th>
+                <th style={S.th}>District</th>
+                <th style={S.th}>Taluka</th>
+                <th style={S.th}>Supervisor</th>
+                <th style={S.th}>Substation</th>
+                <th style={S.th}>Area (acres)</th>
+                <th style={S.th}>Solar (MW)</th>
+                <th style={S.th}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {display.map((item, idx) => (
+                <tr key={item.id}>
+                  <td style={S.td}>{start + idx + 1}</td>
+                  <td style={S.tdStrong}>{item.contractor}</td>
+                  <td style={S.td}>{item.file_name}</td>
+                  <td style={S.td}><span style={{ ...S.statusBadge, background: '#dbeafe', color: '#1e40af' }}>{item.district}</span></td>
+                  <td style={S.td}>{item.taluka}</td>
+                  <td style={S.td}>{item.supervisor || '—'}</td>
+                  <td style={S.td}>{item.substation}</td>
+                  <td style={S.td}>{item.area}</td>
+                  <td style={S.td}>{item.solar || '—'}</td>
+                  <td style={S.td}>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }} title="View"><Eye size={15} /></button>
+                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }} title="Edit"><Edit size={15} /></button>
+                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }} title="Delete"><Trash2 size={15} /></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <BottomBar
+          currentPage={page}
+          totalPages={totalPages}
+          totalItems={filtered.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setPage}
+          onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
+          onExcel={() => exportToExcel(filtered, exportCols, 'mskvy_contractors')}
+          onPrint={() => printReport(filtered, exportCols, 'MSKVY Contractor List')}
+        />
+      </div>
+
+      {showView && selected && (
+        <div style={S.modalOverlay} onClick={() => setShowView(false)}>
+          <div style={S.modal} onClick={e => e.stopPropagation()}>
+            <div style={S.modalHeader}>
+              <div><h2 style={S.modalTitle}>Contractor Details</h2></div>
+              <button onClick={() => setShowView(false)} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
+            </div>
+            <div style={S.modalBody}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                {[
+                  ['Contractor', selected.contractor], ['File Name', selected.file_name],
+                  ['Director', selected.director], ['Director Contact', selected.director_contact],
+                  ['District', selected.district], ['Taluka', selected.taluka],
+                  ['Site Supervisor', selected.supervisor], ['Supervisor Contact', selected.contact],
+                  ['Substation', selected.substation], ['Area (acres)', selected.area],
+                  ['Solar (MW)', selected.solar || '—'],
+                ].map(([l, v]) => (
+                  <div key={l}>
+                    <p style={{ fontSize: '11px', color: '#6b7280', margin: '0 0 4px 0', fontWeight: '600', textTransform: 'uppercase' }}>{l}</p>
+                    <p style={{ fontSize: '14px', color: '#111827', margin: 0 }}>{v || '—'}</p>
+                  </div>
+                ))}
+              </div>
+              {selected.remarks && (
+                <div style={{ marginTop: '20px', padding: '12px', background: '#fef3c7', borderRadius: '8px' }}>
+                  <p style={{ fontSize: '11px', color: '#92400e', fontWeight: '700', margin: '0 0 4px 0' }}>REMARKS</p>
+                  <p style={{ fontSize: '13px', color: '#78350f', margin: 0 }}>{selected.remarks}</p>
+                </div>
+              )}
+            </div>
+            <div style={S.modalFooter}>
+              <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
+              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={14} /> Edit</button>
+              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={14} /> Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const MSKVYSubstationSurveyPage = () => {
+  const [data, setData] = useState(() => loadMSKVY('mskvy_substation_v3', MSKVY_SUBSTATION_SURVEYS));
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showView, setShowView] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  useEffect(() => { saveMSKVY('mskvy_substation_v3', data); }, [data]);
+
+  const emptyForm = {
+    substation: '', subdivision: '', surveyor: '', district: 'JALGAON', taluka: '', contractor: '',
+    survey_date: '', status: 'Pending',
+    voltage_level: '', discom_division: '', connected_feeders: '', feeder_length: '', agri_pumps_load: '',
+    peak_load: '', supply_hours: '', outage_history: '',
+    transformer_capacity: '', transformer_make: '', transformer_year: '', loading_percent: '', spare_capacity: '',
+    tap_changer: '', oil_condition: '', bushing_condition: '', earthing_condition: '',
+    spare_bay: '', bay_space: '', switchgear: '', protection_relays: '', scada_rtu: '', metering: '',
+    evacuation_distance: '', right_of_way: '',
+    received_voltage: '', fault_level: '', lightning_protection: '', fire_safety: '',
+    feeder_demand: '', existing_capacity: '', pending_capacity: '', transformer_capacity_check: '',
+    sld_available: '', environmental_clearance: '', feeder_load_data: '',
+    geotagged_photos: '', coordinates: '', surveyor_sign: '', discom_sign: '', remarks: ''
+  };
+  const [formData, setFormData] = useState(emptyForm);
+
+  const filtered = data.filter(i => !searchTerm ||
+    ['substation', 'surveyor', 'district', 'subdivision'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+  const start = (page - 1) * itemsPerPage;
+  const display = filtered.slice(start, start + itemsPerPage);
+
+  const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
+  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
+  const del = (item) => {
+    if (!window.confirm(`Delete survey for "${item.substation}"?`)) return;
+    setData(data.filter(d => d.id !== item.id));
+    toast.success('Deleted successfully');
+    setShowView(false);
+  };
+  const submit = (e) => {
+    e.preventDefault();
+    if (!formData.substation || !formData.surveyor) { toast.error('Substation and Surveyor required'); return; }
+    if (editingId) {
+      setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d));
+      toast.success('Updated successfully');
+    } else {
+      const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1;
+      setData([{ ...formData, id: Date.now(), s_no: n }, ...data]);
+      toast.success('Added successfully');
+    }
+    setShowForm(false); setEditingId(null);
+  };
+
+  const columns = [
+    { key: 'substation', label: 'Substation', strong: true },
+    { key: 'subdivision', label: 'Subdivision' },
+    { key: 'surveyor', label: 'Surveyor' },
+    { key: 'district', label: 'District' },
+    { key: 'transformer_capacity', label: 'Transformer' },
+    { key: 'pending_capacity', label: 'Spare (MW)' },
+    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
+  ];
+
+  const SectionBlock = ({ title, children }) => (
+    <div style={{ marginBottom: '20px', border: '1px solid #e5e7eb', borderRadius: '10px', overflow: 'hidden' }}>
+      <div style={{ background: '#1e3a8a', color: '#fff', padding: '10px 14px', fontSize: '13px', fontWeight: '700' }}>{title}</div>
+      <div style={{ padding: '12px 14px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 20px' }}>{children}</div>
+    </div>
+  );
+  const KV = ({ l, v }) => (
+    <div>
+      <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 2px 0', fontWeight: '700', textTransform: 'uppercase' }}>{l}</p>
+      <p style={{ fontSize: '13px', color: '#111827', margin: 0 }}>{v || '—'}</p>
+    </div>
+  );
+
+  if (showForm) {
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    return (
+      <div style={S.page}>
+        <ToastContainer position="top-right" autoClose={3000} />
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div><h1 style={S.title}>{editingId ? 'Edit Substation Survey' : 'New Substation Survey'}</h1><p style={S.subtitle}>Fill the MSKVY checklist</p></div>
+            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
+          </div>
+          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: '28px' }}>
+            <form onSubmit={submit}>
+              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>1. Substation & Feeder Basics</h3>
+              <div style={S.formGrid3}>
+                <Field label="Substation Name" icon={<Zap size={12} />} name="substation" value={formData.substation} onChange={onChange} required />
+                <Field label="Subdivision" icon={<MapPin size={12} />} name="subdivision" value={formData.subdivision} onChange={onChange} />
+                <Field label="Surveyor" icon={<User size={12} />} name="surveyor" value={formData.surveyor} onChange={onChange} required />
+                <Field label="District" icon={<MapPin size={12} />} name="district" value={formData.district} onChange={onChange} options={['JALGAON', 'AHILYANAGAR', 'SOLAPUR', 'NASHIK']} />
+                <Field label="Taluka" icon={<MapPin size={12} />} name="taluka" value={formData.taluka} onChange={onChange} />
+                <Field label="Survey Date" icon={<Calendar size={12} />} name="survey_date" type="date" value={formData.survey_date} onChange={onChange} />
+                <Field label="Voltage Level" icon={<Zap size={12} />} name="voltage_level" value={formData.voltage_level} onChange={onChange} placeholder="33/11 kV" />
+                <Field label="DISCOM / Division" icon={<Building2 size={12} />} name="discom_division" value={formData.discom_division} onChange={onChange} />
+                <Field label="Connected Feeders" icon={<List size={12} />} name="connected_feeders" value={formData.connected_feeders} onChange={onChange} />
+                <Field label="Feeder Length" icon={<Ruler size={12} />} name="feeder_length" value={formData.feeder_length} onChange={onChange} />
+                <Field label="Agri Pumps & Load" icon={<Gauge size={12} />} name="agri_pumps_load" value={formData.agri_pumps_load} onChange={onChange} />
+                <Field label="Peak/Avg Load" icon={<TrendingUp size={12} />} name="peak_load" value={formData.peak_load} onChange={onChange} />
+                <Field label="Supply Hours" icon={<Clock size={12} />} name="supply_hours" value={formData.supply_hours} onChange={onChange} />
+                <Field label="Outage History" icon={<AlertCircle size={12} />} name="outage_history" value={formData.outage_history} onChange={onChange} />
+              </div>
+
+              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>2. Transformer Details</h3>
+              <div style={S.formGrid3}>
+                <Field label="Transformer Capacity" icon={<Zap size={12} />} name="transformer_capacity" value={formData.transformer_capacity} onChange={onChange} />
+                <Field label="Make" icon={<Building2 size={12} />} name="transformer_make" value={formData.transformer_make} onChange={onChange} />
+                <Field label="Year" icon={<Calendar size={12} />} name="transformer_year" value={formData.transformer_year} onChange={onChange} />
+                <Field label="Loading %" icon={<Gauge size={12} />} name="loading_percent" value={formData.loading_percent} onChange={onChange} />
+                <Field label="Spare Capacity" icon={<Gauge size={12} />} name="spare_capacity" value={formData.spare_capacity} onChange={onChange} />
+                <Field label="Tap Changer" icon={<Zap size={12} />} name="tap_changer" value={formData.tap_changer} onChange={onChange} />
+                <Field label="Oil Condition" icon={<Shield size={12} />} name="oil_condition" value={formData.oil_condition} onChange={onChange} />
+                <Field label="Bushing Condition" icon={<Shield size={12} />} name="bushing_condition" value={formData.bushing_condition} onChange={onChange} />
+                <Field label="Earthing Condition" icon={<Shield size={12} />} name="earthing_condition" value={formData.earthing_condition} onChange={onChange} />
+              </div>
+
+              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>3. Interconnection Readiness</h3>
+              <div style={S.formGrid3}>
+                <Field label="Spare Bay" icon={<Zap size={12} />} name="spare_bay" value={formData.spare_bay} onChange={onChange} />
+                <Field label="Bay Space" icon={<Ruler size={12} />} name="bay_space" value={formData.bay_space} onChange={onChange} />
+                <Field label="Switchgear" icon={<Shield size={12} />} name="switchgear" value={formData.switchgear} onChange={onChange} />
+                <Field label="Protection Relays" icon={<Shield size={12} />} name="protection_relays" value={formData.protection_relays} onChange={onChange} />
+                <Field label="SCADA / RTU" icon={<Server size={12} />} name="scada_rtu" value={formData.scada_rtu} onChange={onChange} />
+                <Field label="Metering" icon={<Gauge size={12} />} name="metering" value={formData.metering} onChange={onChange} />
+                <Field label="Evacuation Distance" icon={<Ruler size={12} />} name="evacuation_distance" value={formData.evacuation_distance} onChange={onChange} />
+                <Field label="Right of Way" icon={<MapPin size={12} />} name="right_of_way" value={formData.right_of_way} onChange={onChange} />
+              </div>
+
+              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>4. Grid Quality & Safety</h3>
+              <div style={S.formGrid3}>
+                <Field label="Received Voltage" icon={<Zap size={12} />} name="received_voltage" value={formData.received_voltage} onChange={onChange} />
+                <Field label="Fault Level" icon={<AlertCircle size={12} />} name="fault_level" value={formData.fault_level} onChange={onChange} />
+                <Field label="Lightning Protection" icon={<Shield size={12} />} name="lightning_protection" value={formData.lightning_protection} onChange={onChange} />
+                <Field label="Fire Safety" icon={<Shield size={12} />} name="fire_safety" value={formData.fire_safety} onChange={onChange} />
+              </div>
+
+              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>5. Solar Plant Sizing</h3>
+              <div style={S.formGrid3}>
+                <Field label="Feeder Demand (MW)" icon={<Gauge size={12} />} name="feeder_demand" value={formData.feeder_demand} onChange={onChange} />
+                <Field label="Existing Capacity (MW)" icon={<Zap size={12} />} name="existing_capacity" value={formData.existing_capacity} onChange={onChange} />
+                <Field label="Pending Capacity (MW)" icon={<TrendingUp size={12} />} name="pending_capacity" value={formData.pending_capacity} onChange={onChange} />
+                <Field label="Capacity vs Transformer" icon={<Gauge size={12} />} name="transformer_capacity_check" value={formData.transformer_capacity_check} onChange={onChange} />
+              </div>
+
+              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>6. Regulatory & Documentation</h3>
+              <div style={S.formGrid3}>
+                <Field label="SLD Available" icon={<FileCheck size={12} />} name="sld_available" value={formData.sld_available} onChange={onChange} />
+                <Field label="Environmental Clearance" icon={<TreePine size={12} />} name="environmental_clearance" value={formData.environmental_clearance} onChange={onChange} />
+                <Field label="Feeder Load Data" icon={<Activity size={12} />} name="feeder_load_data" value={formData.feeder_load_data} onChange={onChange} />
+              </div>
+
+              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>7. Photos & Signatures</h3>
+              <div style={S.formGrid3}>
+                <Field label="Geo-tagged Photos" icon={<Camera size={12} />} name="geotagged_photos" value={formData.geotagged_photos} onChange={onChange} />
+                <Field label="Coordinates" icon={<MapPin size={12} />} name="coordinates" value={formData.coordinates} onChange={onChange} placeholder="lat, long" />
+                <Field label="Surveyor Sign" icon={<FileCheck size={12} />} name="surveyor_sign" value={formData.surveyor_sign} onChange={onChange} />
+                <Field label="DISCOM Sign" icon={<FileCheck size={12} />} name="discom_sign" value={formData.discom_sign} onChange={onChange} />
+                <Field label="Status" icon={<Shield size={12} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
+              </div>
+              <div style={{ marginTop: '20px' }}>
+                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
+                  <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', paddingTop: '24px', marginTop: '28px', borderTop: '1px solid #e5e7eb' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
+                <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={S.page}>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div style={S.header}><h1 style={S.title}>Substation Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation - Substation Survey</p></div>
+
+      <div style={S.searchBarTop}>
+        <div style={{ position: 'relative', flex: '1 1 340px', maxWidth: '520px' }}>
+          <Search size={16} style={S.searchIcon} />
+          <input type="text" placeholder="Search substation, surveyor..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
+          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={14} /></button>}
+        </div>
+        <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> Add Survey</button>
+      </div>
+
+      <div style={S.tableCard}>
+        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Substation Surveys</h2><span style={S.countBadge}>{filtered.length}</span></div>
+        <div style={S.tableWrap}>
+          <table style={S.table}>
+            <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}<th style={S.th}>Actions</th></tr></thead>
+            <tbody>
+              {display.map((item, idx) => (
+                <tr key={item.id}>
+                  <td style={S.td}>{start + idx + 1}</td>
+                  {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
+                  <td style={S.td}>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }} title="View"><Eye size={15} /></button>
+                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }} title="Edit"><Edit size={15} /></button>
+                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }} title="Delete"><Trash2 size={15} /></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <BottomBar
+          currentPage={page}
+          totalPages={totalPages}
+          totalItems={filtered.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setPage}
+          onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
+          onExcel={() => exportToExcel(filtered, columns, 'substation_surveys')}
+          onPrint={() => printReport(filtered, columns, 'Substation Surveys')}
+        />
+      </div>
+
+      {showView && selected && (
+        <div style={S.modalOverlay} onClick={() => setShowView(false)}>
+          <div style={{ ...S.modal, maxWidth: '900px' }} onClick={e => e.stopPropagation()}>
+            <div style={S.modalHeader}>
+              <div>
+                <h2 style={S.modalTitle}>MSKVY Substation Survey</h2>
+                <p style={{ fontSize: '12px', color: '#6b7280', margin: '2px 0 0 0' }}>{selected.substation} • {selected.surveyor} • {formatDate(selected.survey_date)}</p>
+              </div>
+              <button onClick={() => setShowView(false)} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
+            </div>
+            <div style={S.modalBody}>
+              <SectionBlock title="1. Substation & Feeder Basics">
+                <KV l="Substation Name" v={selected.substation} />
+                <KV l="Voltage Level / Division" v={selected.voltage_level + ' • ' + selected.discom_division} />
+                <KV l="Connected Feeders" v={selected.connected_feeders} />
+                <KV l="Feeder Length" v={selected.feeder_length} />
+                <KV l="Agri Pumps & Load" v={selected.agri_pumps_load} />
+                <KV l="Peak / Average Load" v={selected.peak_load} />
+                <KV l="Supply Hours" v={selected.supply_hours} />
+                <KV l="Outage History" v={selected.outage_history} />
+              </SectionBlock>
+              <SectionBlock title="2. Transformer Details">
+                <KV l="Capacity" v={selected.transformer_capacity} />
+                <KV l="Make / Year" v={selected.transformer_make + ' / ' + selected.transformer_year} />
+                <KV l="Loading % / Spare" v={selected.loading_percent + ' / ' + selected.spare_capacity} />
+                <KV l="Tap Changer" v={selected.tap_changer} />
+                <KV l="Oil Condition" v={selected.oil_condition} />
+                <KV l="Bushing Condition" v={selected.bushing_condition} />
+                <KV l="Earthing Condition" v={selected.earthing_condition} />
+              </SectionBlock>
+              <SectionBlock title="3. Interconnection Readiness">
+                <KV l="Spare Bay" v={selected.spare_bay} />
+                <KV l="Bay Space" v={selected.bay_space} />
+                <KV l="Switchgear" v={selected.switchgear} />
+                <KV l="Protection Relays" v={selected.protection_relays} />
+                <KV l="SCADA / RTU" v={selected.scada_rtu} />
+                <KV l="Metering" v={selected.metering} />
+                <KV l="Evacuation Distance" v={selected.evacuation_distance} />
+                <KV l="Right of Way" v={selected.right_of_way} />
+              </SectionBlock>
+              <SectionBlock title="4. Grid Quality & Safety">
+                <KV l="Received Voltage" v={selected.received_voltage} />
+                <KV l="Fault Level" v={selected.fault_level} />
+                <KV l="Lightning Protection" v={selected.lightning_protection} />
+                <KV l="Fire Safety" v={selected.fire_safety} />
+              </SectionBlock>
+              <SectionBlock title="5. Solar Plant Sizing">
+                <KV l="Feeder Demand" v={selected.feeder_demand} />
+                <KV l="Existing Capacity" v={selected.existing_capacity} />
+                <KV l="Pending Capacity" v={selected.pending_capacity} />
+                <KV l="Capacity vs Transformer" v={selected.transformer_capacity_check} />
+              </SectionBlock>
+              <SectionBlock title="6. Regulatory & Documentation">
+                <KV l="SLD Available" v={selected.sld_available} />
+                <KV l="Environmental Clearance" v={selected.environmental_clearance} />
+                <KV l="Feeder Load Data" v={selected.feeder_load_data} />
+              </SectionBlock>
+              <SectionBlock title="7. Photos & Signatures">
+                <KV l="Geo-tagged Photos" v={selected.geotagged_photos} />
+                <KV l="Coordinates" v={selected.coordinates} />
+                <KV l="Surveyor Sign" v={selected.surveyor_sign} />
+                <KV l="DISCOM Sign" v={selected.discom_sign} />
+              </SectionBlock>
+              {selected.remarks && (
+                <div style={{ padding: '12px', background: '#fef3c7', borderRadius: '8px' }}>
+                  <p style={{ fontSize: '11px', color: '#92400e', fontWeight: '700', margin: '0 0 4px 0' }}>REMARKS</p>
+                  <p style={{ fontSize: '13px', color: '#78350f', margin: 0 }}>{selected.remarks}</p>
+                </div>
+              )}
+            </div>
+            <div style={S.modalFooter}>
+              <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
+              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={14} /> Edit</button>
+              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={14} /> Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const MSKVYLandSurveyPage = () => {
+  const [data, setData] = useState(() => loadMSKVY('mskvy_land_v3', MSKVY_LAND_SURVEYS));
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showView, setShowView] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  useEffect(() => { saveMSKVY('mskvy_land_v3', data); }, [data]);
+
+  const emptyForm = {
+    village: '', block: '', district: 'JALGAON', feeder: '', surveyor: '', survey_date: '',
+    contractor: '', status: 'Pending',
+    land_nearby: '', distance_km: '', ownership: '', area_acres: '', title_status: '', litigation: '',
+    topography: '', waterlogging: '', soil_type: '', approach_road: '', water_availability: '',
+    environmental_clearance: '', geotagged_photos: '', coordinates: '', survey_map: '', remarks: ''
+  };
+  const [formData, setFormData] = useState(emptyForm);
+
+  const filtered = data.filter(i => !searchTerm ||
+    ['village', 'block', 'feeder', 'surveyor', 'district'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+  const start = (page - 1) * itemsPerPage;
+  const display = filtered.slice(start, start + itemsPerPage);
+
+  const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
+  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
+  const del = (item) => {
+    if (!window.confirm(`Delete land survey for "${item.village}"?`)) return;
+    setData(data.filter(d => d.id !== item.id));
+    toast.success('Deleted successfully');
+    setShowView(false);
+  };
+  const submit = (e) => {
+    e.preventDefault();
+    if (!formData.village || !formData.surveyor) { toast.error('Village and Surveyor required'); return; }
+    if (editingId) {
+      setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d));
+      toast.success('Updated successfully');
+    } else {
+      const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1;
+      setData([{ ...formData, id: Date.now(), s_no: n }, ...data]);
+      toast.success('Added successfully');
+    }
+    setShowForm(false); setEditingId(null);
+  };
+
+  const columns = [
+    { key: 'village', label: 'Village', strong: true },
+    { key: 'block', label: 'Block' },
+    { key: 'district', label: 'District' },
+    { key: 'feeder', label: 'Feeder' },
+    { key: 'surveyor', label: 'Surveyor' },
+    { key: 'ownership', label: 'Ownership' },
+    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
+  ];
+
+  const SectionBlock = ({ title, children }) => (
+    <div style={{ marginBottom: '20px', border: '1px solid #e5e7eb', borderRadius: '10px', overflow: 'hidden' }}>
+      <div style={{ background: '#15803d', color: '#fff', padding: '10px 14px', fontSize: '13px', fontWeight: '700' }}>{title}</div>
+      <div style={{ padding: '12px 14px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 20px' }}>{children}</div>
+    </div>
+  );
+  const KV = ({ l, v }) => (
+    <div>
+      <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 2px 0', fontWeight: '700', textTransform: 'uppercase' }}>{l}</p>
+      <p style={{ fontSize: '13px', color: '#111827', margin: 0 }}>{v || '—'}</p>
+    </div>
+  );
+
+  if (showForm) {
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    return (
+      <div style={S.page}>
+        <ToastContainer position="top-right" autoClose={3000} />
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div><h1 style={S.title}>{editingId ? 'Edit Land Survey' : 'New Land Survey'}</h1><p style={S.subtitle}>Fill the MSKVY land checklist</p></div>
+            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
+          </div>
+          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: '28px' }}>
+            <form onSubmit={submit}>
+              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#15803d', marginBottom: '16px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>Basic Info</h3>
+              <div style={S.formGrid3}>
+                <Field label="Village" icon={<MapPin size={12} />} name="village" value={formData.village} onChange={onChange} required />
+                <Field label="Block" icon={<MapPin size={12} />} name="block" value={formData.block} onChange={onChange} />
+                <Field label="District" icon={<MapPin size={12} />} name="district" value={formData.district} onChange={onChange} options={['JALGAON', 'AHILYANAGAR', 'SOLAPUR', 'NASHIK']} />
+                <Field label="Feeder" icon={<Zap size={12} />} name="feeder" value={formData.feeder} onChange={onChange} />
+                <Field label="Surveyor" icon={<User size={12} />} name="surveyor" value={formData.surveyor} onChange={onChange} required />
+                <Field label="Survey Date" icon={<Calendar size={12} />} name="survey_date" type="date" value={formData.survey_date} onChange={onChange} />
+                <Field label="Contractor" icon={<Building2 size={12} />} name="contractor" value={formData.contractor} onChange={onChange} />
+                <Field label="Status" icon={<Shield size={12} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
+              </div>
+
+              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#15803d', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>1. Land Details</h3>
+              <div style={S.formGrid3}>
+                <Field label="Land within/adjacent (5 km)" icon={<MapPin size={12} />} name="land_nearby" value={formData.land_nearby} onChange={onChange} options={['YES', 'NO']} />
+                <Field label="Distance (km)" icon={<Ruler size={12} />} name="distance_km" value={formData.distance_km} onChange={onChange} />
+                <Field label="Ownership" icon={<Shield size={12} />} name="ownership" value={formData.ownership} onChange={onChange} options={['Private', 'Govt', 'Panchayat']} />
+                <Field label="Area (acres)" icon={<Ruler size={12} />} name="area_acres" type="number" value={formData.area_acres} onChange={onChange} />
+                <Field label="Title Status" icon={<FileText size={12} />} name="title_status" value={formData.title_status} onChange={onChange} />
+                <Field label="Litigation" icon={<FileWarning size={12} />} name="litigation" value={formData.litigation} onChange={onChange} />
+                <Field label="Topography" icon={<Layers size={12} />} name="topography" value={formData.topography} onChange={onChange} />
+                <Field label="Waterlogging" icon={<AlertCircle size={12} />} name="waterlogging" value={formData.waterlogging} onChange={onChange} />
+                <Field label="Soil Type" icon={<Layers size={12} />} name="soil_type" value={formData.soil_type} onChange={onChange} />
+                <Field label="Approach Road" icon={<MapPin size={12} />} name="approach_road" value={formData.approach_road} onChange={onChange} />
+                <Field label="Water Availability" icon={<Shield size={12} />} name="water_availability" value={formData.water_availability} onChange={onChange} />
+                <Field label="Environmental Clearance" icon={<TreePine size={12} />} name="environmental_clearance" value={formData.environmental_clearance} onChange={onChange} />
+              </div>
+
+              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#15803d', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>2. Site Photos & Records</h3>
+              <div style={S.formGrid3}>
+                <Field label="Geo-tagged Photos" icon={<Camera size={12} />} name="geotagged_photos" value={formData.geotagged_photos} onChange={onChange} />
+                <Field label="Coordinates" icon={<MapPin size={12} />} name="coordinates" value={formData.coordinates} onChange={onChange} placeholder="lat, long" />
+                <Field label="Survey Map" icon={<MapPin size={12} />} name="survey_map" value={formData.survey_map} onChange={onChange} />
+              </div>
+
+              <div style={{ marginTop: '20px' }}>
+                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
+                  <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', paddingTop: '24px', marginTop: '28px', borderTop: '1px solid #e5e7eb' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
+                <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={S.page}>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div style={S.header}><h1 style={S.title}>Land Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation - Land Survey</p></div>
+
+      <div style={S.searchBarTop}>
+        <div style={{ position: 'relative', flex: '1 1 340px', maxWidth: '520px' }}>
+          <Search size={16} style={S.searchIcon} />
+          <input type="text" placeholder="Search village, feeder..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
+          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={14} /></button>}
+        </div>
+        <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> Add Land Survey</button>
+      </div>
+
+      <div style={S.tableCard}>
+        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Land Surveys</h2><span style={S.countBadge}>{filtered.length}</span></div>
+        <div style={S.tableWrap}>
+          <table style={S.table}>
+            <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}<th style={S.th}>Actions</th></tr></thead>
+            <tbody>
+              {display.map((item, idx) => (
+                <tr key={item.id}>
+                  <td style={S.td}>{start + idx + 1}</td>
+                  {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
+                  <td style={S.td}>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }} title="View"><Eye size={15} /></button>
+                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }} title="Edit"><Edit size={15} /></button>
+                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }} title="Delete"><Trash2 size={15} /></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <BottomBar
+          currentPage={page}
+          totalPages={totalPages}
+          totalItems={filtered.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setPage}
+          onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
+          onExcel={() => exportToExcel(filtered, columns, 'land_surveys')}
+          onPrint={() => printReport(filtered, columns, 'Land Surveys')}
+        />
+      </div>
+
+      {showView && selected && (
+        <div style={S.modalOverlay} onClick={() => setShowView(false)}>
+          <div style={{ ...S.modal, maxWidth: '900px' }} onClick={e => e.stopPropagation()}>
+            <div style={S.modalHeader}>
+              <div>
+                <h2 style={S.modalTitle}>MSKVY Land Survey</h2>
+                <p style={{ fontSize: '12px', color: '#6b7280', margin: '2px 0 0 0' }}>Village {selected.village} • Block {selected.block} • {selected.surveyor} • {formatDate(selected.survey_date)}</p>
+              </div>
+              <button onClick={() => setShowView(false)} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
+            </div>
+            <div style={S.modalBody}>
+              <SectionBlock title="1. Land Details">
+                <KV l="Land within/adjacent" v={selected.land_nearby} />
+                <KV l="Distance (km)" v={selected.distance_km} />
+                <KV l="Ownership" v={selected.ownership} />
+                <KV l="Area (acres)" v={selected.area_acres} />
+                <KV l="Title Status" v={selected.title_status} />
+                <KV l="Litigation" v={selected.litigation} />
+                <KV l="Topography" v={selected.topography} />
+                <KV l="Waterlogging" v={selected.waterlogging} />
+                <KV l="Soil Type" v={selected.soil_type} />
+                <KV l="Approach Road" v={selected.approach_road} />
+                <KV l="Water Availability" v={selected.water_availability} />
+                <KV l="Environmental Clearance" v={selected.environmental_clearance} />
+              </SectionBlock>
+              <SectionBlock title="2. Site Photos & Records">
+                <KV l="Geo-tagged Photos" v={selected.geotagged_photos} />
+                <KV l="Coordinates" v={selected.coordinates} />
+                <KV l="Survey Map" v={selected.survey_map} />
+              </SectionBlock>
+              {selected.remarks && (
+                <div style={{ padding: '12px', background: '#dcfce7', borderRadius: '8px' }}>
+                  <p style={{ fontSize: '11px', color: '#166534', fontWeight: '700', margin: '0 0 4px 0' }}>REMARKS</p>
+                  <p style={{ fontSize: '13px', color: '#14532d', margin: 0 }}>{selected.remarks}</p>
+                </div>
+              )}
+            </div>
+            <div style={S.modalFooter}>
+              <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
+              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={14} /> Edit</button>
+              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={14} /> Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// =============================================
+// MENU CONFIG
 // =============================================
 const MENU_CONFIG = {
   dashboard: {
@@ -1713,6 +2632,17 @@ const MENU_CONFIG = {
     masters: [
       { id: 'dm-widget', label: 'Widget Types', table: 'dm_widget', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: [{ id: 1, s_no: 1, code: 'STAT', name: 'Stat Card', status: 'Active', remarks: 'Card' }, { id: 2, s_no: 2, code: 'CHART', name: 'Chart', status: 'Active', remarks: 'Chart' }] },
       { id: 'dm-report', label: 'Report Types', table: 'dm_report', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: [{ id: 1, s_no: 1, code: 'DAILY', name: 'Daily', status: 'Active', remarks: 'Daily' }, { id: 2, s_no: 2, code: 'MONTHLY', name: 'Monthly', status: 'Active', remarks: 'Monthly' }] },
+    ],
+  },
+  mskvy: {
+    main: [
+      { id: 'mskvy-contractors', label: 'MSKVY Contractor List' },
+      { id: 'mskvy-substation-survey', label: 'Substation Surveys' },
+      { id: 'mskvy-land-survey', label: 'Land Surveys' },
+    ],
+    masters: [
+      { id: 'mskvy-district', label: 'District Master', table: 'mskvy_district', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_MSKVY_DISTRICT },
+      { id: 'mskvy-survey-status', label: 'Survey Status', table: 'mskvy_survey_status', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_MSKVY_SURVEY_STATUS },
     ],
   },
   projects: {
@@ -1832,6 +2762,7 @@ const App = () => {
 
   const topMenus = [
     { id: 'dashboard', label: 'Dashboard' },
+    { id: 'mskvy', label: 'MSKVY Solarisation' },
     { id: 'projects', label: 'Projects' },
     { id: 'contractors', label: 'Contractors' },
     { id: 'field-workers', label: 'Field Workers' },
@@ -1852,6 +2783,9 @@ const App = () => {
     switch (activeSubMenu) {
       case 'dashboard-main': return <DashboardPage />;
       case 'activity-log': return <ActivityPage />;
+      case 'mskvy-contractors': return <MSKVYContractorPage />;
+      case 'mskvy-substation-survey': return <MSKVYSubstationSurveyPage />;
+      case 'mskvy-land-survey': return <MSKVYLandSurveyPage />;
       case 'proj-list': return <ProjectListPage />;
       case 'proj-sites': return <ProjectSitesPage />;
       case 'proj-milestones': return <ProjectMilestonesPage />;
