@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 // =============================================
-// DEMO DATA (Existing - shortened reference)
+// DEMO DATA (unchanged)
 // =============================================
 const DEMO_PROJECTS = [
   { id: 1, s_no: 1, site_code: 'SP-MUM-001', name: 'Rooftop Solar Plant - Unit A', location: 'Mumbai Refinery', category: 'Rooftop Solar', capacity: '250 kW', contractor: 'SunPower Ltd', field_worker: 'Rajesh Kumar', status: 'Approved', progress: 75, start_date: '2024-01-10', end_date: '2024-03-15', remarks: 'On track' },
@@ -166,7 +166,7 @@ const DEMO_APP_RELEASES = [
   { id: 3, s_no: 3, app: 'Field Worker App', version: '1.3.0', release_type: 'Major', released: '2024-04-01', features: 'Offline mode, GPS enhance', status: 'In Development', remarks: 'Dev stage' },
 ];
 
-// MSKVY DATA (from list-1.xlsx)
+// MSKVY DATA (shortened for brevity but all records present)
 const MSKVY_CONTRACTORS = [
   { id: 1, s_no: 1, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 01', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '8380868899', substation: '33/11 KV NIGHOJ', area: '34.05', solar: '', remarks: '' },
   { id: 2, s_no: 2, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 02', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV JAWLA', area: '33.55', solar: '', remarks: '' },
@@ -255,7 +255,7 @@ const MASTER_MSKVY_SURVEY_STATUS = [
 ];
 
 // =============================================
-// MASTER DATA
+// MASTER DATA (unchanged)
 // =============================================
 const MASTER_PROJ_STATUS = [
   { id: 1, s_no: 1, code: 'PEND', name: 'Pending', color: '#f59e0b', status: 'Active', remarks: 'Awaiting review' },
@@ -412,77 +412,77 @@ const MASTER_RATING = [
 ];
 
 // =============================================
-// GLOBAL STYLES
+// GLOBAL STYLES — RESPONSIVE
 // =============================================
 const S = {
-  page: { minHeight: '100vh', background: '#f9fafb', padding: '24px', fontFamily: 'system-ui, -apple-system, sans-serif' },
-  header: { marginBottom: '24px' },
-  title: { fontSize: '26px', fontWeight: 'bold', color: '#111827', margin: 0 },
-  subtitle: { fontSize: '13px', color: '#6b7280', marginTop: '4px' },
-  statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '24px' },
-  statCard: { background: '#fff', padding: '20px', borderRadius: '14px', border: '1px solid #f3f4f6', boxShadow: '0 1px 3px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden' },
+  page: { minHeight: '100vh', background: '#f9fafb', padding: 'clamp(12px, 3vw, 24px)', fontFamily: 'system-ui, -apple-system, sans-serif', boxSizing: 'border-box' },
+  header: { marginBottom: 'clamp(14px, 3vw, 24px)' },
+  title: { fontSize: 'clamp(18px, 4vw, 26px)', fontWeight: 'bold', color: '#111827', margin: 0 },
+  subtitle: { fontSize: 'clamp(11px, 2vw, 13px)', color: '#6b7280', marginTop: '4px' },
+  statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: 'clamp(8px, 2vw, 16px)', marginBottom: 'clamp(14px, 3vw, 24px)' },
+  statCard: { background: '#fff', padding: 'clamp(12px, 2.5vw, 20px)', borderRadius: '14px', border: '1px solid #f3f4f6', boxShadow: '0 1px 3px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden' },
   statAccent: { position: 'absolute', top: 0, left: 0, width: '4px', height: '100%' },
-  statLabel: { fontSize: '12px', color: '#6b7280', margin: 0, fontWeight: '500' },
-  statValue: { fontSize: '28px', fontWeight: 'bold', margin: '4px 0 0 0', lineHeight: 1 },
-  statIconBox: { width: '42px', height: '42px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  searchBarTop: { background: '#fff', padding: '16px 20px', borderRadius: '12px', border: '1px solid #e5e7eb', marginBottom: '20px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '12px' },
-  searchInput: { width: '100%', padding: '10px 36px', fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', background: '#fff', color: '#374151' },
+  statLabel: { fontSize: 'clamp(10px, 2vw, 12px)', color: '#6b7280', margin: 0, fontWeight: '500' },
+  statValue: { fontSize: 'clamp(18px, 4vw, 28px)', fontWeight: 'bold', margin: '4px 0 0 0', lineHeight: 1 },
+  statIconBox: { width: 'clamp(32px, 6vw, 42px)', height: 'clamp(32px, 6vw, 42px)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  searchBarTop: { background: '#fff', padding: 'clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 20px)', borderRadius: '12px', border: '1px solid #e5e7eb', marginBottom: 'clamp(12px, 3vw, 20px)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'clamp(6px, 1.5vw, 12px)' },
+  searchInput: { width: '100%', padding: '10px 36px', fontSize: 'clamp(12px, 2.2vw, 13px)', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', background: '#fff', color: '#374151', boxSizing: 'border-box' },
   searchIcon: { position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', pointerEvents: 'none' },
   clearIcon: { position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', cursor: 'pointer', background: 'transparent', border: 'none' },
-  btn: { display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 16px', fontSize: '13px', fontWeight: '500', borderRadius: '10px', border: '1px solid #d1d5db', background: '#fff', color: '#374151', cursor: 'pointer' },
+  btn: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: 'clamp(7px, 1.5vw, 10px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '500', borderRadius: '10px', border: '1px solid #d1d5db', background: '#fff', color: '#374151', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
   btnActive: { background: '#eff6ff', color: '#1d4ed8', borderColor: '#93c5fd' },
-  btnPrimary: { display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 16px', fontSize: '13px', fontWeight: '600', borderRadius: '10px', border: 'none', background: '#2563eb', color: '#fff', cursor: 'pointer' },
-  btnPurple: { display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 16px', fontSize: '13px', fontWeight: '600', borderRadius: '10px', border: 'none', background: '#7c3aed', color: '#fff', cursor: 'pointer' },
-  btnDanger: { padding: '10px 16px', fontSize: '13px', color: '#dc2626', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', cursor: 'pointer' },
-  filterPanel: { marginBottom: '24px', padding: '20px', border: '1px solid #e5e7eb', borderRadius: '16px', background: '#fff' },
-  filterGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' },
+  btnPrimary: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: 'clamp(7px, 1.5vw, 10px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '600', borderRadius: '10px', border: 'none', background: '#2563eb', color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
+  btnPurple: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: 'clamp(7px, 1.5vw, 10px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '600', borderRadius: '10px', border: 'none', background: '#7c3aed', color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
+  btnDanger: { padding: 'clamp(7px, 1.5vw, 10px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', color: '#dc2626', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
+  filterPanel: { marginBottom: 'clamp(12px, 3vw, 24px)', padding: 'clamp(12px, 2.5vw, 20px)', border: '1px solid #e5e7eb', borderRadius: '16px', background: '#fff' },
+  filterGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 'clamp(10px, 2vw, 16px)' },
   filterLabel: { display: 'block', fontSize: '11px', color: '#6b7280', marginBottom: '4px', fontWeight: '600' },
-  filterInput: { width: '100%', padding: '10px 14px', fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', background: '#fff', color: '#374151' },
+  filterInput: { width: '100%', padding: '10px 14px', fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', background: '#fff', color: '#374151', boxSizing: 'border-box' },
   tableCard: { background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', overflow: 'hidden' },
-  tableHeaderBar: { padding: '12px 20px', borderBottom: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '12px' },
-  tableTitle: { fontSize: '15px', fontWeight: '600', color: '#374151', margin: 0 },
+  tableHeaderBar: { padding: 'clamp(10px, 2vw, 12px) clamp(12px, 3vw, 20px)', borderBottom: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '8px' },
+  tableTitle: { fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '600', color: '#374151', margin: 0 },
   countBadge: { fontSize: '11px', color: '#6b7280', background: '#e5e7eb', padding: '2px 8px', borderRadius: '12px' },
-  tableWrap: { overflowX: 'auto' },
-  table: { width: '100%', borderCollapse: 'collapse', minWidth: '900px' },
+  tableWrap: { overflowX: 'auto', WebkitOverflowScrolling: 'touch' },
+  table: { width: '100%', borderCollapse: 'collapse', minWidth: '700px' },
   thead: { background: '#f9fafb' },
-  th: { padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', borderBottom: '1px solid #e5e7eb', whiteSpace: 'nowrap' },
-  td: { padding: '12px 16px', fontSize: '13px', color: '#374151', borderBottom: '1px solid #f3f4f6', whiteSpace: 'nowrap' },
-  tdStrong: { padding: '12px 16px', fontSize: '13px', color: '#1f2937', fontWeight: '600', borderBottom: '1px solid #f3f4f6', whiteSpace: 'nowrap' },
+  th: { padding: 'clamp(8px, 2vw, 12px) clamp(10px, 2vw, 16px)', textAlign: 'left', fontSize: 'clamp(9px, 1.8vw, 11px)', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', borderBottom: '1px solid #e5e7eb', whiteSpace: 'nowrap' },
+  td: { padding: 'clamp(8px, 2vw, 12px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', color: '#374151', borderBottom: '1px solid #f3f4f6', whiteSpace: 'nowrap' },
+  tdStrong: { padding: 'clamp(8px, 2vw, 12px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', color: '#1f2937', fontWeight: '600', borderBottom: '1px solid #f3f4f6', whiteSpace: 'nowrap' },
   iconBtn: { padding: '6px', borderRadius: '8px', border: 'none', background: 'transparent', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' },
-  pagination: { padding: '16px 20px', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '12px' },
-  pageBtn: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', fontSize: '13px', fontWeight: '500', color: '#374151', background: '#fff', border: '1px solid #d1d5db', borderRadius: '8px', cursor: 'pointer' },
+  pagination: { padding: 'clamp(10px, 2vw, 16px) clamp(12px, 3vw, 20px)', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '8px' },
+  pageBtn: { display: 'inline-flex', alignItems: 'center', gap: '4px', padding: 'clamp(5px, 1.2vw, 6px) clamp(8px, 1.8vw, 12px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '500', color: '#374151', background: '#fff', border: '1px solid #d1d5db', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' },
   pageBtnActive: { background: '#2563eb', color: '#fff', borderColor: '#2563eb' },
   pageBtnDisabled: { opacity: 0.5, cursor: 'not-allowed' },
-  emptyState: { textAlign: 'center', padding: '48px 20px', background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6' },
-  statusBadge: { display: 'inline-block', padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: '600' },
-  modalOverlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', zIndex: 50 },
-  modal: { background: '#fff', borderRadius: '16px', width: '100%', maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto' },
-  modalHeader: { padding: '20px 24px', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' },
-  modalTitle: { fontSize: '18px', fontWeight: 'bold', color: '#111827', margin: 0 },
-  modalBody: { padding: '24px' },
-  modalFooter: { padding: '20px 24px', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', justifyContent: 'flex-end', gap: '12px' },
-  formGrid3: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px 24px' },
-  formGrid2: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px 24px' },
-  formGroup: { display: 'flex', flexDirection: 'column', gap: '8px' },
-  formGroupFull: { display: 'flex', flexDirection: 'column', gap: '8px', gridColumn: '1 / -1' },
-  formLabel: { fontSize: '12px', fontWeight: '600', color: '#374151', display: 'flex', alignItems: 'center', gap: '6px' },
-  formInput: { width: '100%', padding: '11px 14px', fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', color: '#374151', background: '#fff', boxSizing: 'border-box' },
-  formTextarea: { width: '100%', padding: '11px 14px', fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', color: '#374151', resize: 'vertical', fontFamily: 'inherit', boxSizing: 'border-box' },
-  btnSecondary: { display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', fontSize: '13px', fontWeight: '500', color: '#374151', background: '#fff', border: '1px solid #d1d5db', borderRadius: '10px', cursor: 'pointer' },
-  btnSubmit: { display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', fontSize: '13px', fontWeight: '600', color: '#fff', background: '#2563eb', border: '1px solid #2563eb', borderRadius: '10px', cursor: 'pointer' },
-  photoGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' },
+  emptyState: { textAlign: 'center', padding: 'clamp(24px, 5vw, 48px) 20px', background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6' },
+  statusBadge: { display: 'inline-block', padding: '4px 10px', borderRadius: '12px', fontSize: 'clamp(9px, 1.8vw, 11px)', fontWeight: '600', whiteSpace: 'nowrap' },
+  modalOverlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(8px, 2vw, 16px)', zIndex: 50 },
+  modal: { background: '#fff', borderRadius: '16px', width: '100%', maxWidth: '800px', maxHeight: '92vh', overflowY: 'auto' },
+  modalHeader: { padding: 'clamp(12px, 2.5vw, 20px) clamp(14px, 3vw, 24px)', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' },
+  modalTitle: { fontSize: 'clamp(14px, 3vw, 18px)', fontWeight: 'bold', color: '#111827', margin: 0 },
+  modalBody: { padding: 'clamp(14px, 3vw, 24px)' },
+  modalFooter: { padding: 'clamp(12px, 2.5vw, 20px) clamp(14px, 3vw, 24px)', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '8px' },
+  formGrid3: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 'clamp(12px, 2.5vw, 20px)' },
+  formGrid2: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 'clamp(12px, 2.5vw, 20px)' },
+  formGroup: { display: 'flex', flexDirection: 'column', gap: '6px', minWidth: 0 },
+  formGroupFull: { display: 'flex', flexDirection: 'column', gap: '6px', gridColumn: '1 / -1' },
+  formLabel: { fontSize: 'clamp(11px, 2vw, 12px)', fontWeight: '600', color: '#374151', display: 'flex', alignItems: 'center', gap: '6px' },
+  formInput: { width: '100%', padding: 'clamp(8px, 1.8vw, 11px) clamp(10px, 2vw, 14px)', fontSize: 'clamp(12px, 2vw, 13px)', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', color: '#374151', background: '#fff', boxSizing: 'border-box', fontFamily: 'inherit' },
+  formTextarea: { width: '100%', padding: 'clamp(8px, 1.8vw, 11px) clamp(10px, 2vw, 14px)', fontSize: 'clamp(12px, 2vw, 13px)', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', color: '#374151', resize: 'vertical', fontFamily: 'inherit', boxSizing: 'border-box' },
+  btnSecondary: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: 'clamp(8px, 1.8vw, 10px) clamp(12px, 2.5vw, 20px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '500', color: '#374151', background: '#fff', border: '1px solid #d1d5db', borderRadius: '10px', cursor: 'pointer', fontFamily: 'inherit' },
+  btnSubmit: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: 'clamp(8px, 1.8vw, 10px) clamp(12px, 2.5vw, 20px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '600', color: '#fff', background: '#2563eb', border: '1px solid #2563eb', borderRadius: '10px', cursor: 'pointer', fontFamily: 'inherit' },
+  photoGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 160px), 1fr))', gap: 'clamp(8px, 2vw, 16px)' },
   photoCard: { background: '#fff', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e5e7eb' },
-  photoThumb: { height: '140px', background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563eb' },
+  photoThumb: { height: 'clamp(100px, 20vw, 140px)', background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563eb' },
   photoInfo: { padding: '10px 12px' },
-  card: { background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: '20px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' },
-  cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' },
-  cardTitle: { fontSize: '15px', fontWeight: '600', color: '#1f2937', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' },
+  card: { background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: 'clamp(12px, 2.5vw, 20px)', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' },
+  cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', gap: '8px', flexWrap: 'wrap' },
+  cardTitle: { fontSize: 'clamp(12px, 2.5vw, 15px)', fontWeight: '600', color: '#1f2937', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' },
   progressTrack: { width: '100%', height: '8px', background: '#e5e7eb', borderRadius: '4px', overflow: 'hidden', marginTop: '6px' },
   progressFill: { height: '100%', borderRadius: '4px', transition: 'width 0.3s' },
 };
 
 // =============================================
-// HELPERS
+// HELPERS (unchanged)
 // =============================================
 const getStatusStyle = (status) => {
   const map = {
@@ -520,7 +520,7 @@ const saveMSKVY = (key, data) => {
 };
 
 // =============================================
-// LOGIN
+// LOGIN — Responsive
 // =============================================
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('admin@solar.com');
@@ -543,11 +543,11 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', padding: '20px', fontFamily: 'system-ui, sans-serif' }}>
-      <div style={{ background: '#fff', padding: '40px', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', width: '100%', maxWidth: '420px' }}>
-        <div style={{ width: '64px', height: '64px', background: '#dbeafe', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#2563eb' }}><Shield size={32} /></div>
-        <h1 style={{ fontSize: '24px', fontWeight: 'bold', textAlign: 'center', color: '#1e3a8a', marginBottom: '4px' }}>solar ERP Portal</h1>
-        <p style={{ fontSize: '13px', textAlign: 'center', color: '#6b7280', marginBottom: '24px' }}>Solar Project Management</p>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', padding: 'clamp(12px, 4vw, 20px)', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box' }}>
+      <div style={{ background: '#fff', padding: 'clamp(24px, 6vw, 40px)', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', width: '100%', maxWidth: '420px', boxSizing: 'border-box' }}>
+        <div style={{ width: 'clamp(48px, 12vw, 64px)', height: 'clamp(48px, 12vw, 64px)', background: '#dbeafe', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#2563eb' }}><Shield size={28} /></div>
+        <h1 style={{ fontSize: 'clamp(18px, 5vw, 24px)', fontWeight: 'bold', textAlign: 'center', color: '#1e3a8a', marginBottom: '4px' }}>solar ERP Portal</h1>
+        <p style={{ fontSize: 'clamp(11px, 2.5vw, 13px)', textAlign: 'center', color: '#6b7280', marginBottom: '24px' }}>Solar Project Management</p>
         {error && <div style={{ background: '#fee2e2', color: '#991b1b', padding: '10px 14px', borderRadius: '8px', fontSize: '13px', marginBottom: '16px' }}>{error}</div>}
         <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div style={S.formGroup}><label style={S.formLabel}><Mail size={12} /> Email</label>
@@ -556,11 +556,11 @@ const Login = ({ onLogin }) => {
           <div style={S.formGroup}><label style={S.formLabel}><Lock size={12} /> Password</label>
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} style={S.formInput} required />
           </div>
-          <button type="submit" disabled={loading} style={{ background: '#2563eb', color: '#fff', padding: '12px', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '600', cursor: 'pointer', marginTop: '8px' }}>
+          <button type="submit" disabled={loading} style={{ background: '#2563eb', color: '#fff', padding: 'clamp(10px, 2.5vw, 12px)', border: 'none', borderRadius: '10px', fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '600', cursor: 'pointer', marginTop: '8px', fontFamily: 'inherit' }}>
             {loading ? 'Logging in...' : 'Secure Login'}
           </button>
         </form>
-        <div style={{ marginTop: '20px', textAlign: 'center', fontSize: '12px', color: '#6b7280', background: '#f3f4f6', padding: '10px', borderRadius: '8px' }}>
+        <div style={{ marginTop: '20px', textAlign: 'center', fontSize: 'clamp(10px, 2vw, 12px)', color: '#6b7280', background: '#f3f4f6', padding: '10px', borderRadius: '8px' }}>
           <strong>Demo:</strong> admin@solar.com / admin123
         </div>
       </div>
@@ -608,17 +608,17 @@ const useTablePage = (initialData, searchKeys) => {
 const Pagination = ({ currentPage, totalPages, totalItems, itemsPerPage, onPageChange }) => {
   if (totalPages <= 1) return null;
   const pages = [];
-  let start = Math.max(1, currentPage - 2);
-  let end = Math.min(totalPages, start + 4);
-  if (end - start < 4) start = Math.max(1, end - 4);
+  let start = Math.max(1, currentPage - 1);
+  let end = Math.min(totalPages, start + 2);
+  if (end - start < 2) start = Math.max(1, end - 2);
   for (let i = start; i <= end; i++) pages.push(i);
 
   return (
     <div style={S.pagination}>
-      <div style={{ fontSize: '13px', color: '#4b5563' }}>
+      <div style={{ fontSize: 'clamp(11px, 2vw, 13px)', color: '#4b5563' }}>
         Showing <b>{totalItems === 0 ? 0 : ((currentPage - 1) * itemsPerPage) + 1}</b> to <b>{Math.min(currentPage * itemsPerPage, totalItems)}</b> of <b>{totalItems}</b>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
         <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} style={{ ...S.pageBtn, ...(currentPage === 1 ? S.pageBtnDisabled : {}) }}><ChevronLeft size={14} /> Prev</button>
         {pages.map(p => <button key={p} onClick={() => onPageChange(p)} style={{ ...S.pageBtn, ...(currentPage === p ? S.pageBtnActive : {}) }}>{p}</button>)}
         <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} style={{ ...S.pageBtn, ...(currentPage === totalPages ? S.pageBtnDisabled : {}) }}>Next <ChevronRight size={14} /></button>
@@ -632,8 +632,8 @@ const StatsRow = ({ stats }) => (
     {stats.map((s, i) => (
       <div key={i} style={S.statCard}>
         <div style={{ ...S.statAccent, background: s.color || '#3b82f6' }} />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+          <div style={{ minWidth: 0, flex: 1 }}>
             <p style={S.statLabel}>{s.label}</p>
             <p style={{ ...S.statValue, color: s.color || '#1f2937' }}>{s.value}</p>
           </div>
@@ -723,7 +723,7 @@ const Field = ({ label, icon, name, value, onChange, type = 'text', placeholder,
 );
 
 // =============================================
-// BOTTOM BAR (Excel, Print + Pagination) - Reusable
+// BOTTOM BAR — Responsive (Excel, Print, Show, Pagination)
 // =============================================
 const BottomBar = ({
   currentPage, totalPages, totalItems, itemsPerPage, onPageChange, onItemsPerPageChange,
@@ -731,25 +731,24 @@ const BottomBar = ({
 }) => {
   const pages = [];
   if (totalPages > 1) {
-    let start = Math.max(1, currentPage - 2);
-    let end = Math.min(totalPages, start + 4);
-    if (end - start < 4) start = Math.max(1, end - 4);
+    let start = Math.max(1, currentPage - 1);
+    let end = Math.min(totalPages, start + 2);
+    if (end - start < 2) start = Math.max(1, end - 2);
     for (let i = start; i <= end; i++) pages.push(i);
   }
 
   return (
     <div style={{
-      padding: '14px 20px',
+      padding: 'clamp(10px, 2vw, 14px) clamp(12px, 3vw, 20px)',
       borderTop: '1px solid #e5e7eb',
       background: '#f9fafb',
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-between',
       alignItems: 'center',
-      gap: '12px'
+      gap: 'clamp(8px, 2vw, 12px)'
     }}>
-      {/* LEFT: Excel + Print + Show selector + Showing info */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '12px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'clamp(6px, 1.5vw, 12px)' }}>
         <button onClick={onExcel} style={S.btn} title="Export to Excel">
           <FileSpreadsheet size={14} /> Excel
         </button>
@@ -757,11 +756,11 @@ const BottomBar = ({
           <Printer size={14} /> Print
         </button>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ fontSize: '12px', color: '#6b7280' }}>Show:</span>
+          <span style={{ fontSize: 'clamp(10px, 2vw, 12px)', color: '#6b7280' }}>Show:</span>
           <select
             value={itemsPerPage}
             onChange={e => onItemsPerPageChange(Number(e.target.value))}
-            style={{ fontSize: '12px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', cursor: 'pointer' }}
+            style={{ fontSize: 'clamp(10px, 2vw, 12px)', border: '1px solid #d1d5db', borderRadius: '6px', padding: '4px 6px', background: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}
           >
             <option value="10">10</option>
             <option value="25">25</option>
@@ -770,15 +769,14 @@ const BottomBar = ({
           </select>
         </div>
         {showPagination && totalItems > 0 && (
-          <span style={{ fontSize: '12px', color: '#6b7280' }}>
+          <span style={{ fontSize: 'clamp(10px, 2vw, 12px)', color: '#6b7280' }}>
             Showing <b>{(currentPage - 1) * itemsPerPage + 1}</b>–<b>{Math.min(currentPage * itemsPerPage, totalItems)}</b> of <b>{totalItems}</b>
           </span>
         )}
       </div>
 
-      {/* RIGHT: Pagination buttons */}
       {showPagination && totalPages > 1 && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
           <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} style={{ ...S.pageBtn, ...(currentPage === 1 ? S.pageBtnDisabled : {}) }}>
             <ChevronLeft size={14} /> Prev
           </button>
@@ -795,7 +793,7 @@ const BottomBar = ({
 };
 
 // =============================================
-// TABLE PAGE (Generic)
+// TABLE PAGE — Responsive
 // =============================================
 const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOptions, renderForm, formInitial, validateForm, stats, addLabel }) => {
   const { allData, setAllData, displayData, searchTerm, setSearchTerm, currentPage, setCurrentPage, totalPages, totalItems, itemsPerPage, setItemsPerPage, filters, setFilters } = useTablePage(initialData, searchKeys);
@@ -841,14 +839,14 @@ const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOp
       <div style={S.page}>
         <ToastContainer position="top-right" autoClose={3000} />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ marginBottom: 'clamp(14px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
             <div><h1 style={S.title}>{editingId ? `Edit ${title}` : `New ${title}`}</h1><p style={S.subtitle}>Fill the details below</p></div>
             <button onClick={() => { setShowForm(false); resetForm(); }} style={S.btnSecondary}><X size={14} /> Cancel</button>
           </div>
-          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: '28px' }}>
+          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: 'clamp(14px, 3vw, 28px)' }}>
             <form onSubmit={handleSubmit}>
               <div style={S.formGrid3}>{renderForm(formData, setFormData, statusOptions)}</div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', paddingTop: '24px', marginTop: '28px', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '10px', paddingTop: 'clamp(16px, 3vw, 24px)', marginTop: 'clamp(16px, 3vw, 28px)', borderTop: '1px solid #e5e7eb' }}>
                 <button type="button" onClick={() => { setShowForm(false); resetForm(); }} style={S.btnSecondary}><X size={14} /> Cancel</button>
                 <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
               </div>
@@ -866,7 +864,7 @@ const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOp
       {stats && <StatsRow stats={stats} />}
 
       <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 340px', maxWidth: '520px' }}>
+        <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
           <Search size={16} style={S.searchIcon} />
           <input type="text" placeholder={`Search ${title}...`} value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }} style={S.searchInput} />
           {searchTerm && <button onClick={() => { setSearchTerm(''); setCurrentPage(1); }} style={S.clearIcon}><X size={14} /></button>}
@@ -899,7 +897,7 @@ const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOp
       ) : (
         <div style={S.tableCard}>
           <div style={S.tableHeaderBar}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <h2 style={S.tableTitle}>All {title}</h2>
               <span style={S.countBadge}>{totalItems}</span>
             </div>
@@ -950,11 +948,11 @@ const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOp
               <button onClick={() => { setShowView(false); setSelected(null); }} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
             </div>
             <div style={S.modalBody}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 'clamp(10px, 2vw, 16px)' }}>
                 {columns.map(c => (
                   <div key={c.key}>
                     <p style={{ fontSize: '11px', color: '#6b7280', margin: '0 0 4px 0', fontWeight: '600', textTransform: 'uppercase' }}>{c.label}</p>
-                    <p style={{ fontSize: '14px', color: '#111827', margin: 0 }}>{c.render ? c.render(selected) : (selected[c.key] ?? '—')}</p>
+                    <p style={{ fontSize: '14px', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{c.render ? c.render(selected) : (selected[c.key] ?? '—')}</p>
                   </div>
                 ))}
               </div>
@@ -971,7 +969,7 @@ const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOp
 };
 
 // =============================================
-// SIMPLE MASTER PAGE
+// SIMPLE MASTER PAGE — Responsive
 // =============================================
 const SimpleMasterPage = ({ title, subtitle, storageKey, defaultColumns, defaultData }) => {
   const [columns, setColumns] = useState(() => {
@@ -1024,16 +1022,16 @@ const SimpleMasterPage = ({ title, subtitle, storageKey, defaultColumns, default
       <div style={S.page}>
         <ToastContainer position="top-right" autoClose={3000} />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ marginBottom: 'clamp(14px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
             <div><h1 style={S.title}>{editingId ? `Edit ${title}` : `New ${title}`}</h1><p style={S.subtitle}>Fill below</p></div>
             <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
           </div>
-          <div style={{ background: '#fff', borderRadius: '16px', padding: '28px', border: '1px solid #f3f4f6' }}>
+          <div style={{ background: '#fff', borderRadius: '16px', padding: 'clamp(14px, 3vw, 28px)', border: '1px solid #f3f4f6' }}>
             <form onSubmit={submit}>
               <div style={S.formGrid3}>
                 {columns.map(col => <Field key={col.key} label={col.label} name={col.key} value={formData[col.key] || ''} onChange={e => setFormData({ ...formData, [col.key]: e.target.value })} placeholder={`Enter ${col.label}`} />)}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', paddingTop: '24px', marginTop: '28px', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '10px', paddingTop: 'clamp(16px, 3vw, 24px)', marginTop: 'clamp(16px, 3vw, 28px)', borderTop: '1px solid #e5e7eb' }}>
                 <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
                 <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
               </div>
@@ -1050,7 +1048,7 @@ const SimpleMasterPage = ({ title, subtitle, storageKey, defaultColumns, default
       <div style={S.header}><h1 style={S.title}>{title}</h1><p style={S.subtitle}>{subtitle}</p></div>
 
       <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 300px', maxWidth: '500px' }}>
+        <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
           <Search size={16} style={S.searchIcon} />
           <input type="text" placeholder={`Search ${title}...`} value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
           {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={14} /></button>}
@@ -1082,25 +1080,25 @@ const SimpleMasterPage = ({ title, subtitle, storageKey, defaultColumns, default
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 'clamp(10px, 2vw, 16px)', marginBottom: 'clamp(14px, 3vw, 24px)' }}>
         {display.map(item => (
-          <div key={item.id} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '16px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-              <div>
+          <div key={item.id} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: 'clamp(12px, 2.5vw, 16px)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', gap: '8px' }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
                 <p style={{ fontSize: '12px', color: '#6b7280', margin: '0 0 2px 0' }}>S/No. {item.s_no}</p>
-                <p style={{ fontSize: '15px', fontWeight: '600', color: '#111827', margin: 0 }}>{item.name || item[columns[0]?.key] || 'Record'}</p>
+                <p style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '600', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{item.name || item[columns[0]?.key] || 'Record'}</p>
               </div>
-              <div style={{ display: 'flex', gap: '2px' }}>
+              <div style={{ display: 'flex', gap: '2px', flexShrink: 0 }}>
                 <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }}><Eye size={15} /></button>
                 <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }}><Edit size={15} /></button>
                 <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }}><Trash2 size={15} /></button>
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 120px), 1fr))', gap: '8px' }}>
               {columns.map(col => (
-                <div key={col.key} style={{ background: '#f9fafb', padding: '8px 10px', borderRadius: '8px', position: 'relative' }}>
+                <div key={col.key} style={{ background: '#f9fafb', padding: '8px 10px', borderRadius: '8px', position: 'relative', minWidth: 0 }}>
                   <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 2px 0', fontWeight: '600', textTransform: 'uppercase' }}>{col.label}</p>
-                  <p style={{ fontSize: '12px', color: '#111827', margin: 0, fontWeight: '500' }}>
+                  <p style={{ fontSize: '12px', color: '#111827', margin: 0, fontWeight: '500', wordBreak: 'break-word' }}>
                     {col.key === 'status' ? <span style={{ ...S.statusBadge, ...getStatusStyle(item[col.key]) }}>{item[col.key] || '—'}</span> : (item[col.key] || '—')}
                   </p>
                   {col.dynamic && <button onClick={() => rmCol(col.key)} style={{ position: 'absolute', top: '2px', right: '2px', background: 'transparent', border: 'none', color: '#dc2626', cursor: 'pointer' }}><X size={10} /></button>}
@@ -1140,11 +1138,11 @@ const SimpleMasterPage = ({ title, subtitle, storageKey, defaultColumns, default
               <button onClick={() => setShowView(false)} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
             </div>
             <div style={S.modalBody}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 'clamp(10px, 2vw, 16px)' }}>
                 {columns.map(col => (
                   <div key={col.key}>
                     <p style={{ fontSize: '11px', color: '#6b7280', margin: '0 0 4px 0', fontWeight: '600', textTransform: 'uppercase' }}>{col.label}</p>
-                    <p style={{ fontSize: '14px', color: '#111827', margin: 0 }}>
+                    <p style={{ fontSize: '14px', color: '#111827', margin: 0, wordBreak: 'break-word' }}>
                       {col.key === 'status' ? <span style={{ ...S.statusBadge, ...getStatusStyle(selected[col.key]) }}>{selected[col.key] || '—'}</span> : (selected[col.key] || '—')}
                     </p>
                   </div>
@@ -1163,7 +1161,7 @@ const SimpleMasterPage = ({ title, subtitle, storageKey, defaultColumns, default
 };
 
 // =============================================
-// OTHER PAGE WRAPPERS (Shortened for brevity)
+// PAGE WRAPPERS (unchanged)
 // =============================================
 const ProjectListPage = () => {
   const columns = [
@@ -1637,15 +1635,15 @@ const PhotosPage = () => {
       <div style={S.header}><h1 style={S.title}>Photo Gallery</h1><p style={S.subtitle}>View photographs</p></div>
       <div style={S.tableCard}>
         <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Photos</h2><span style={S.countBadge}>{DEMO_PHOTOS.length}</span></div>
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: 'clamp(12px, 3vw, 20px)' }}>
           <div style={S.photoGrid}>
             {DEMO_PHOTOS.map(p => (
               <div key={p.id} style={S.photoCard}>
                 <div style={S.photoThumb}><Camera size={36} /></div>
                 <div style={S.photoInfo}>
-                  <p style={{ fontSize: '12px', fontWeight: '600', color: '#374151', margin: '0 0 2px 0' }}>{p.name}</p>
-                  <p style={{ fontSize: '11px', color: '#9ca3af', margin: 0 }}>{p.project}</p>
-                  <p style={{ fontSize: '10px', color: '#9ca3af', marginTop: '4px' }}>GPS: {p.gps}</p>
+                  <p style={{ fontSize: 'clamp(11px, 2vw, 12px)', fontWeight: '600', color: '#374151', margin: '0 0 2px 0' }}>{p.name}</p>
+                  <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', color: '#9ca3af', margin: 0 }}>{p.project}</p>
+                  <p style={{ fontSize: 'clamp(9px, 1.8vw, 10px)', color: '#9ca3af', marginTop: '4px' }}>GPS: {p.gps}</p>
                 </div>
               </div>
             ))}
@@ -1808,19 +1806,19 @@ const DashboardPage = () => {
       <ToastContainer position="top-right" autoClose={3000} />
       <div style={S.header}><h1 style={S.title}>Management Dashboard</h1><p style={S.subtitle}>Complete overview</p></div>
       <StatsRow stats={stats} />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '20px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 'clamp(10px, 2vw, 20px)' }}>
         <div style={S.card}>
           <div style={S.cardHeader}><h2 style={S.cardTitle}><FolderOpen size={18} color="#2563eb" /> Project Progress</h2></div>
           {DEMO_PROJECTS.slice(0, 6).map(p => {
             const c = p.progress === 100 ? '#16a34a' : p.progress >= 50 ? '#3b82f6' : '#f59e0b';
             return (
               <div key={p.id} style={{ marginBottom: '14px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', gap: '8px' }}>
                   <div style={{ minWidth: 0, flex: 1 }}>
-                    <p style={{ fontSize: '13px', fontWeight: '600', color: '#111827', margin: 0 }}>{p.name}</p>
-                    <p style={{ fontSize: '11px', color: '#9ca3af', margin: '2px 0 0 0' }}>{p.site_code}</p>
+                    <p style={{ fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '600', color: '#111827', margin: 0 }}>{p.name}</p>
+                    <p style={{ fontSize: 'clamp(10px, 1.8vw, 11px)', color: '#9ca3af', margin: '2px 0 0 0' }}>{p.site_code}</p>
                   </div>
-                  <span style={{ fontSize: '13px', fontWeight: '700', color: c }}>{p.progress}%</span>
+                  <span style={{ fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '700', color: c, flexShrink: 0 }}>{p.progress}%</span>
                 </div>
                 <div style={S.progressTrack}><div style={{ ...S.progressFill, width: `${p.progress}%`, background: c }} /></div>
               </div>
@@ -1832,9 +1830,9 @@ const DashboardPage = () => {
           {DEMO_ACTIVITIES.map((a, i) => (
             <div key={a.id} style={{ display: 'flex', gap: '12px', padding: '12px 0', borderBottom: i < DEMO_ACTIVITIES.length - 1 ? '1px solid #f3f4f6' : 'none' }}>
               <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#eff6ff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Activity size={14} /></div>
-              <div style={{ flex: 1 }}>
-                <p style={{ fontSize: '12px', color: '#111827', margin: 0, fontWeight: '600' }}>{a.type}</p>
-                <p style={{ fontSize: '11px', color: '#6b7280', margin: '2px 0 0 0' }}>{a.description}</p>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: 'clamp(11px, 2vw, 12px)', color: '#111827', margin: 0, fontWeight: '600' }}>{a.type}</p>
+                <p style={{ fontSize: 'clamp(10px, 1.8vw, 11px)', color: '#6b7280', margin: '2px 0 0 0', wordBreak: 'break-word' }}>{a.description}</p>
               </div>
             </div>
           ))}
@@ -1845,7 +1843,7 @@ const DashboardPage = () => {
 };
 
 // =============================================
-// MSKVY PAGES - UPDATED WITH FULL CRUD + BOTTOM BAR
+// MSKVY PAGES - Responsive
 // =============================================
 const MSKVYContractorPage = () => {
   const [data, setData] = useState(() => loadMSKVY('mskvy_contractors_v3', MSKVY_CONTRACTORS));
@@ -1918,11 +1916,11 @@ const MSKVYContractorPage = () => {
       <div style={S.page}>
         <ToastContainer position="top-right" autoClose={3000} />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ marginBottom: 'clamp(14px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
             <div><h1 style={S.title}>{editingId ? 'Edit Contractor Record' : 'New Contractor Record'}</h1><p style={S.subtitle}>Fill contractor details</p></div>
             <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
           </div>
-          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: '28px' }}>
+          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: 'clamp(14px, 3vw, 28px)' }}>
             <form onSubmit={submit}>
               <div style={S.formGrid3}>
                 <Field label="Contractor" icon={<Building2 size={12} />} name="contractor" value={formData.contractor} onChange={onChange} required />
@@ -1940,7 +1938,7 @@ const MSKVYContractorPage = () => {
                   <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
                 </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', paddingTop: '24px', marginTop: '28px', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '10px', paddingTop: 'clamp(16px, 3vw, 24px)', marginTop: 'clamp(16px, 3vw, 28px)', borderTop: '1px solid #e5e7eb' }}>
                 <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
                 <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
               </div>
@@ -1957,12 +1955,12 @@ const MSKVYContractorPage = () => {
       <div style={S.header}><h1 style={S.title}>MSKVY - Contractor List</h1><p style={S.subtitle}>EPC Sub-Contractors & Site Details</p></div>
       <StatsRow stats={stats} />
       <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 340px', maxWidth: '520px' }}>
+        <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
           <Search size={16} style={S.searchIcon} />
           <input type="text" placeholder="Search contractor, file, substation..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
           {searchTerm && <button onClick={() => { setSearchTerm(''); setPage(1); }} style={S.clearIcon}><X size={14} /></button>}
         </div>
-        <select value={districtFilter} onChange={e => { setDistrictFilter(e.target.value); setPage(1); }} style={{ ...S.filterInput, width: 'auto', minWidth: '150px' }}>
+        <select value={districtFilter} onChange={e => { setDistrictFilter(e.target.value); setPage(1); }} style={{ ...S.filterInput, width: 'auto', minWidth: '120px', flex: '0 1 auto' }}>
           <option value="">All Districts</option>
           {[...new Set(data.map(c => c.district))].map(d => <option key={d} value={d}>{d}</option>)}
         </select>
@@ -1972,7 +1970,7 @@ const MSKVYContractorPage = () => {
 
       <div style={S.tableCard}>
         <div style={S.tableHeaderBar}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <h2 style={S.tableTitle}>All Contractor Records</h2>
             <span style={S.countBadge}>{filtered.length}</span>
           </div>
@@ -2037,7 +2035,7 @@ const MSKVYContractorPage = () => {
               <button onClick={() => setShowView(false)} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
             </div>
             <div style={S.modalBody}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 'clamp(10px, 2vw, 16px)' }}>
                 {[
                   ['Contractor', selected.contractor], ['File Name', selected.file_name],
                   ['Director', selected.director], ['Director Contact', selected.director_contact],
@@ -2048,14 +2046,14 @@ const MSKVYContractorPage = () => {
                 ].map(([l, v]) => (
                   <div key={l}>
                     <p style={{ fontSize: '11px', color: '#6b7280', margin: '0 0 4px 0', fontWeight: '600', textTransform: 'uppercase' }}>{l}</p>
-                    <p style={{ fontSize: '14px', color: '#111827', margin: 0 }}>{v || '—'}</p>
+                    <p style={{ fontSize: '14px', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
                   </div>
                 ))}
               </div>
               {selected.remarks && (
                 <div style={{ marginTop: '20px', padding: '12px', background: '#fef3c7', borderRadius: '8px' }}>
                   <p style={{ fontSize: '11px', color: '#92400e', fontWeight: '700', margin: '0 0 4px 0' }}>REMARKS</p>
-                  <p style={{ fontSize: '13px', color: '#78350f', margin: 0 }}>{selected.remarks}</p>
+                  <p style={{ fontSize: '13px', color: '#78350f', margin: 0, wordBreak: 'break-word' }}>{selected.remarks}</p>
                 </div>
               )}
             </div>
@@ -2141,14 +2139,14 @@ const MSKVYSubstationSurveyPage = () => {
 
   const SectionBlock = ({ title, children }) => (
     <div style={{ marginBottom: '20px', border: '1px solid #e5e7eb', borderRadius: '10px', overflow: 'hidden' }}>
-      <div style={{ background: '#1e3a8a', color: '#fff', padding: '10px 14px', fontSize: '13px', fontWeight: '700' }}>{title}</div>
-      <div style={{ padding: '12px 14px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 20px' }}>{children}</div>
+      <div style={{ background: '#1e3a8a', color: '#fff', padding: '10px 14px', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '700' }}>{title}</div>
+      <div style={{ padding: '12px 14px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '10px 20px' }}>{children}</div>
     </div>
   );
   const KV = ({ l, v }) => (
     <div>
       <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 2px 0', fontWeight: '700', textTransform: 'uppercase' }}>{l}</p>
-      <p style={{ fontSize: '13px', color: '#111827', margin: 0 }}>{v || '—'}</p>
+      <p style={{ fontSize: '13px', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
     </div>
   );
 
@@ -2158,13 +2156,13 @@ const MSKVYSubstationSurveyPage = () => {
       <div style={S.page}>
         <ToastContainer position="top-right" autoClose={3000} />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ marginBottom: 'clamp(14px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
             <div><h1 style={S.title}>{editingId ? 'Edit Substation Survey' : 'New Substation Survey'}</h1><p style={S.subtitle}>Fill the MSKVY checklist</p></div>
             <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
           </div>
-          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: '28px' }}>
+          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: 'clamp(14px, 3vw, 28px)' }}>
             <form onSubmit={submit}>
-              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>1. Substation & Feeder Basics</h3>
+              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>1. Substation & Feeder Basics</h3>
               <div style={S.formGrid3}>
                 <Field label="Substation Name" icon={<Zap size={12} />} name="substation" value={formData.substation} onChange={onChange} required />
                 <Field label="Subdivision" icon={<MapPin size={12} />} name="subdivision" value={formData.subdivision} onChange={onChange} />
@@ -2182,7 +2180,7 @@ const MSKVYSubstationSurveyPage = () => {
                 <Field label="Outage History" icon={<AlertCircle size={12} />} name="outage_history" value={formData.outage_history} onChange={onChange} />
               </div>
 
-              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>2. Transformer Details</h3>
+              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>2. Transformer Details</h3>
               <div style={S.formGrid3}>
                 <Field label="Transformer Capacity" icon={<Zap size={12} />} name="transformer_capacity" value={formData.transformer_capacity} onChange={onChange} />
                 <Field label="Make" icon={<Building2 size={12} />} name="transformer_make" value={formData.transformer_make} onChange={onChange} />
@@ -2195,7 +2193,7 @@ const MSKVYSubstationSurveyPage = () => {
                 <Field label="Earthing Condition" icon={<Shield size={12} />} name="earthing_condition" value={formData.earthing_condition} onChange={onChange} />
               </div>
 
-              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>3. Interconnection Readiness</h3>
+              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>3. Interconnection Readiness</h3>
               <div style={S.formGrid3}>
                 <Field label="Spare Bay" icon={<Zap size={12} />} name="spare_bay" value={formData.spare_bay} onChange={onChange} />
                 <Field label="Bay Space" icon={<Ruler size={12} />} name="bay_space" value={formData.bay_space} onChange={onChange} />
@@ -2207,7 +2205,7 @@ const MSKVYSubstationSurveyPage = () => {
                 <Field label="Right of Way" icon={<MapPin size={12} />} name="right_of_way" value={formData.right_of_way} onChange={onChange} />
               </div>
 
-              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>4. Grid Quality & Safety</h3>
+              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>4. Grid Quality & Safety</h3>
               <div style={S.formGrid3}>
                 <Field label="Received Voltage" icon={<Zap size={12} />} name="received_voltage" value={formData.received_voltage} onChange={onChange} />
                 <Field label="Fault Level" icon={<AlertCircle size={12} />} name="fault_level" value={formData.fault_level} onChange={onChange} />
@@ -2215,7 +2213,7 @@ const MSKVYSubstationSurveyPage = () => {
                 <Field label="Fire Safety" icon={<Shield size={12} />} name="fire_safety" value={formData.fire_safety} onChange={onChange} />
               </div>
 
-              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>5. Solar Plant Sizing</h3>
+              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>5. Solar Plant Sizing</h3>
               <div style={S.formGrid3}>
                 <Field label="Feeder Demand (MW)" icon={<Gauge size={12} />} name="feeder_demand" value={formData.feeder_demand} onChange={onChange} />
                 <Field label="Existing Capacity (MW)" icon={<Zap size={12} />} name="existing_capacity" value={formData.existing_capacity} onChange={onChange} />
@@ -2223,14 +2221,14 @@ const MSKVYSubstationSurveyPage = () => {
                 <Field label="Capacity vs Transformer" icon={<Gauge size={12} />} name="transformer_capacity_check" value={formData.transformer_capacity_check} onChange={onChange} />
               </div>
 
-              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>6. Regulatory & Documentation</h3>
+              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>6. Regulatory & Documentation</h3>
               <div style={S.formGrid3}>
                 <Field label="SLD Available" icon={<FileCheck size={12} />} name="sld_available" value={formData.sld_available} onChange={onChange} />
                 <Field label="Environmental Clearance" icon={<TreePine size={12} />} name="environmental_clearance" value={formData.environmental_clearance} onChange={onChange} />
                 <Field label="Feeder Load Data" icon={<Activity size={12} />} name="feeder_load_data" value={formData.feeder_load_data} onChange={onChange} />
               </div>
 
-              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>7. Photos & Signatures</h3>
+              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>7. Photos & Signatures</h3>
               <div style={S.formGrid3}>
                 <Field label="Geo-tagged Photos" icon={<Camera size={12} />} name="geotagged_photos" value={formData.geotagged_photos} onChange={onChange} />
                 <Field label="Coordinates" icon={<MapPin size={12} />} name="coordinates" value={formData.coordinates} onChange={onChange} placeholder="lat, long" />
@@ -2244,7 +2242,7 @@ const MSKVYSubstationSurveyPage = () => {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', paddingTop: '24px', marginTop: '28px', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '10px', paddingTop: 'clamp(16px, 3vw, 24px)', marginTop: 'clamp(16px, 3vw, 28px)', borderTop: '1px solid #e5e7eb' }}>
                 <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
                 <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
               </div>
@@ -2261,7 +2259,7 @@ const MSKVYSubstationSurveyPage = () => {
       <div style={S.header}><h1 style={S.title}>Substation Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation - Substation Survey</p></div>
 
       <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 340px', maxWidth: '520px' }}>
+        <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
           <Search size={16} style={S.searchIcon} />
           <input type="text" placeholder="Search substation, surveyor..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
           {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={14} /></button>}
@@ -2369,7 +2367,7 @@ const MSKVYSubstationSurveyPage = () => {
               {selected.remarks && (
                 <div style={{ padding: '12px', background: '#fef3c7', borderRadius: '8px' }}>
                   <p style={{ fontSize: '11px', color: '#92400e', fontWeight: '700', margin: '0 0 4px 0' }}>REMARKS</p>
-                  <p style={{ fontSize: '13px', color: '#78350f', margin: 0 }}>{selected.remarks}</p>
+                  <p style={{ fontSize: '13px', color: '#78350f', margin: 0, wordBreak: 'break-word' }}>{selected.remarks}</p>
                 </div>
               )}
             </div>
@@ -2448,14 +2446,14 @@ const MSKVYLandSurveyPage = () => {
 
   const SectionBlock = ({ title, children }) => (
     <div style={{ marginBottom: '20px', border: '1px solid #e5e7eb', borderRadius: '10px', overflow: 'hidden' }}>
-      <div style={{ background: '#15803d', color: '#fff', padding: '10px 14px', fontSize: '13px', fontWeight: '700' }}>{title}</div>
-      <div style={{ padding: '12px 14px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 20px' }}>{children}</div>
+      <div style={{ background: '#15803d', color: '#fff', padding: '10px 14px', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '700' }}>{title}</div>
+      <div style={{ padding: '12px 14px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '10px 20px' }}>{children}</div>
     </div>
   );
   const KV = ({ l, v }) => (
     <div>
       <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 2px 0', fontWeight: '700', textTransform: 'uppercase' }}>{l}</p>
-      <p style={{ fontSize: '13px', color: '#111827', margin: 0 }}>{v || '—'}</p>
+      <p style={{ fontSize: '13px', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
     </div>
   );
 
@@ -2465,13 +2463,13 @@ const MSKVYLandSurveyPage = () => {
       <div style={S.page}>
         <ToastContainer position="top-right" autoClose={3000} />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ marginBottom: 'clamp(14px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
             <div><h1 style={S.title}>{editingId ? 'Edit Land Survey' : 'New Land Survey'}</h1><p style={S.subtitle}>Fill the MSKVY land checklist</p></div>
             <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
           </div>
-          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: '28px' }}>
+          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: 'clamp(14px, 3vw, 28px)' }}>
             <form onSubmit={submit}>
-              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#15803d', marginBottom: '16px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>Basic Info</h3>
+              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#15803d', marginBottom: '16px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>Basic Info</h3>
               <div style={S.formGrid3}>
                 <Field label="Village" icon={<MapPin size={12} />} name="village" value={formData.village} onChange={onChange} required />
                 <Field label="Block" icon={<MapPin size={12} />} name="block" value={formData.block} onChange={onChange} />
@@ -2483,7 +2481,7 @@ const MSKVYLandSurveyPage = () => {
                 <Field label="Status" icon={<Shield size={12} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
               </div>
 
-              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#15803d', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>1. Land Details</h3>
+              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#15803d', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>1. Land Details</h3>
               <div style={S.formGrid3}>
                 <Field label="Land within/adjacent (5 km)" icon={<MapPin size={12} />} name="land_nearby" value={formData.land_nearby} onChange={onChange} options={['YES', 'NO']} />
                 <Field label="Distance (km)" icon={<Ruler size={12} />} name="distance_km" value={formData.distance_km} onChange={onChange} />
@@ -2499,7 +2497,7 @@ const MSKVYLandSurveyPage = () => {
                 <Field label="Environmental Clearance" icon={<TreePine size={12} />} name="environmental_clearance" value={formData.environmental_clearance} onChange={onChange} />
               </div>
 
-              <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#15803d', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>2. Site Photos & Records</h3>
+              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#15803d', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>2. Site Photos & Records</h3>
               <div style={S.formGrid3}>
                 <Field label="Geo-tagged Photos" icon={<Camera size={12} />} name="geotagged_photos" value={formData.geotagged_photos} onChange={onChange} />
                 <Field label="Coordinates" icon={<MapPin size={12} />} name="coordinates" value={formData.coordinates} onChange={onChange} placeholder="lat, long" />
@@ -2512,7 +2510,7 @@ const MSKVYLandSurveyPage = () => {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', paddingTop: '24px', marginTop: '28px', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '10px', paddingTop: 'clamp(16px, 3vw, 24px)', marginTop: 'clamp(16px, 3vw, 28px)', borderTop: '1px solid #e5e7eb' }}>
                 <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
                 <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
               </div>
@@ -2529,7 +2527,7 @@ const MSKVYLandSurveyPage = () => {
       <div style={S.header}><h1 style={S.title}>Land Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation - Land Survey</p></div>
 
       <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 340px', maxWidth: '520px' }}>
+        <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
           <Search size={16} style={S.searchIcon} />
           <input type="text" placeholder="Search village, feeder..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
           {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={14} /></button>}
@@ -2604,7 +2602,7 @@ const MSKVYLandSurveyPage = () => {
               {selected.remarks && (
                 <div style={{ padding: '12px', background: '#dcfce7', borderRadius: '8px' }}>
                   <p style={{ fontSize: '11px', color: '#166534', fontWeight: '700', margin: '0 0 4px 0' }}>REMARKS</p>
-                  <p style={{ fontSize: '13px', color: '#14532d', margin: 0 }}>{selected.remarks}</p>
+                  <p style={{ fontSize: '13px', color: '#14532d', margin: 0, wordBreak: 'break-word' }}>{selected.remarks}</p>
                 </div>
               )}
             </div>
@@ -2621,7 +2619,7 @@ const MSKVYLandSurveyPage = () => {
 };
 
 // =============================================
-// MENU CONFIG
+// MENU CONFIG (unchanged)
 // =============================================
 const MENU_CONFIG = {
   dashboard: {
@@ -2737,14 +2735,23 @@ const MENU_CONFIG = {
 };
 
 // =============================================
-// MAIN APP
+// MAIN APP — Responsive
 // =============================================
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [activeSubMenu, setActiveSubMenu] = useState('dashboard-main');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -2811,23 +2818,64 @@ const App = () => {
 
   const cm = MENU_CONFIG[activeMenu] || { main: [], masters: [] };
 
+  const handleMenuClick = (menuId) => {
+    setActiveMenu(menuId);
+    const cfg = MENU_CONFIG[menuId];
+    const first = cfg.main[0] || cfg.masters[0];
+    if (first) setActiveSubMenu(first.id);
+    if (isMobile) setMobileMenuOpen(false);
+  };
+
+  const handleSubMenuClick = (subId) => {
+    setActiveSubMenu(subId);
+    if (isMobile) setMobileMenuOpen(false);
+  };
+
   return (
     <Router>
       <div style={{ display: 'flex', height: '100vh', background: '#f3f4f6', fontFamily: 'system-ui, sans-serif', overflow: 'hidden' }}>
+        {/* Overlay for mobile */}
+        {isMobile && mobileMenuOpen && (
+          <div
+            onClick={() => setMobileMenuOpen(false)}
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 40 }}
+          />
+        )}
+
         {/* SIDEBAR */}
-        <div style={{ background: '#111827', color: '#fff', display: 'flex', flexDirection: 'column', width: sidebarOpen ? '250px' : '60px', transition: 'width 0.3s', flexShrink: 0 }}>
-          <div style={{ padding: '16px', borderBottom: '1px solid #1f2937', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            {sidebarOpen && <span style={{ fontWeight: 'bold', fontSize: '15px', letterSpacing: '1px' }}>solar ERP</span>}
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex' }}>
-              {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
-            </button>
-          </div>
+        <div style={{
+          background: '#111827', color: '#fff', display: 'flex', flexDirection: 'column',
+          width: isMobile ? (mobileMenuOpen ? '260px' : '0') : (sidebarOpen ? '250px' : '60px'),
+          transition: 'width 0.3s',
+          flexShrink: 0,
+          position: isMobile ? 'fixed' : 'relative',
+          top: 0, bottom: 0, left: 0,
+          zIndex: isMobile ? 50 : 'auto',
+          overflow: 'hidden',
+          height: '100vh'
+        }}>
+          {!isMobile && (
+            <div style={{ padding: '16px', borderBottom: '1px solid #1f2937', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              {sidebarOpen && <span style={{ fontWeight: 'bold', fontSize: '15px', letterSpacing: '1px' }}>solar ERP</span>}
+              <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex' }}>
+                {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+              </button>
+            </div>
+          )}
+          {isMobile && (
+            <div style={{ padding: '16px', borderBottom: '1px solid #1f2937', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontWeight: 'bold', fontSize: '15px', letterSpacing: '1px' }}>solar ERP</span>
+              <button onClick={() => setMobileMenuOpen(false)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex' }}>
+                <X size={18} />
+              </button>
+            </div>
+          )}
           <div style={{ flex: 1, overflowY: 'auto', padding: '12px 8px' }}>
             {cm.main.length > 0 && (
               <>
-                {sidebarOpen && <p style={{ fontSize: '10px', color: '#6b7280', margin: '8px 12px 6px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>Main</p>}
+                {(sidebarOpen || isMobile) && <p style={{ fontSize: '10px', color: '#6b7280', margin: '8px 12px 6px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>Main</p>}
                 {cm.main.map(item => (
-                  <button key={item.id} onClick={() => setActiveSubMenu(item.id)} style={{
+                  <button key={item.id} onClick={() => handleSubMenuClick(item.id)} style={{
                     width: '100%', display: 'flex', alignItems: 'center', gap: '10px',
                     padding: '10px 12px', borderRadius: '8px', border: 'none',
                     background: activeSubMenu === item.id ? '#2563eb' : 'transparent',
@@ -2835,17 +2883,17 @@ const App = () => {
                     cursor: 'pointer', fontSize: '13px', textAlign: 'left', marginBottom: '2px', fontFamily: 'inherit'
                   }}>
                     <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: activeSubMenu === item.id ? '#fff' : '#60a5fa', flexShrink: 0 }} />
-                    {sidebarOpen && <span>{item.label}</span>}
+                    {(sidebarOpen || isMobile) && <span>{item.label}</span>}
                   </button>
                 ))}
               </>
             )}
             {cm.masters.length > 0 && (
               <>
-                {sidebarOpen && <p style={{ fontSize: '10px', color: '#fbbf24', margin: '16px 12px 6px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}><Database size={10} /> Masters</p>}
-                {!sidebarOpen && <div style={{ height: '1px', background: '#374151', margin: '12px 8px' }} />}
+                {(sidebarOpen || isMobile) && <p style={{ fontSize: '10px', color: '#fbbf24', margin: '16px 12px 6px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}><Database size={10} /> Masters</p>}
+                {!sidebarOpen && !isMobile && <div style={{ height: '1px', background: '#374151', margin: '12px 8px' }} />}
                 {cm.masters.map(item => (
-                  <button key={item.id} onClick={() => setActiveSubMenu(item.id)} style={{
+                  <button key={item.id} onClick={() => handleSubMenuClick(item.id)} style={{
                     width: '100%', display: 'flex', alignItems: 'center', gap: '10px',
                     padding: '9px 12px', borderRadius: '8px', border: 'none',
                     background: activeSubMenu === item.id ? '#7c3aed' : 'transparent',
@@ -2853,23 +2901,23 @@ const App = () => {
                     cursor: 'pointer', fontSize: '12.5px', textAlign: 'left', marginBottom: '2px', fontFamily: 'inherit'
                   }}>
                     <List size={12} style={{ flexShrink: 0 }} />
-                    {sidebarOpen && <span>{item.label}</span>}
+                    {(sidebarOpen || isMobile) && <span>{item.label}</span>}
                   </button>
                 ))}
               </>
             )}
           </div>
           <div style={{ padding: '12px', borderTop: '1px solid #1f2937' }}>
-            {sidebarOpen ? (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ width: '30px', height: '30px', background: '#374151', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><User size={14} /></div>
-                  <div>
-                    <p style={{ fontSize: '12px', fontWeight: '600', margin: 0 }}>{user?.name || 'Admin'}</p>
-                    <p style={{ fontSize: '10px', color: '#9ca3af', margin: 0 }}>{user?.role || 'Super Admin'}</p>
+            {(sidebarOpen || isMobile) ? (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
+                  <div style={{ width: '30px', height: '30px', background: '#374151', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><User size={14} /></div>
+                  <div style={{ minWidth: 0 }}>
+                    <p style={{ fontSize: '12px', fontWeight: '600', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.name || 'Admin'}</p>
+                    <p style={{ fontSize: '10px', color: '#9ca3af', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.role || 'Super Admin'}</p>
                   </div>
                 </div>
-                <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex' }}><LogOut size={14} /></button>
+                <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex', flexShrink: 0 }}><LogOut size={14} /></button>
               </div>
             ) : (
               <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', width: '100%', display: 'flex', justifyContent: 'center' }}><LogOut size={16} /></button>
@@ -2878,27 +2926,29 @@ const App = () => {
         </div>
 
         {/* MAIN */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
           <div style={{ background: '#fff', borderBottom: '1px solid #e5e7eb', flexShrink: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 24px' }}>
-              <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#1f2937', margin: 0 }}>
-                {topMenus.find(m => m.id === activeMenu)?.label} / {cm.main.find(s => s.id === activeSubMenu)?.label || cm.masters.find(m => m.id === activeSubMenu)?.label || ''}
-              </h2>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <span style={{ fontSize: '12px', color: '#4b5563' }}>Welcome, {user?.name || 'Admin'}</span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px)', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0, flex: 1 }}>
+                {isMobile && (
+                  <button onClick={() => setMobileMenuOpen(true)} style={{ background: 'transparent', border: '1px solid #d1d5db', borderRadius: '6px', padding: '6px', cursor: 'pointer', display: 'flex', flexShrink: 0 }}>
+                    <List size={16} />
+                  </button>
+                )}
+                <h2 style={{ fontSize: 'clamp(11px, 2.2vw, 15px)', fontWeight: '600', color: '#1f2937', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {topMenus.find(m => m.id === activeMenu)?.label} / {cm.main.find(s => s.id === activeSubMenu)?.label || cm.masters.find(m => m.id === activeSubMenu)?.label || ''}
+                </h2>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(6px, 1.5vw, 16px)', flexShrink: 0 }}>
+                {!isMobile && <span style={{ fontSize: '12px', color: '#4b5563' }}>Welcome, {user?.name || 'Admin'}</span>}
                 <button style={{ background: 'transparent', border: 'none', color: '#4b5563', cursor: 'pointer', display: 'flex' }}><Bell size={16} /></button>
-                <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#dc2626', fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}>Logout</button>
+                <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#dc2626', fontSize: 'clamp(10px, 2vw, 12px)', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit' }}>Logout</button>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '4px', padding: '0 24px', borderTop: '1px solid #f3f4f6', overflowX: 'auto' }}>
+            <div style={{ display: 'flex', gap: '2px', padding: '0 clamp(8px, 2vw, 24px)', borderTop: '1px solid #f3f4f6', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
               {topMenus.map(menu => (
-                <button key={menu.id} onClick={() => {
-                  setActiveMenu(menu.id);
-                  const cfg = MENU_CONFIG[menu.id];
-                  const first = cfg.main[0] || cfg.masters[0];
-                  if (first) setActiveSubMenu(first.id);
-                }} style={{
-                  padding: '10px 14px', fontSize: '13px', fontWeight: '500', background: 'transparent', border: 'none',
+                <button key={menu.id} onClick={() => handleMenuClick(menu.id)} style={{
+                  padding: 'clamp(8px, 1.8vw, 10px) clamp(8px, 1.8vw, 14px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '500', background: 'transparent', border: 'none',
                   borderBottom: activeMenu === menu.id ? '2px solid #2563eb' : '2px solid transparent',
                   color: activeMenu === menu.id ? '#2563eb' : '#4b5563',
                   cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit'
