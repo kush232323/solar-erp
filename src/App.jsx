@@ -6,184 +6,40 @@ import dayjs from 'dayjs';
 import * as XLSX from 'xlsx';
 import {
   Search, Filter, Plus, Edit, Trash2, Eye, X, ChevronLeft, ChevronRight,
-  RefreshCw, ChevronDown, CheckCircle, Printer, FileSpreadsheet,
+  RefreshCw, CheckCircle, Printer, FileSpreadsheet,
   Hash, User, Globe, FileText, Shield, Calendar, Tag, Gauge, Camera, MapPin,
   Users, Building2, FolderOpen, ClipboardList, Bell, LogOut, Lock, Mail,
   Phone, Award, TrendingUp, AlertCircle, Clock, Database, Columns,
   Smartphone, Download, Upload, Activity, Layers, FileCheck,
-  MapPinned, Banknote, Wallet, List, Wifi, Bug, Rocket, Server,
-  BellRing, PlayCircle, Box, Zap, Ruler, TreePine, FileWarning
+  Banknote, Wallet, List, Bug, Rocket, Server, Zap, Ruler, TreePine, FileWarning,
+  Construction, ArrowRight
 } from 'lucide-react';
 
 // =============================================
-// DEMO DATA (unchanged)
+// MSKVY CONTRACTORS — ALL 109 RECORDS from list-1.xlsx
 // =============================================
-const DEMO_PROJECTS = [
-  { id: 1, s_no: 1, site_code: 'SP-MUM-001', name: 'Rooftop Solar Plant - Unit A', location: 'Mumbai Refinery', category: 'Rooftop Solar', capacity: '250 kW', contractor: 'SunPower Ltd', field_worker: 'Rajesh Kumar', status: 'Approved', progress: 75, start_date: '2024-01-10', end_date: '2024-03-15', remarks: 'On track' },
-  { id: 2, s_no: 2, site_code: 'SP-KOY-002', name: 'Ground Mount Solar - Plant 2', location: 'Koyali Refinery', category: 'Ground Mount', capacity: '500 kW', contractor: 'GreenTech Solutions', field_worker: 'Suresh Patel', status: 'Pending', progress: 30, start_date: '2024-02-01', end_date: '2024-05-30', remarks: 'Awaiting approval' },
-  { id: 3, s_no: 3, site_code: 'SP-PAN-003', name: 'Solar Water Heater - Admin Block', location: 'Panipat Refinery', category: 'Solar Water Heater', capacity: '100 kW', contractor: 'EcoEnergy Pvt Ltd', field_worker: 'Amit Singh', status: 'Correction', progress: 60, start_date: '2024-01-20', end_date: '2024-04-10', remarks: 'Photo re-upload needed' },
-  { id: 4, s_no: 4, site_code: 'SP-BAR-004', name: 'Solar Street Light - Township', location: 'Barauni Refinery', category: 'Street Light', capacity: '50 kW', contractor: 'SunPower Ltd', field_worker: 'Vikram Sharma', status: 'Completed', progress: 100, start_date: '2023-11-05', end_date: '2024-01-20', remarks: 'Completed' },
-  { id: 5, s_no: 5, site_code: 'SP-MAT-005', name: 'Solar Pump Installation - Site 5', location: 'Mathura Refinery', category: 'Solar Pump', capacity: '75 kW', contractor: 'GreenTech Solutions', field_worker: 'Deepak Verma', status: 'Approved', progress: 45, start_date: '2024-02-15', end_date: '2024-05-01', remarks: 'In progress' },
-  { id: 6, s_no: 6, site_code: 'SP-JAM-006', name: 'Solar Panel Cleaning System', location: 'Jamnagar Refinery', category: 'Rooftop Solar', capacity: '200 kW', contractor: 'EcoEnergy Pvt Ltd', field_worker: 'Ravi Nair', status: 'Pending', progress: 15, start_date: '2024-03-01', end_date: '2024-06-30', remarks: 'Just started' },
-  { id: 7, s_no: 7, site_code: 'SP-GUW-007', name: 'Solar Rooftop - Guwahati', location: 'Guwahati Refinery', category: 'Rooftop Solar', capacity: '150 kW', contractor: 'SunPower Ltd', field_worker: 'Manoj Das', status: 'Approved', progress: 55, start_date: '2024-01-25', end_date: '2024-04-20', remarks: 'Good progress' },
-  { id: 8, s_no: 8, site_code: 'SP-DIG-008', name: 'Ground Solar - Digboi', location: 'Digboi Refinery', category: 'Ground Mount', capacity: '300 kW', contractor: 'GreenTech Solutions', field_worker: 'Pankaj Gogoi', status: 'Pending', progress: 10, start_date: '2024-03-10', end_date: '2024-07-15', remarks: 'Survey ongoing' },
-];
-
-const DEMO_CONTRACTORS = [
-  { id: 1, s_no: 1, name: 'SunPower Ltd', type: 'Solar Installer', contact: '9876543210', email: 'info@sunpower.com', license: 'LIC-2024-001', license_type: 'Electrical License', projects: 3, status: 'Approved', joined: '2023-06-15', remarks: 'Top performer' },
-  { id: 2, s_no: 2, name: 'GreenTech Solutions', type: 'Solar Installer', contact: '9876543211', email: 'contact@greentech.com', license: 'LIC-2024-002', license_type: 'Electrical License', projects: 3, status: 'Approved', joined: '2023-08-20', remarks: 'Good' },
-  { id: 3, s_no: 3, name: 'EcoEnergy Pvt Ltd', type: 'Civil Contractor', contact: '9876543212', email: 'sales@ecoenergy.com', license: 'LIC-2024-003', license_type: 'Civil License', projects: 2, status: 'Pending', joined: '2024-01-10', remarks: 'Verification pending' },
-  { id: 4, s_no: 4, name: 'Bharat Solar Pvt Ltd', type: 'Electrical Contractor', contact: '9876543213', email: 'bharat@bharatsolar.com', license: 'LIC-2024-004', license_type: 'Electrical License', projects: 1, status: 'Approved', joined: '2023-11-05', remarks: 'New' },
-  { id: 5, s_no: 5, name: 'MegaSun Technologies', type: 'Mechanical Contractor', contact: '9876543214', email: 'info@megasun.com', license: 'LIC-2024-005', license_type: 'Safety License', projects: 0, status: 'Pending', joined: '2024-02-20', remarks: 'Under review' },
-];
-
-const DEMO_FIELD_WORKERS = [
-  { id: 1, s_no: 1, name: 'Rajesh Kumar', phone: '9876500001', role: 'Installer', skill: 'Panel Installation', contractor: 'SunPower Ltd', assigned_sites: 3, status: 'Active', last_activity: '2024-03-10', remarks: 'Active' },
-  { id: 2, s_no: 2, name: 'Suresh Patel', phone: '9876500002', role: 'Supervisor', skill: 'Wiring', contractor: 'GreenTech Solutions', assigned_sites: 2, status: 'Active', last_activity: '2024-03-12', remarks: 'Active' },
-  { id: 3, s_no: 3, name: 'Amit Singh', phone: '9876500003', role: 'Technician', skill: 'Mounting', contractor: 'EcoEnergy Pvt Ltd', assigned_sites: 2, status: 'Active', last_activity: '2024-03-11', remarks: 'Active' },
-  { id: 4, s_no: 4, name: 'Vikram Sharma', phone: '9876500004', role: 'Installer', skill: 'Panel Installation', contractor: 'SunPower Ltd', assigned_sites: 1, status: 'Active', last_activity: '2024-03-08', remarks: 'Active' },
-  { id: 5, s_no: 5, name: 'Deepak Verma', phone: '9876500005', role: 'Helper', skill: 'Wiring', contractor: 'GreenTech Solutions', assigned_sites: 2, status: 'Inactive', last_activity: '2024-02-28', remarks: 'On leave' },
-  { id: 6, s_no: 6, name: 'Ravi Nair', phone: '9876500006', role: 'Installer', skill: 'Panel Installation', contractor: 'EcoEnergy Pvt Ltd', assigned_sites: 2, status: 'Active', last_activity: '2024-03-09', remarks: 'Active' },
-  { id: 7, s_no: 7, name: 'Manoj Das', phone: '9876500007', role: 'Technician', skill: 'Mounting', contractor: 'SunPower Ltd', assigned_sites: 1, status: 'Active', last_activity: '2024-03-10', remarks: 'Active' },
-  { id: 8, s_no: 8, name: 'Pankaj Gogoi', phone: '9876500008', role: 'Supervisor', skill: 'Wiring', contractor: 'GreenTech Solutions', assigned_sites: 1, status: 'Active', last_activity: '2024-03-11', remarks: 'Active' },
-];
-
-const DEMO_REPORTS = [
-  { id: 1, s_no: 1, project: 'Rooftop Solar Plant - Unit A', worker: 'Rajesh Kumar', report_type: 'Daily Report', priority: 'High', submitted: '2024-03-10', status: 'Approved', photos: 8, gps: 'Yes', remarks: 'All panels installed' },
-  { id: 2, s_no: 2, project: 'Ground Mount Solar - Plant 2', worker: 'Suresh Patel', report_type: 'Weekly Report', priority: 'Medium', submitted: '2024-03-12', status: 'Pending', photos: 12, gps: 'Yes', remarks: 'Awaiting review' },
-  { id: 3, s_no: 3, project: 'Solar Water Heater - Admin Block', worker: 'Amit Singh', report_type: 'Daily Report', priority: 'High', submitted: '2024-03-11', status: 'Correction', photos: 5, gps: 'Yes', remarks: 'Photo quality poor' },
-  { id: 4, s_no: 4, project: 'Solar Street Light - Township', worker: 'Vikram Sharma', report_type: 'Final Report', priority: 'High', submitted: '2024-03-08', status: 'Approved', photos: 15, gps: 'Yes', remarks: 'Completed' },
-  { id: 5, s_no: 5, project: 'Solar Pump Installation - Site 5', worker: 'Deepak Verma', report_type: 'Daily Report', priority: 'Medium', submitted: '2024-03-09', status: 'Approved', photos: 10, gps: 'Yes', remarks: 'GPS verified' },
-  { id: 6, s_no: 6, project: 'Solar Panel Cleaning System', worker: 'Ravi Nair', report_type: 'Daily Report', priority: 'Low', submitted: '2024-03-10', status: 'Pending', photos: 6, gps: 'Yes', remarks: 'Initial report' },
-];
-
-const DEMO_USERS = [
-  { id: 1, s_no: 1, name: 'Admin User', email: 'admin@solar.com', role: 'Super Admin', status: 'Active', remarks: 'System admin' },
-  { id: 2, s_no: 2, name: 'SunPower Ltd', email: 'info@sunpower.com', role: 'Contractor', status: 'Active', remarks: 'Approved' },
-  { id: 3, s_no: 3, name: 'GreenTech Solutions', email: 'contact@greentech.com', role: 'Contractor', status: 'Active', remarks: 'Approved' },
-  { id: 4, s_no: 4, name: 'Rajesh Kumar', email: 'rajesh@solar.com', role: 'Field Worker', status: 'Active', remarks: 'Assigned' },
-  { id: 5, s_no: 5, name: 'EcoEnergy Pvt Ltd', email: 'sales@ecoenergy.com', role: 'Contractor', status: 'Active', remarks: 'Approved' },
-  { id: 6, s_no: 6, name: 'Suresh Patel', email: 'suresh@solar.com', role: 'Field Worker', status: 'Active', remarks: 'Assigned' },
-];
-
-const DEMO_PHOTOS = Array.from({ length: 12 }, (_, i) => ({
-  id: i + 1, s_no: i + 1, name: `Site Photo #${i + 1}`,
-  project: ['Rooftop Solar Plant - Unit A', 'Ground Mount Solar - Plant 2', 'Solar Water Heater - Admin Block'][i % 3],
-  worker: ['Rajesh Kumar', 'Suresh Patel', 'Amit Singh'][i % 3],
-  media_type: 'Photograph', category: ['Site Photo', 'Progress Photo', 'Issue Photo'][i % 3],
-  gps: '19.0760, 72.8777', date: '2024-03-10', status: i % 3 === 0 ? 'Approved' : (i % 3 === 1 ? 'Pending' : 'Approved')
-}));
-
-const DEMO_DOCUMENTS = [
-  { id: 1, s_no: 1, name: 'Project Quotation.pdf', project: 'Rooftop Solar Plant - Unit A', type: 'Quotation', size: '2.4 MB', uploaded: '2024-01-15', status: 'Approved' },
-  { id: 2, s_no: 2, name: 'Site Layout.pdf', project: 'Ground Mount Solar - Plant 2', type: 'Layout', size: '1.8 MB', uploaded: '2024-02-01', status: 'Approved' },
-  { id: 3, s_no: 3, name: 'License Copy.pdf', project: 'Solar Water Heater - Admin Block', type: 'License', size: '0.9 MB', uploaded: '2024-02-10', status: 'Pending' },
-  { id: 4, s_no: 4, name: 'Approval Letter.pdf', project: 'Solar Street Light - Township', type: 'Approval', size: '1.2 MB', uploaded: '2024-01-20', status: 'Approved' },
-  { id: 5, s_no: 5, name: 'Technical Spec.pdf', project: 'Solar Pump Installation - Site 5', type: 'Specification', size: '3.1 MB', uploaded: '2024-02-10', status: 'Approved' },
-];
-
-const DEMO_ACTIVITIES = [
-  { id: 1, s_no: 1, type: 'Report Submission', description: 'Rajesh Kumar submitted field report', user: 'Rajesh Kumar', date: '2024-03-10 14:30', status: 'Completed' },
-  { id: 2, s_no: 2, type: 'Project Approval', description: 'Admin approved SunPower project', user: 'Admin User', date: '2024-03-10 11:15', status: 'Completed' },
-  { id: 3, s_no: 3, type: 'Correction Request', description: 'Correction for Solar Heater project', user: 'Admin User', date: '2024-03-09 16:45', status: 'Pending' },
-  { id: 4, s_no: 4, type: 'Contractor Registration', description: 'New contractor registered', user: 'Bharat Solar Pvt Ltd', date: '2024-03-08 09:20', status: 'Pending' },
-  { id: 5, s_no: 5, type: 'Photo Upload', description: '12 photos uploaded', user: 'Suresh Patel', date: '2024-03-08 15:00', status: 'Completed' },
-];
-
-const DEMO_PROJECT_SITES = [
-  { id: 1, s_no: 1, site_code: 'SITE-MUM-01', project: 'Rooftop Solar Plant - Unit A', category: 'Rooftop Solar', location: 'Mumbai Refinery', area: '2500 sqft', gps: '19.0760, 72.8777', status: 'Active', remarks: 'Prime location' },
-  { id: 2, s_no: 2, site_code: 'SITE-KOY-02', project: 'Ground Mount Solar - Plant 2', category: 'Ground Mount', location: 'Koyali Refinery', area: '5000 sqft', gps: '22.3126, 73.1812', status: 'Active', remarks: 'Large ground area' },
-  { id: 3, s_no: 3, site_code: 'SITE-PAN-03', project: 'Solar Water Heater - Admin Block', category: 'Solar Water Heater', location: 'Panipat Refinery', area: '800 sqft', gps: '29.3909, 76.9635', status: 'Active', remarks: 'Admin roof' },
-  { id: 4, s_no: 4, site_code: 'SITE-BAR-04', project: 'Solar Street Light - Township', category: 'Street Light', location: 'Barauni Refinery', area: '1500 sqft', gps: '25.4667, 85.9667', status: 'Completed', remarks: 'Township area' },
-];
-
-const DEMO_PROJECT_MILESTONES = [
-  { id: 1, s_no: 1, project: 'Rooftop Solar Plant - Unit A', milestone_type: 'Site Survey', milestone: 'Site Survey Complete', target_date: '2024-01-15', actual_date: '2024-01-14', status: 'Completed', remarks: 'Ahead of schedule' },
-  { id: 2, s_no: 2, project: 'Ground Mount Solar - Plant 2', milestone_type: 'Foundation', milestone: 'Foundation Work', target_date: '2024-02-20', actual_date: '2024-02-25', status: 'Completed', remarks: '5 days late' },
-  { id: 3, s_no: 3, project: 'Solar Water Heater - Admin Block', milestone_type: 'Installation', milestone: 'Panel Installation', target_date: '2024-03-15', actual_date: '', status: 'In Progress', remarks: 'Ongoing' },
-  { id: 4, s_no: 4, project: 'Solar Street Light - Township', milestone_type: 'Testing', milestone: 'Final Testing', target_date: '2024-01-15', actual_date: '2024-01-15', status: 'Completed', remarks: 'On time' },
-];
-
-const DEMO_PROJECT_BUDGETS = [
-  { id: 1, s_no: 1, project: 'Rooftop Solar Plant - Unit A', category: 'Rooftop Solar', sanctioned: '2500000', spent: '1875000', balance: '625000', utilization: '75%', status: 'Approved', remarks: 'On budget' },
-  { id: 2, s_no: 2, project: 'Ground Mount Solar - Plant 2', category: 'Ground Mount', sanctioned: '5000000', spent: '1500000', balance: '3500000', utilization: '30%', status: 'Approved', remarks: 'Early stage' },
-  { id: 3, s_no: 3, project: 'Solar Water Heater - Admin Block', category: 'Solar Water Heater', sanctioned: '1000000', spent: '600000', balance: '400000', utilization: '60%', status: 'Correction', remarks: 'Pending approval' },
-  { id: 4, s_no: 4, project: 'Solar Street Light - Township', category: 'Street Light', sanctioned: '500000', spent: '500000', balance: '0', utilization: '100%', status: 'Completed', remarks: 'Fully utilized' },
-];
-
-const DEMO_PROJECT_DOCUMENTS = [
-  { id: 1, s_no: 1, project: 'Rooftop Solar Plant - Unit A', doc_name: 'Project Quotation.pdf', doc_type: 'Quotation', size: '2.4 MB', uploaded: '2024-01-05', status: 'Approved', remarks: 'Final version' },
-  { id: 2, s_no: 2, project: 'Ground Mount Solar - Plant 2', doc_name: 'Site Layout.pdf', doc_type: 'Layout', size: '1.8 MB', uploaded: '2024-01-28', status: 'Approved', remarks: 'Approved by admin' },
-  { id: 3, s_no: 3, project: 'Solar Water Heater - Admin Block', doc_name: 'License Copy.pdf', doc_type: 'License', size: '0.9 MB', uploaded: '2024-01-18', status: 'Pending', remarks: 'Under review' },
-];
-
-const DEMO_PROJECT_ASSIGNMENTS = [
-  { id: 1, s_no: 1, project: 'Rooftop Solar Plant - Unit A', contractor: 'SunPower Ltd', worker: 'Rajesh Kumar', role: 'Installer', assigned_date: '2024-01-12', status: 'Active', remarks: 'Lead installer' },
-  { id: 2, s_no: 2, project: 'Ground Mount Solar - Plant 2', contractor: 'GreenTech Solutions', worker: 'Suresh Patel', role: 'Supervisor', assigned_date: '2024-02-05', status: 'Active', remarks: 'Field supervisor' },
-  { id: 3, s_no: 3, project: 'Solar Water Heater - Admin Block', contractor: 'EcoEnergy Pvt Ltd', worker: 'Amit Singh', role: 'Technician', assigned_date: '2024-01-22', status: 'Active', remarks: 'Technical work' },
-];
-
-const DEMO_CONTRACTOR_APPS = [
-  { id: 1, s_no: 1, contractor: 'SunPower Ltd', app_name: 'Contractor App', version: '1.2.0', device: 'Android 12', os_version: '12.0', last_sync: '2024-03-10 14:30', status: 'Active', projects: 3, remarks: 'Latest version' },
-  { id: 2, s_no: 2, contractor: 'GreenTech Solutions', app_name: 'Contractor App', version: '1.1.5', device: 'Android 11', os_version: '11.0', last_sync: '2024-03-12 09:15', status: 'Active', projects: 3, remarks: 'Update available' },
-  { id: 3, s_no: 3, contractor: 'EcoEnergy Pvt Ltd', app_name: 'Contractor App', version: '1.0.8', device: 'Android 10', os_version: '10.0', last_sync: '2024-03-08 17:45', status: 'Inactive', projects: 2, remarks: 'Old version' },
-  { id: 4, s_no: 4, contractor: 'Bharat Solar Pvt Ltd', app_name: 'Contractor App', version: '1.2.0', device: 'Android 13', os_version: '13.0', last_sync: '2024-03-11 10:20', status: 'Active', projects: 1, remarks: 'Latest' },
-];
-
-const DEMO_WORKER_APPS = [
-  { id: 1, s_no: 1, worker: 'Rajesh Kumar', app_name: 'Field Worker App', version: '1.2.0', device: 'Android 12', last_sync: '2024-03-10 14:30', gps: 'Enabled', status: 'Active', remarks: 'Active' },
-  { id: 2, s_no: 2, worker: 'Suresh Patel', app_name: 'Field Worker App', version: '1.2.0', device: 'Android 12', last_sync: '2024-03-12 09:15', gps: 'Enabled', status: 'Active', remarks: 'Active' },
-  { id: 3, s_no: 3, worker: 'Amit Singh', app_name: 'Field Worker App', version: '1.1.5', device: 'Android 11', last_sync: '2024-03-11 16:20', gps: 'Enabled', status: 'Active', remarks: 'Update available' },
-  { id: 4, s_no: 4, worker: 'Vikram Sharma', app_name: 'Field Worker App', version: '1.2.0', device: 'Android 12', last_sync: '2024-03-08 12:00', gps: 'Disabled', status: 'Active', remarks: 'GPS off' },
-  { id: 5, s_no: 5, worker: 'Deepak Verma', app_name: 'Field Worker App', version: '1.0.8', device: 'Android 10', last_sync: '2024-02-28 10:30', gps: 'Disabled', status: 'Inactive', remarks: 'On leave' },
-  { id: 6, s_no: 6, worker: 'Ravi Nair', app_name: 'Field Worker App', version: '1.2.0', device: 'Android 13', last_sync: '2024-03-09 13:00', gps: 'Enabled', status: 'Active', remarks: 'Active' },
-];
-
-const DEMO_APP_VERSIONS = [
-  { id: 1, s_no: 1, app: 'Contractor App', version: '1.2.0', released: '2024-03-01', size: '24.5 MB', downloads: 45, status: 'Active', remarks: 'Stable release' },
-  { id: 2, s_no: 2, app: 'Contractor App', version: '1.1.5', released: '2024-01-15', size: '23.8 MB', downloads: 120, status: 'Deprecated', remarks: 'Old version' },
-  { id: 3, s_no: 3, app: 'Contractor App', version: '1.0.8', released: '2023-11-10', size: '22.1 MB', downloads: 210, status: 'Deprecated', remarks: 'Very old' },
-  { id: 4, s_no: 4, app: 'Field Worker App', version: '1.2.0', released: '2024-03-01', size: '28.2 MB', downloads: 78, status: 'Active', remarks: 'GPS enhanced' },
-  { id: 5, s_no: 5, app: 'Field Worker App', version: '1.1.5', released: '2024-01-15', size: '26.5 MB', downloads: 210, status: 'Deprecated', remarks: 'Old version' },
-  { id: 6, s_no: 6, app: 'Field Worker App', version: '1.0.8', released: '2023-11-10', size: '25.0 MB', downloads: 340, status: 'Deprecated', remarks: 'Very old' },
-];
-
-const DEMO_APP_CRASH_LOGS = [
-  { id: 1, s_no: 1, app: 'Contractor App', version: '1.1.5', user: 'SunPower Ltd', crash_type: 'Network Error', occurred: '2024-03-09 14:30', device: 'Android 11', status: 'Resolved', remarks: 'Fixed in 1.2.0' },
-  { id: 2, s_no: 2, app: 'Field Worker App', version: '1.1.5', user: 'Amit Singh', crash_type: 'GPS Timeout', occurred: '2024-03-10 11:15', device: 'Android 11', status: 'Pending', remarks: 'Under investigation' },
-  { id: 3, s_no: 3, app: 'Field Worker App', version: '1.2.0', user: 'Vikram Sharma', crash_type: 'Camera Error', occurred: '2024-03-11 09:45', device: 'Android 12', status: 'Resolved', remarks: 'User restarted app' },
-];
-
-const DEMO_APP_FEEDBACK = [
-  { id: 1, s_no: 1, app: 'Contractor App', user: 'SunPower Ltd', rating: '5', feedback: 'Excellent app, easy to use', submitted: '2024-03-10', status: 'Reviewed', remarks: 'Positive' },
-  { id: 2, s_no: 2, app: 'Field Worker App', user: 'Rajesh Kumar', rating: '4', feedback: 'GPS works great, but needs offline mode', submitted: '2024-03-09', status: 'Reviewed', remarks: 'Feature request' },
-  { id: 3, s_no: 3, app: 'Contractor App', user: 'GreenTech Solutions', rating: '3', feedback: 'Sometimes slow to load reports', submitted: '2024-03-08', status: 'Pending', remarks: 'Performance' },
-];
-
-const DEMO_APP_RELEASES = [
-  { id: 1, s_no: 1, app: 'Contractor App', version: '1.2.0', release_type: 'Major', released: '2024-03-01', features: 'New dashboard, bug fixes', status: 'Released', remarks: 'Stable' },
-  { id: 2, s_no: 2, app: 'Contractor App', version: '1.2.1', release_type: 'Patch', released: '2024-03-15', features: 'Minor bug fixes', status: 'In Testing', remarks: 'QA in progress' },
-  { id: 3, s_no: 3, app: 'Field Worker App', version: '1.3.0', release_type: 'Major', released: '2024-04-01', features: 'Offline mode, GPS enhance', status: 'In Development', remarks: 'Dev stage' },
-];
-
-// MSKVY DATA (shortened for brevity but all records present)
 const MSKVY_CONTRACTORS = [
+  // Sr.1 KRIVI (4)
   { id: 1, s_no: 1, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 01', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '8380868899', substation: '33/11 KV NIGHOJ', area: '34.05', solar: '', remarks: '' },
   { id: 2, s_no: 2, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 02', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV JAWLA', area: '33.55', solar: '', remarks: '' },
   { id: 3, s_no: 3, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 03', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV SUPA OLD', area: '28.1', solar: '', remarks: '' },
   { id: 4, s_no: 4, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 04', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV LONI MAWALA', area: '25.65', solar: '', remarks: '' },
+  // Sr.2 KYRA (6)
   { id: 5, s_no: 5, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 01', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV WADZIRE', area: '24.45', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
   { id: 6, s_no: 6, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 02', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV SUPA MIDC', area: '11', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
   { id: 7, s_no: 7, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 03', district: 'AHILYANAGAR', taluka: 'Pathardi', supervisor: 'Asif Sayyad', contact: '9970289478', substation: '33/11 KV KASAR PIMPALGAON', area: '27.35', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
   { id: 8, s_no: 8, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 04', district: 'AHILYANAGAR', taluka: 'Pathardi', supervisor: 'Asif Sayyad', contact: '', substation: '33/11 KV MANIKDAUNDI', area: '14.05', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
   { id: 9, s_no: 9, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 05', district: 'AHILYANAGAR', taluka: 'Rahata', supervisor: 'Shrikant Labade', contact: '8010029784', substation: '33/11 KV KORHALE', area: '26.6', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
   { id: 10, s_no: 10, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 06', district: 'AHILYANAGAR', taluka: 'Sangamner', supervisor: 'Shrikant Labade', contact: '', substation: '33/11 KV PEMGIRI', area: '34.85', solar: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
+  // Sr.3 RK (2)
   { id: 11, s_no: 11, contractor: 'R K Engineers & Consultants', director: 'Mr. Karan Masuria', director_contact: '9601199047', file_name: 'RK 01', district: 'AHILYANAGAR', taluka: 'Sangamner', supervisor: 'Shrikant Labade', contact: '', substation: '33/11 KV NIMON', area: '30.65', solar: '', remarks: '6 MW plant already connected. Land in KMZ was private, farmer unaware of lease.' },
   { id: 12, s_no: 12, contractor: 'R K Engineers & Consultants', director: 'Mr. Karan Masuria', director_contact: '9601199047', file_name: 'RK 02', district: 'AHILYANAGAR', taluka: 'Shrigonda', supervisor: 'Yogesh Parkhe', contact: '9890440425', substation: '33/11 KV PIMPALGAON PISA', area: '42.65', solar: '', remarks: 'Land private, farmer growing sugarcane, unaware of lease.' },
+  // Sr.4 RVP (4)
   { id: 13, s_no: 13, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 01', district: 'AHILYANAGAR', taluka: 'Karjat', supervisor: 'Yogesh Parkhe', contact: '', substation: '33/11 KV PATEWADI', area: '25.7', solar: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
   { id: 14, s_no: 14, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 02', district: 'AHILYANAGAR', taluka: 'Nevasa', supervisor: 'Asif Sayyad', contact: '', substation: '33/11 KV MIDC PANDHARIPUL', area: '31.40', solar: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
   { id: 15, s_no: 15, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 03', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Parkhe', contact: '', substation: '33/11 KV TAKALI DHOKESHWAR', area: '43.95', solar: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
   { id: 16, s_no: 16, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 04', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Parkhe', contact: '', substation: '33/11 KV RALEGAN THERPAL', area: '34.45', solar: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
+  // Sr.5 SOLACE (7)
   { id: 17, s_no: 17, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 01', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '9359874996', substation: '33/11 KV KURHE', area: '26', solar: '', remarks: '5 MW already connected. Private land, farmer unaware of lease.' },
   { id: 18, s_no: 18, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 02', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '', substation: '33/11 KV BHARWAS', area: '19.75', solar: '', remarks: '' },
   { id: 19, s_no: 19, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 03', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '', substation: '33/11KV GANDHALI', area: '19.05', solar: '', remarks: '3 MW connected, 4 MW under construction. Private land, farmer unaware of lease.' },
@@ -191,20 +47,126 @@ const MSKVY_CONTRACTORS = [
   { id: 21, s_no: 21, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 05', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '', substation: '33/11 KV ANTURLI (DHAR)', area: '15.65', solar: '', remarks: 'Only 4 MW spare capacity. Land owner unaware of lease.' },
   { id: 22, s_no: 22, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 06', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Prithviraj Bhoi', contact: '9096472314', substation: '33/11 KV JANVA', area: '11.65', solar: '', remarks: '2.25 MW already connected. Land in KMZ was Forest Land.' },
   { id: 23, s_no: 23, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 07', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Prithviraj Bhoi', contact: '', substation: 'DAHIWAD', area: '6.55', solar: '', remarks: '' },
+  // Sr.6 NVVP (5)
   { id: 24, s_no: 24, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 01', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '9922140587', substation: '33/11 KV KURWEL', area: '34.25', solar: '', remarks: '7 MW connected, only 3 MW required. Farming land, farmer denied lease.' },
   { id: 25, s_no: 25, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 02', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 KV VIRWADE', area: '27.3', solar: '', remarks: 'Land is farming land.' },
   { id: 26, s_no: 26, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 03', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 KV NIMGAVHAN', area: '15.45', solar: '', remarks: '7 MW connected, only 3 MW required.' },
   { id: 27, s_no: 27, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 04', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 KV BUDHGAON', area: '11.15', solar: '', remarks: 'Land clear, ownership not identified.' },
   { id: 28, s_no: 28, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 05', district: 'JALGAON', taluka: 'Erandol', supervisor: 'Gajanan Sonawane', contact: '9529887256', substation: '33/11 KV KASODA', area: '40.65', solar: '', remarks: '' },
+  // Sr.7 RKBG (2)
   { id: 29, s_no: 29, contractor: 'RKBG Greentech Pvt Ltd', director: '', director_contact: '', file_name: 'RKBG 01', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 KV LASUR', area: '70.7', solar: '', remarks: '14 MW connected, only 1 MW spare. Farming land.' },
   { id: 30, s_no: 30, contractor: 'RKBG Greentech Pvt Ltd', director: '', director_contact: '', file_name: 'RKBG 02', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 KV MANGARUL', area: '40.5', solar: '', remarks: '8 MW connected, only 2 MW spare. Farming land.' },
+  // Sr.8 WAN (5)
   { id: 31, s_no: 31, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 01', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV KAJGAON', area: '41.1', solar: '', remarks: 'Survey with EPC & design team. Farming land, farmer denied lease.' },
   { id: 32, s_no: 32, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 02', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV GIRAD', area: '29.7', solar: '', remarks: 'Survey with EPC. Farming land, farmer denied lease.' },
   { id: 33, s_no: 33, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 03', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV LON PIRACHE', area: '22.2', solar: '', remarks: 'Survey with EPC. Farming land, farmer denied lease.' },
   { id: 34, s_no: 34, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 04', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV AMADADA', area: '5.4', solar: '', remarks: 'Survey with EPC. Farming land, farmer denied lease.' },
   { id: 35, s_no: 35, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 05', district: 'JALGAON', taluka: 'Bhusawal', supervisor: 'Hemant Agarwal', contact: '', substation: '33/11 KV VELHALE', area: '39.75', solar: '', remarks: 'Farming land, farmer denied lease. Road too thin for heavy vehicles.' },
+  // Sr.9 SWELECT (16)
+  { id: 36, s_no: 36, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 1', district: 'JALGAON', taluka: 'Jalgaon', supervisor: '', contact: '', substation: '33/11 KV VASANTWADI WAWADADA', area: '15.55', solar: '', remarks: '' },
+  { id: 37, s_no: 37, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 2', district: 'JALGAON', taluka: 'Jamner', supervisor: 'Mangesh Kale', contact: '8483981271', substation: '33/11 KV FATTEPUR', area: '35.2', solar: '', remarks: '' },
+  { id: 38, s_no: 38, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 3', district: 'JALGAON', taluka: 'Jamner', supervisor: 'Mangesh Kale', contact: '', substation: '33/11 KV TONDAPUR', area: '35.15', solar: '', remarks: '' },
+  { id: 39, s_no: 39, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 4', district: 'JALGAON', taluka: 'Jamner', supervisor: 'Mangesh Kale', contact: '', substation: '33/11 KV GARKHEDA', area: '22.25', solar: '', remarks: '' },
+  { id: 40, s_no: 40, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 5', district: 'JALGAON', taluka: 'Muktainagar', supervisor: 'Mangesh Kale', contact: '', substation: '33/11KV HARTALA', area: '11.3', solar: '', remarks: '' },
+  { id: 41, s_no: 41, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 6', district: 'JALGAON', taluka: 'Muktainagar', supervisor: 'Mangesh Kale', contact: '', substation: '33/11 KV VADHODA', area: '7.1', solar: '', remarks: '' },
+  { id: 42, s_no: 42, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 7', district: 'JALGAON', taluka: 'Pachora', supervisor: '', contact: '', substation: '33/11 KV LASGAON', area: '25.4', solar: '', remarks: '' },
+  { id: 43, s_no: 43, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 8', district: 'JALGAON', taluka: 'Parola', supervisor: 'Prithviraj Bhoi', contact: '', substation: '33/11 KV SAVKHEDA', area: '43.80', solar: '', remarks: '9 MW plant already connected. Land in KMZ was private, farmer unaware of lease.' },
+  { id: 44, s_no: 44, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 9', district: 'JALGAON', taluka: 'Parola', supervisor: 'Prithviraj Bhoi', contact: '', substation: '33/11 KV BAHADARPUR', area: '26.35', solar: '', remarks: '5 MW plant already connected. Land in KMZ was Gram Panchayat Land.' },
+  { id: 45, s_no: 45, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 10', district: 'JALGAON', taluka: 'Parola', supervisor: 'Prithviraj Bhoi', contact: '', substation: '33/11 KV RATNAPIMPRI', area: '19.45', solar: '', remarks: '5 MW plant already connected. Land in KMZ was Gram Panchayat Land.' },
+  { id: 46, s_no: 46, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 11', district: 'JALGAON', taluka: 'Raver', supervisor: 'Brijesh Verma', contact: '7355135069', substation: '33/11 KV NIMBOI', area: '58.85', solar: '', remarks: '' },
+  { id: 47, s_no: 47, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 12', district: 'JALGAON', taluka: 'Raver', supervisor: 'Brijesh Verma', contact: '', substation: '33/11 KV CHINAWAL', area: '57.85', solar: '', remarks: '' },
+  { id: 48, s_no: 48, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 13', district: 'JALGAON', taluka: 'Raver', supervisor: 'Brijesh Verma', contact: '', substation: '33KV MORGAON', area: '47.8', solar: '', remarks: '' },
+  { id: 49, s_no: 49, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 14', district: 'JALGAON', taluka: 'Raver', supervisor: 'Brijesh Verma', contact: '', substation: '33/11 KV AINPUR', area: '40.4', solar: '', remarks: '' },
+  { id: 50, s_no: 50, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 15', district: 'JALGAON', taluka: 'Raver', supervisor: 'Brijesh Verma', contact: '', substation: '33/11 KV MOHAGAN', area: '20.4', solar: '', remarks: '' },
+  { id: 51, s_no: 51, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 16', district: 'JALGAON', taluka: 'Yawai', supervisor: '', contact: '', substation: '33/11 KV DAHIGAON', area: '46', solar: '', remarks: '' },
+  // Sr.10 AMBIT (3)
+  { id: 52, s_no: 52, contractor: 'AMBIT Energy Pvt Ltd', director: '', director_contact: '', file_name: 'AMBIT 01', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV SUBSTATION SADE', area: '26', solar: '', remarks: '' },
+  { id: 53, s_no: 53, contractor: 'AMBIT Energy Pvt Ltd', director: '', director_contact: '', file_name: 'AMBIT 02', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV POTEGAON', area: '26', solar: '', remarks: '' },
+  { id: 54, s_no: 54, contractor: 'AMBIT Energy Pvt Ltd', director: '', director_contact: '', file_name: 'AMBIT 03', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV VITE', area: '21', solar: '', remarks: '' },
+  // Sr.11 OMSHAM (2)
+  { id: 55, s_no: 55, contractor: 'OMSHAM Solutions LLP', director: '', director_contact: '', file_name: 'OMSHAM 01', district: 'SOLAPUR', taluka: 'Madha', supervisor: '', contact: '', substation: '33/11KV PIMPLENEAR', area: '41', solar: '', remarks: '' },
+  { id: 56, s_no: 56, contractor: 'OMSHAM Solutions LLP', director: '', director_contact: '', file_name: 'OMSHAM 02', district: 'SOLAPUR', taluka: 'Madha', supervisor: '', contact: '', substation: '33/11 KV ALEGAON', area: '26', solar: '', remarks: '' },
+  // Sr.12 Prashant Plastic (5)
+  { id: 57, s_no: 57, contractor: 'Prashant Plastic Industries LLP', director: '', director_contact: '', file_name: 'PRASHANT PLASTIC 01', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV MANJARGAON', area: '16', solar: '', remarks: '' },
+  { id: 58, s_no: 58, contractor: 'Prashant Plastic Industries LLP', director: '', director_contact: '', file_name: 'PRASHANT PLASTIC 02', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV JINTI', area: '16', solar: '', remarks: '' },
+  { id: 59, s_no: 59, contractor: 'Prashant Plastic Industries LLP', director: '', director_contact: '', file_name: 'PRASHANT PLASTIC 03', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV PAREWADES', area: '11', solar: '', remarks: '' },
+  { id: 60, s_no: 60, contractor: 'Prashant Plastic Industries LLP', director: '', director_contact: '', file_name: 'PRASHANT PLASTIC 04', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV SALSE', area: '11', solar: '', remarks: '' },
+  { id: 61, s_no: 61, contractor: 'Prashant Plastic Industries LLP', director: '', director_contact: '', file_name: 'PRASHANT PLASTIC 05', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: 'HINGANI', area: '11', solar: '', remarks: '' },
+  // Sr.13 PAHAL (15)
+  { id: 62, s_no: 62, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL BORGAON', district: 'NASHIK', taluka: 'Surgana', supervisor: '', contact: '', substation: '33/11 KV BORGAON', area: '24.8', solar: '4.76', remarks: '' },
+  { id: 63, s_no: 63, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL WADZIRE', district: 'NASHIK', taluka: 'Sinnar', supervisor: 'Kiran Deore', contact: '8788624365', substation: '33/11 KV WADZIRE', area: '18.4', solar: '3.48', remarks: '' },
+  { id: 64, s_no: 64, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL CHIKHALAMBE', district: 'NASHIK', taluka: 'Chandvad', supervisor: '', contact: '', substation: 'CHIKHALAMBE', area: '50.15', solar: '9.83', remarks: '' },
+  { id: 65, s_no: 65, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL CHAS', district: 'NASHIK', taluka: 'Sinnar', supervisor: 'Kiran Deore', contact: '', substation: 'CHAS', area: '12.25', solar: '2.25', remarks: '' },
+  { id: 66, s_no: 66, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL JAIKHEDA', district: 'NASHIK', taluka: 'Satana', supervisor: 'Swapnil Ahire', contact: '8554868750', substation: '33/11 KV JAIKHEDA', area: '52.55', solar: '10.31', remarks: '' },
+  { id: 67, s_no: 67, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL KAZI-SANGVI', district: 'NASHIK', taluka: 'Chandvad', supervisor: 'Avinash Nikam', contact: '', substation: 'KAZI-SANGVI', area: '55.6', solar: '10.92', remarks: '' },
+  { id: 68, s_no: 68, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL KOTAMGAON', district: 'NASHIK', taluka: 'Yevla', supervisor: '', contact: '', substation: '33/11 KV KOTAMGAON', area: '8.5', solar: '1.5', remarks: '' },
+  { id: 69, s_no: 69, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL MAHAL PATNE', district: 'NASHIK', taluka: 'Baglan', supervisor: 'Sanket Jadhav', contact: '8007382443', substation: 'MAHAL PATNE', area: '32.90', solar: '6.38', remarks: '' },
+  { id: 70, s_no: 70, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL NIMBOLA', district: 'NASHIK', taluka: 'Baglan', supervisor: 'Sanket Jadhav', contact: '', substation: 'NIMBOLA', area: '21', solar: '4', remarks: '' },
+  { id: 71, s_no: 71, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL SONAMBE', district: 'NASHIK', taluka: 'Sinnar', supervisor: 'Kiran Deore', contact: '', substation: '33/11 KV SONAMBE', area: '34.3', solar: '6.66', remarks: '' },
+  { id: 72, s_no: 72, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL NIRPUR', district: 'NASHIK', taluka: 'Baglan', supervisor: 'Sanket Jadhav', contact: '', substation: 'NIRPUR', area: '34.4', solar: '6.68', remarks: '' },
+  { id: 73, s_no: 73, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL THANGAON', district: 'NASHIK', taluka: 'Sinnar', supervisor: 'Kiran Deore', contact: '', substation: '33/11KV THANGAON', area: '37.65', solar: '7.33', remarks: '' },
+  { id: 74, s_no: 74, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL WADANGALI', district: 'NASHIK', taluka: 'Sinnar', supervisor: 'Kiran Deore', contact: '', substation: 'WADANGALI', area: '42.35', solar: '8.27', remarks: '' },
+  { id: 75, s_no: 75, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL KHAMBALE', district: 'NASHIK', taluka: 'Trimbakeshwar', supervisor: 'Manish Gupta', contact: '8368550313', substation: '33/11 KV KHAMBALE', area: '28.75', solar: '5.55', remarks: '' },
+  { id: 76, s_no: 76, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL DEOPUR', district: 'NASHIK', taluka: 'Sinnar', supervisor: 'Kiran Deore', contact: '', substation: 'DEOPUR', area: '48.35', solar: '9.47', remarks: '' },
+  // Sr.14 TERAVON (10)
+  { id: 77, s_no: 77, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON VIRGAON', district: 'NASHIK', taluka: 'Baglan', supervisor: 'Sanket Jadhav', contact: '', substation: 'VIRGAON', area: '71.1', solar: '14.02', remarks: '' },
+  { id: 78, s_no: 78, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON JORAN', district: 'NASHIK', taluka: 'Baglan', supervisor: 'Sanket Jadhav', contact: '', substation: 'JORAN', area: '62', solar: '12.2', remarks: '' },
+  { id: 79, s_no: 79, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON AJANG', district: 'NASHIK', taluka: 'Malegaon', supervisor: 'Kalpesh Ahire', contact: '8459834191', substation: '33/11 KV AJANG', area: '48.8', solar: '9.56', remarks: '' },
+  { id: 80, s_no: 80, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON KHAMTANE', district: 'NASHIK', taluka: 'Baglan', supervisor: 'Swapnil Ahire', contact: '', substation: '33/11 KV KHAMTANE', area: '35.35', solar: '6.87', remarks: '' },
+  { id: 81, s_no: 81, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON MOHEGA', district: 'NASHIK', taluka: 'Nandgaon', supervisor: 'Avinash Nikam', contact: '7666037160', substation: '33/11 KV MOHEGAON', area: '21', solar: '4', remarks: '' },
+  { id: 82, s_no: 82, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON RANWAD', district: 'NASHIK', taluka: 'Niphad', supervisor: 'Manish Gupta', contact: '', substation: '132 KV RANWAD', area: '38.7', solar: '7.54', remarks: '' },
+  { id: 83, s_no: 83, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON SAMANGAON', district: 'NASHIK', taluka: 'Nashik', supervisor: 'Manish Gupta', contact: '', substation: '33/11 KV SAMANGAON', area: '44.75', solar: '8.75', remarks: '' },
+  { id: 84, s_no: 84, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON THENGODA', district: 'NASHIK', taluka: 'Satana', supervisor: 'Swapnil Ahire', contact: '', substation: 'THENGODA', area: '86.95', solar: '17.19', remarks: '' },
+  { id: 85, s_no: 85, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON VADNER', district: 'NASHIK', taluka: 'Malegaon', supervisor: 'Kalpesh Ahire', contact: '', substation: '33/11 KV VADNER', area: '68.45', solar: '13.49', remarks: '' },
+  { id: 86, s_no: 86, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON VINCHUR', district: 'NASHIK', taluka: 'Niphad', supervisor: 'Akash Tripathi', contact: '6267082203', substation: '33/11 kV VINCHUR', area: '40.1', solar: '7.82', remarks: '' },
+  // Sr.15 SOLTRIUM (23)
+  { id: 87, s_no: 87, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 01', district: 'NASHIK', taluka: 'Chandvad', supervisor: 'Avinash Nikam', contact: '', substation: '33kV SHIRUR TANGADI', area: '28.40', solar: '5.48', remarks: '' },
+  { id: 88, s_no: 88, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 02', district: 'NASHIK', taluka: 'Chandvad', supervisor: 'Kalpesh Ahire', contact: '', substation: 'DUGAON', area: '24.3', solar: '4.66', remarks: '' },
+  { id: 89, s_no: 89, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 03', district: 'NASHIK', taluka: 'Chandvad', supervisor: '', contact: '', substation: '33/11 KV KHADAK-OZAR', area: '22.25', solar: '4.25', remarks: '' },
+  { id: 90, s_no: 90, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 04', district: 'NASHIK', taluka: 'Chandvad', supervisor: 'Avinash Nikam', contact: '', substation: 'JOPUL', area: '9.15', solar: '1.63', remarks: '' },
+  { id: 91, s_no: 91, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 05', district: 'NASHIK', taluka: 'Dindori', supervisor: 'Akshay Kumar Vashishth', contact: '9119008557', substation: '33/11 KV KOSHIMBE', area: '48.65', solar: '9.53', remarks: '' },
+  { id: 92, s_no: 92, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 06', district: 'NASHIK', taluka: 'Dindori', supervisor: 'Akshay Kumar Vashishth', contact: '', substation: '33/11 KV KORATE', area: '33.6', solar: '6.52', remarks: '' },
+  { id: 93, s_no: 93, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 07', district: 'NASHIK', taluka: 'Niphad', supervisor: 'Akash Tripathi', contact: '', substation: '33/11 KV DEOGAON', area: '37.8', solar: '7.36', remarks: '' },
+  { id: 94, s_no: 94, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 08', district: 'NASHIK', taluka: 'Niphad', supervisor: 'Akash Tripathi', contact: '', substation: '132/11 KV OZAR', area: '24.1', solar: '4.62', remarks: '' },
+  { id: 95, s_no: 95, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 09', district: 'NASHIK', taluka: 'Niphad', supervisor: 'Akash Tripathi', contact: '', substation: '33/11 KV PIMPALGAON', area: '10.2', solar: '1.84', remarks: '' },
+  { id: 96, s_no: 96, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 10', district: 'NASHIK', taluka: 'Niphad', supervisor: 'Akash Tripathi', contact: '', substation: '33/11 KV DAWACHWADI', area: '8.5', solar: '1.5', remarks: '' },
+  { id: 97, s_no: 97, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 11', district: 'NASHIK', taluka: 'Nandgaon', supervisor: 'Avinash Nikam', contact: '', substation: 'JALGAON (BK)', area: '14.75', solar: '2.75', remarks: '' },
+  { id: 98, s_no: 98, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 12', district: 'NASHIK', taluka: 'Nashik', supervisor: 'Manish Gupta', contact: '', substation: '33 KV MUNGSARA', area: '19.75', solar: '3.75', remarks: '' },
+  { id: 99, s_no: 99, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 13', district: 'NASHIK', taluka: 'Nashik', supervisor: 'Manish Gupta', contact: '', substation: '33/11KV BHAGUR', area: '19.55', solar: '3.71', remarks: '' },
+  { id: 100, s_no: 100, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 14', district: 'NASHIK', taluka: 'Dindori', supervisor: 'Akshay Kumar Vashishth', contact: '', substation: 'NANASHI', area: '25.1', solar: '4.82', remarks: '' },
+  { id: 101, s_no: 101, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 15', district: 'NASHIK', taluka: 'Dindori', supervisor: 'Akshay Kumar Vashishth', contact: '', substation: '33/11 KV WARE (DINDORI)', area: '20.85', solar: '3.97', remarks: '' },
+  { id: 102, s_no: 102, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 16', district: 'NASHIK', taluka: 'Dindori', supervisor: 'Akshay Kumar Vashishth', contact: '', substation: '33/11 KV JANORI', area: '11', solar: '2', remarks: '' },
+  { id: 103, s_no: 103, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 17', district: 'NASHIK', taluka: 'Igatpuri', supervisor: '', contact: '', substation: 'SHENWAD', area: '28.05', solar: '5.41', remarks: '' },
+  { id: 104, s_no: 104, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 18', district: 'NASHIK', taluka: 'Igatpuri', supervisor: '', contact: '', substation: 'PADALI', area: '14.1', solar: '2.62', remarks: '' },
+  { id: 105, s_no: 105, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 19', district: 'NASHIK', taluka: 'Kalwan', supervisor: 'Swapnil Ahire', contact: '', substation: '33/11 KV BEI', area: '23.5', solar: '4.5', remarks: '' },
+  { id: 106, s_no: 106, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 20', district: 'NASHIK', taluka: 'Kalwan', supervisor: 'Swapnil Ahire', contact: '', substation: 'NANDURI', area: '16.65', solar: '3.13', remarks: '' },
+  { id: 107, s_no: 107, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 21', district: 'NASHIK', taluka: 'Malegaon', supervisor: 'Kalpesh Ahire', contact: '', substation: '33/11 KV SAVKARWADI', area: '24.9', solar: '4.78', remarks: '' },
+  { id: 108, s_no: 108, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 22', district: 'NASHIK', taluka: 'Malegaon', supervisor: 'Kalpesh Ahire', contact: '', substation: '33/11 KV VIRANI', area: '11.55', solar: '2.11', remarks: '' },
+  { id: 109, s_no: 109, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 23', district: 'AHILYANAGAR', taluka: 'Sangamner', supervisor: 'Shrikant Labade', contact: '', substation: '33/11 KV TALEGAON', area: '61.85', solar: '12.17', remarks: '' },
+  // Sr.16 XYZ (18) - solar values auto-calculated from area/4.5
+  { id: 110, s_no: 110, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ1', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 KV SHIRWAL S/S', area: '46', solar: '10.22', remarks: '' },
+  { id: 111, s_no: 111, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ2', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 KV KUDAL', area: '46', solar: '10.22', remarks: '' },
+  { id: 112, s_no: 112, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ3', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 KV AKKALKOT', area: '31', solar: '6.89', remarks: '' },
+  { id: 113, s_no: 113, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ4', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 KV DUDHANI', area: '26', solar: '5.78', remarks: '' },
+  { id: 114, s_no: 114, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ5', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 KV GUDDEWADI', area: '26', solar: '5.78', remarks: '' },
+  { id: 115, s_no: 115, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ6', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 MOTYAL', area: '26', solar: '5.78', remarks: '' },
+  { id: 116, s_no: 116, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ7', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 KORSEGAON', area: '21', solar: '4.67', remarks: '' },
+  { id: 117, s_no: 117, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ8', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 JAMGAON', area: '36', solar: '8', remarks: '' },
+  { id: 118, s_no: 118, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ9', district: 'SOLAPUR', taluka: 'BARSHI', supervisor: '', contact: '', substation: '33/11 KV KASARWADI', area: '31', solar: '6.89', remarks: '' },
+  { id: 119, s_no: 119, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ10', district: 'SOLAPUR', taluka: 'BARSHI', supervisor: '', contact: '', substation: '33/11 KV RATANJAN', area: '26', solar: '5.78', remarks: '' },
+  { id: 120, s_no: 120, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ11', district: 'SOLAPUR', taluka: 'BARSHI', supervisor: '', contact: '', substation: '33/11 KV DHAMANGAO', area: '26', solar: '5.78', remarks: '' },
+  { id: 121, s_no: 121, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ12', district: 'SOLAPUR', taluka: 'BARSHI', supervisor: '', contact: '', substation: '33/11 KV BAVI', area: '21', solar: '4.67', remarks: '' },
+  { id: 122, s_no: 122, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ13', district: 'SOLAPUR', taluka: 'BARSHI', supervisor: '', contact: '', substation: '33/11 KV PATHARI', area: '16', solar: '3.56', remarks: '' },
+  { id: 123, s_no: 123, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ14', district: 'SOLAPUR', taluka: 'BARSHI', supervisor: '', contact: '', substation: '33/11 KV VAIRAG', area: '11', solar: '2.44', remarks: '' },
+  { id: 124, s_no: 124, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ15', district: 'SOLAPUR', taluka: 'BARSHI', supervisor: '', contact: '', substation: '33/11 KV JAVALGAON', area: '11', solar: '2.44', remarks: '' },
+  { id: 125, s_no: 125, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ16', district: 'SOLAPUR', taluka: 'BARSHI', supervisor: '', contact: '', substation: '33/11 KV HINGANI', area: '11', solar: '2.44', remarks: '' },
+  { id: 126, s_no: 126, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ17', district: 'SOLAPUR', taluka: 'KARMALA', supervisor: '', contact: '', substation: '33/11 KV KORTI', area: '36', solar: '8', remarks: '' },
+  { id: 127, s_no: 127, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ18', district: 'SOLAPUR', taluka: 'KARMALA', supervisor: '', contact: '', substation: '33/11 KV WASHIMBE', area: '31', solar: '6.89', remarks: '' },
 ];
 
+// =============================================
+// MSKVY SUBSTATION SURVEYS
+// =============================================
 const MSKVY_SUBSTATION_SURVEYS = [
   {
     id: 1, s_no: 1, substation: 'KAJGAON 33/11 KV Substation', subdivision: 'Bhadgaon', surveyor: 'Hemant Agrawal',
@@ -228,6 +190,9 @@ const MSKVY_SUBSTATION_SURVEYS = [
   },
 ];
 
+// =============================================
+// MSKVY LAND SURVEYS
+// =============================================
 const MSKVY_LAND_SURVEYS = [
   {
     id: 1, s_no: 1, village: 'KAJGAON', block: 'Bhadgaon', district: 'JALGAON',
@@ -242,285 +207,103 @@ const MSKVY_LAND_SURVEYS = [
   },
 ];
 
+// =============================================
+// MASTER DATA — DISTRICT
+// =============================================
 const MASTER_MSKVY_DISTRICT = [
-  { id: 1, s_no: 1, code: 'AHI', name: 'AHILYANAGAR', status: 'Active', remarks: '' },
-  { id: 2, s_no: 2, code: 'JAL', name: 'JALGAON', status: 'Active', remarks: '' },
-  { id: 3, s_no: 3, code: 'SOL', name: 'SOLAPUR', status: 'Active', remarks: '' },
-  { id: 4, s_no: 4, code: 'NAS', name: 'NASHIK', status: 'Active', remarks: '' },
+  { id: 1, s_no: 1, code: 'AHI', name: 'AHILYANAGAR', state: 'Maharashtra', talukas: 'Parner, Pathardi, Rahata, Sangamner, Shrigonda, Karjat, Nevasa', total_substations: 16, contractors: 'KRIVI Energy, KYRA Photon, R K Engineers, SHREE RVP', status: 'Active', remarks: '16 substations. KRIVI (4), KYRA (6), RK (2), RVP (4). Some KMZ lands are Forest Land.' },
+  { id: 2, s_no: 2, code: 'JAL', name: 'JALGAON', state: 'Maharashtra', talukas: 'Amalner, Chopda, Erandol, Bhadgaon, Bhusawal, Jalgaon, Jamner, Muktainagar, Pachora, Parola, Raver, Yawai', total_substations: 17, contractors: 'SOLACE Cogen, NVVP Green, RKBG Greentech, WAN Technology, SWELECT', status: 'Active', remarks: '17 substations. SOLACE (7), NVVP (5), RKBG (2), WAN (5), SWELECT (16).' },
+  { id: 3, s_no: 3, code: 'SOL', name: 'SOLAPUR', state: 'Maharashtra', talukas: 'Karmala, Madha, Akkalkot, Barshi', total_substations: 10, contractors: 'AMBIT Energy, OMSHAM Solutions, Prashant Plastic, XYZ', status: 'Active', remarks: '10 substations. AMBIT (3), OMSHAM (2), Prashant Plastic (5), XYZ (18).' },
+  { id: 4, s_no: 4, code: 'NAS', name: 'NASHIK', state: 'Maharashtra', talukas: 'Surgana, Sinnar, Chandvad, Satana, Yevla, Baglan, Trimbakeshwar, Malegaon, Nandgaon, Niphad, Nashik, Dindori, Igatpuri, Kalwan', total_substations: 40, contractors: 'PAHAL Green Energy, TERAVON Green Energies, SOLTRIUM Power', status: 'Active', remarks: '40 substations. PAHAL (15), TERAVON (10), SOLTRIUM (23 - 1 in Ahilyanagar).' },
 ];
+
 const MASTER_MSKVY_SURVEY_STATUS = [
-  { id: 1, s_no: 1, code: 'PEND', name: 'Pending', status: 'Active', remarks: '' },
-  { id: 2, s_no: 2, code: 'PROG', name: 'In Progress', status: 'Active', remarks: '' },
-  { id: 3, s_no: 3, code: 'COMP', name: 'Completed', status: 'Active', remarks: '' },
+  { id: 1, s_no: 1, code: 'PEND', name: 'Pending', status: 'Active', remarks: 'Not started' },
+  { id: 2, s_no: 2, code: 'PROG', name: 'In Progress', status: 'Active', remarks: 'Survey ongoing' },
+  { id: 3, s_no: 3, code: 'COMP', name: 'Completed', status: 'Active', remarks: 'Survey done' },
 ];
 
 // =============================================
-// MASTER DATA (unchanged)
-// =============================================
-const MASTER_PROJ_STATUS = [
-  { id: 1, s_no: 1, code: 'PEND', name: 'Pending', color: '#f59e0b', status: 'Active', remarks: 'Awaiting review' },
-  { id: 2, s_no: 2, code: 'APPR', name: 'Approved', color: '#16a34a', status: 'Active', remarks: 'Approved' },
-  { id: 3, s_no: 3, code: 'CORR', name: 'Correction', color: '#ea580c', status: 'Active', remarks: 'Correction' },
-  { id: 4, s_no: 4, code: 'COMP', name: 'Completed', color: '#8b5cf6', status: 'Active', remarks: 'Completed' },
-  { id: 5, s_no: 5, code: 'REJ', name: 'Rejected', color: '#dc2626', status: 'Active', remarks: 'Rejected' },
-];
-
-const MASTER_PROJ_CATEGORY = [
-  { id: 1, s_no: 1, code: 'ROOF', name: 'Rooftop Solar', status: 'Active', remarks: 'Rooftop' },
-  { id: 2, s_no: 2, code: 'GRND', name: 'Ground Mount', status: 'Active', remarks: 'Ground' },
-  { id: 3, s_no: 3, code: 'PUMP', name: 'Solar Pump', status: 'Active', remarks: 'Pump' },
-  { id: 4, s_no: 4, code: 'LIGHT', name: 'Street Light', status: 'Active', remarks: 'Lights' },
-  { id: 5, s_no: 5, code: 'HEAT', name: 'Solar Water Heater', status: 'Active', remarks: 'Heater' },
-];
-
-const MASTER_CAPACITY = [
-  { id: 1, s_no: 1, code: '50KW', name: '50 kW', status: 'Active', remarks: 'Small' },
-  { id: 2, s_no: 2, code: '75KW', name: '75 kW', status: 'Active', remarks: 'Small' },
-  { id: 3, s_no: 3, code: '100KW', name: '100 kW', status: 'Active', remarks: 'Medium' },
-  { id: 4, s_no: 4, code: '150KW', name: '150 kW', status: 'Active', remarks: 'Medium' },
-  { id: 5, s_no: 5, code: '200KW', name: '200 kW', status: 'Active', remarks: 'Medium' },
-  { id: 6, s_no: 6, code: '250KW', name: '250 kW', status: 'Active', remarks: 'Large' },
-  { id: 7, s_no: 7, code: '300KW', name: '300 kW', status: 'Active', remarks: 'Large' },
-  { id: 8, s_no: 8, code: '500KW', name: '500 kW', status: 'Active', remarks: 'Extra Large' },
-];
-
-const MASTER_MILESTONE_TYPE = [
-  { id: 1, s_no: 1, code: 'SURV', name: 'Site Survey', status: 'Active', remarks: 'Survey' },
-  { id: 2, s_no: 2, code: 'FOUND', name: 'Foundation', status: 'Active', remarks: 'Foundation' },
-  { id: 3, s_no: 3, code: 'INST', name: 'Installation', status: 'Active', remarks: 'Installation' },
-  { id: 4, s_no: 4, code: 'TEST', name: 'Testing', status: 'Active', remarks: 'Testing' },
-  { id: 5, s_no: 5, code: 'COMM', name: 'Commissioning', status: 'Active', remarks: 'Commissioning' },
-];
-
-const MASTER_DOC_TYPE = [
-  { id: 1, s_no: 1, code: 'QUOT', name: 'Quotation', status: 'Active', remarks: 'Quotation' },
-  { id: 2, s_no: 2, code: 'LAYT', name: 'Layout', status: 'Active', remarks: 'Layout' },
-  { id: 3, s_no: 3, code: 'LIC', name: 'License', status: 'Active', remarks: 'License' },
-  { id: 4, s_no: 4, code: 'APPR', name: 'Approval', status: 'Active', remarks: 'Approval' },
-  { id: 5, s_no: 5, code: 'SPEC', name: 'Specification', status: 'Active', remarks: 'Specs' },
-];
-
-const MASTER_CONTRACTOR_TYPE = [
-  { id: 1, s_no: 1, code: 'SOLR', name: 'Solar Installer', status: 'Active', remarks: 'Solar' },
-  { id: 2, s_no: 2, code: 'ELEC', name: 'Electrical Contractor', status: 'Active', remarks: 'Electrical' },
-  { id: 3, s_no: 3, code: 'CIVL', name: 'Civil Contractor', status: 'Active', remarks: 'Civil' },
-  { id: 4, s_no: 4, code: 'MECH', name: 'Mechanical Contractor', status: 'Active', remarks: 'Mechanical' },
-];
-
-const MASTER_LICENSE_TYPE = [
-  { id: 1, s_no: 1, code: 'ELEC', name: 'Electrical License', status: 'Active', remarks: 'Electrical' },
-  { id: 2, s_no: 2, code: 'CIVL', name: 'Civil License', status: 'Active', remarks: 'Civil' },
-  { id: 3, s_no: 3, code: 'SAFE', name: 'Safety License', status: 'Active', remarks: 'Safety' },
-];
-
-const MASTER_WORKER_ROLE = [
-  { id: 1, s_no: 1, code: 'INST', name: 'Installer', status: 'Active', remarks: 'Installer' },
-  { id: 2, s_no: 2, code: 'TECH', name: 'Technician', status: 'Active', remarks: 'Tech' },
-  { id: 3, s_no: 3, code: 'SUPV', name: 'Supervisor', status: 'Active', remarks: 'Supervisor' },
-  { id: 4, s_no: 4, code: 'HELP', name: 'Helper', status: 'Active', remarks: 'Helper' },
-];
-
-const MASTER_WORKER_SKILL = [
-  { id: 1, s_no: 1, code: 'PANEL', name: 'Panel Installation', status: 'Active', remarks: 'Panel' },
-  { id: 2, s_no: 2, code: 'WIRING', name: 'Wiring', status: 'Active', remarks: 'Wiring' },
-  { id: 3, s_no: 3, code: 'MOUNT', name: 'Mounting', status: 'Active', remarks: 'Mount' },
-];
-
-const MASTER_REPORT_TYPE = [
-  { id: 1, s_no: 1, code: 'DAILY', name: 'Daily Report', status: 'Active', remarks: 'Daily' },
-  { id: 2, s_no: 2, code: 'WEEKLY', name: 'Weekly Report', status: 'Active', remarks: 'Weekly' },
-  { id: 3, s_no: 3, code: 'FINAL', name: 'Final Report', status: 'Active', remarks: 'Final' },
-];
-
-const MASTER_REPORT_PRIORITY = [
-  { id: 1, s_no: 1, code: 'LOW', name: 'Low', status: 'Active', remarks: 'Low' },
-  { id: 2, s_no: 2, code: 'MED', name: 'Medium', status: 'Active', remarks: 'Medium' },
-  { id: 3, s_no: 3, code: 'HIGH', name: 'High', status: 'Active', remarks: 'High' },
-];
-
-const MASTER_MEDIA_TYPE = [
-  { id: 1, s_no: 1, code: 'PHOTO', name: 'Photograph', status: 'Active', remarks: 'Photo' },
-  { id: 2, s_no: 2, code: 'DOC', name: 'Document', status: 'Active', remarks: 'Document' },
-];
-
-const MASTER_MEDIA_CATEGORY = [
-  { id: 1, s_no: 1, code: 'SITE', name: 'Site Photo', status: 'Active', remarks: 'Site' },
-  { id: 2, s_no: 2, code: 'PROG', name: 'Progress Photo', status: 'Active', remarks: 'Progress' },
-  { id: 3, s_no: 3, code: 'ISSUE', name: 'Issue Photo', status: 'Active', remarks: 'Issue' },
-];
-
-const MASTER_APPROVAL_STEP = [
-  { id: 1, s_no: 1, code: 'REG', name: 'Registration', status: 'Active', remarks: 'Reg' },
-  { id: 2, s_no: 2, code: 'PROJ', name: 'Project Submission', status: 'Active', remarks: 'Proj' },
-  { id: 3, s_no: 3, code: 'REP', name: 'Report Review', status: 'Active', remarks: 'Rep' },
-  { id: 4, s_no: 4, code: 'FINAL', name: 'Final Approval', status: 'Active', remarks: 'Final' },
-];
-
-const MASTER_USER_ROLE = [
-  { id: 1, s_no: 1, code: 'ADMIN', name: 'Super Admin', status: 'Active', remarks: 'Admin' },
-  { id: 2, s_no: 2, code: 'CONT', name: 'Contractor', status: 'Active', remarks: 'Cont' },
-  { id: 3, s_no: 3, code: 'WORK', name: 'Field Worker', status: 'Active', remarks: 'Work' },
-];
-
-const MASTER_APP_NAME = [
-  { id: 1, s_no: 1, code: 'CAPP', name: 'Contractor App', status: 'Active', remarks: 'Contractor app' },
-  { id: 2, s_no: 2, code: 'WAPP', name: 'Field Worker App', status: 'Active', remarks: 'Worker app' },
-];
-
-const MASTER_GPS_STATUS = [
-  { id: 1, s_no: 1, code: 'ENB', name: 'Enabled', status: 'Active', remarks: 'Enabled' },
-  { id: 2, s_no: 2, code: 'DIS', name: 'Disabled', status: 'Active', remarks: 'Disabled' },
-];
-
-const MASTER_STATUS = [
-  { id: 1, s_no: 1, code: 'ACT', name: 'Active', status: 'Active', remarks: 'Active' },
-  { id: 2, s_no: 2, code: 'INACT', name: 'Inactive', status: 'Active', remarks: 'Inactive' },
-];
-
-const MASTER_APPROVAL_STATUS = [
-  { id: 1, s_no: 1, code: 'PEND', name: 'Pending', status: 'Active', remarks: 'Pending' },
-  { id: 2, s_no: 2, code: 'APPR', name: 'Approved', status: 'Active', remarks: 'Approved' },
-  { id: 3, s_no: 3, code: 'REJ', name: 'Rejected', status: 'Active', remarks: 'Rejected' },
-];
-
-const MASTER_OS_VERSION = [
-  { id: 1, s_no: 1, code: 'A10', name: 'Android 10', status: 'Active', remarks: 'Android 10' },
-  { id: 2, s_no: 2, code: 'A11', name: 'Android 11', status: 'Active', remarks: 'Android 11' },
-  { id: 3, s_no: 3, code: 'A12', name: 'Android 12', status: 'Active', remarks: 'Android 12' },
-  { id: 4, s_no: 4, code: 'A13', name: 'Android 13', status: 'Active', remarks: 'Android 13' },
-];
-
-const MASTER_RELEASE_TYPE = [
-  { id: 1, s_no: 1, code: 'MAJ', name: 'Major', status: 'Active', remarks: 'Major release' },
-  { id: 2, s_no: 2, code: 'MIN', name: 'Minor', status: 'Active', remarks: 'Minor release' },
-  { id: 3, s_no: 3, code: 'PATCH', name: 'Patch', status: 'Active', remarks: 'Patch' },
-];
-
-const MASTER_CRASH_TYPE = [
-  { id: 1, s_no: 1, code: 'NET', name: 'Network Error', status: 'Active', remarks: 'Network' },
-  { id: 2, s_no: 2, code: 'GPS', name: 'GPS Timeout', status: 'Active', remarks: 'GPS' },
-  { id: 3, s_no: 3, code: 'CAM', name: 'Camera Error', status: 'Active', remarks: 'Camera' },
-  { id: 4, s_no: 4, code: 'CRASH', name: 'App Crash', status: 'Active', remarks: 'Crash' },
-];
-
-const MASTER_RATING = [
-  { id: 1, s_no: 1, code: '5', name: '5 Star', status: 'Active', remarks: 'Excellent' },
-  { id: 2, s_no: 2, code: '4', name: '4 Star', status: 'Active', remarks: 'Good' },
-  { id: 3, s_no: 3, code: '3', name: '3 Star', status: 'Active', remarks: 'Average' },
-  { id: 4, s_no: 4, code: '2', name: '2 Star', status: 'Active', remarks: 'Poor' },
-  { id: 5, s_no: 5, code: '1', name: '1 Star', status: 'Active', remarks: 'Bad' },
-];
-
-// =============================================
-// GLOBAL STYLES — RESPONSIVE
+// GLOBAL STYLES
 // =============================================
 const S = {
-  page: { minHeight: '100vh', background: '#f9fafb', padding: 'clamp(12px, 3vw, 24px)', fontFamily: 'system-ui, -apple-system, sans-serif', boxSizing: 'border-box' },
-  header: { marginBottom: 'clamp(14px, 3vw, 24px)' },
-  title: { fontSize: 'clamp(18px, 4vw, 26px)', fontWeight: 'bold', color: '#111827', margin: 0 },
-  subtitle: { fontSize: 'clamp(11px, 2vw, 13px)', color: '#6b7280', marginTop: '4px' },
-  statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: 'clamp(8px, 2vw, 16px)', marginBottom: 'clamp(14px, 3vw, 24px)' },
-  statCard: { background: '#fff', padding: 'clamp(12px, 2.5vw, 20px)', borderRadius: '14px', border: '1px solid #f3f4f6', boxShadow: '0 1px 3px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden' },
+  page: { minHeight: '100vh', background: '#f9fafb', padding: 'clamp(10px, 2.5vw, 20px)', fontFamily: 'system-ui, -apple-system, sans-serif', boxSizing: 'border-box' },
+  header: { marginBottom: 'clamp(12px, 2.5vw, 20px)' },
+  title: { fontSize: 'clamp(16px, 3.5vw, 22px)', fontWeight: 'bold', color: '#111827', margin: 0 },
+  subtitle: { fontSize: 'clamp(10px, 2vw, 12px)', color: '#6b7280', marginTop: '4px' },
+  statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: 'clamp(6px, 1.5vw, 12px)', marginBottom: 'clamp(10px, 2.5vw, 16px)' },
+  statCard: { background: '#fff', padding: 'clamp(10px, 2vw, 16px)', borderRadius: '12px', border: '1px solid #f3f4f6', boxShadow: '0 1px 3px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden' },
   statAccent: { position: 'absolute', top: 0, left: 0, width: '4px', height: '100%' },
-  statLabel: { fontSize: 'clamp(10px, 2vw, 12px)', color: '#6b7280', margin: 0, fontWeight: '500' },
-  statValue: { fontSize: 'clamp(18px, 4vw, 28px)', fontWeight: 'bold', margin: '4px 0 0 0', lineHeight: 1 },
-  statIconBox: { width: 'clamp(32px, 6vw, 42px)', height: 'clamp(32px, 6vw, 42px)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  searchBarTop: { background: '#fff', padding: 'clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 20px)', borderRadius: '12px', border: '1px solid #e5e7eb', marginBottom: 'clamp(12px, 3vw, 20px)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'clamp(6px, 1.5vw, 12px)' },
-  searchInput: { width: '100%', padding: '10px 36px', fontSize: 'clamp(12px, 2.2vw, 13px)', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', background: '#fff', color: '#374151', boxSizing: 'border-box' },
-  searchIcon: { position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', pointerEvents: 'none' },
-  clearIcon: { position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', cursor: 'pointer', background: 'transparent', border: 'none' },
-  btn: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: 'clamp(7px, 1.5vw, 10px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '500', borderRadius: '10px', border: '1px solid #d1d5db', background: '#fff', color: '#374151', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
-  btnActive: { background: '#eff6ff', color: '#1d4ed8', borderColor: '#93c5fd' },
-  btnPrimary: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: 'clamp(7px, 1.5vw, 10px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '600', borderRadius: '10px', border: 'none', background: '#2563eb', color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
-  btnPurple: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: 'clamp(7px, 1.5vw, 10px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '600', borderRadius: '10px', border: 'none', background: '#7c3aed', color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
-  btnDanger: { padding: 'clamp(7px, 1.5vw, 10px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', color: '#dc2626', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
-  filterPanel: { marginBottom: 'clamp(12px, 3vw, 24px)', padding: 'clamp(12px, 2.5vw, 20px)', border: '1px solid #e5e7eb', borderRadius: '16px', background: '#fff' },
-  filterGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 'clamp(10px, 2vw, 16px)' },
-  filterLabel: { display: 'block', fontSize: '11px', color: '#6b7280', marginBottom: '4px', fontWeight: '600' },
-  filterInput: { width: '100%', padding: '10px 14px', fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', background: '#fff', color: '#374151', boxSizing: 'border-box' },
-  tableCard: { background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', overflow: 'hidden' },
-  tableHeaderBar: { padding: 'clamp(10px, 2vw, 12px) clamp(12px, 3vw, 20px)', borderBottom: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '8px' },
-  tableTitle: { fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '600', color: '#374151', margin: 0 },
-  countBadge: { fontSize: '11px', color: '#6b7280', background: '#e5e7eb', padding: '2px 8px', borderRadius: '12px' },
+  statLabel: { fontSize: 'clamp(9px, 1.8vw, 11px)', color: '#6b7280', margin: 0, fontWeight: '500' },
+  statValue: { fontSize: 'clamp(16px, 3.5vw, 24px)', fontWeight: 'bold', margin: '4px 0 0 0', lineHeight: 1 },
+  statIconBox: { width: 'clamp(28px, 5vw, 36px)', height: 'clamp(28px, 5vw, 36px)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  topToolbar: { background: '#fff', padding: 'clamp(8px, 1.8vw, 12px) clamp(10px, 2.5vw, 16px)', borderRadius: '10px', border: '1px solid #e5e7eb', marginBottom: '10px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'clamp(6px, 1.5vw, 10px)' },
+  searchBar: { background: '#fff', padding: 'clamp(8px, 1.8vw, 12px) clamp(10px, 2.5vw, 16px)', borderRadius: '10px', border: '1px solid #e5e7eb', marginBottom: 'clamp(10px, 2.5vw, 16px)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'clamp(6px, 1.5vw, 10px)' },
+  searchInput: { width: '100%', padding: '8px 32px', fontSize: 'clamp(11px, 2vw, 13px)', border: '1px solid #d1d5db', borderRadius: '8px', outline: 'none', background: '#fff', color: '#374151', boxSizing: 'border-box' },
+  searchIcon: { position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', pointerEvents: 'none' },
+  clearIcon: { position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', cursor: 'pointer', background: 'transparent', border: 'none' },
+  btn: { display: 'inline-flex', alignItems: 'center', gap: '5px', padding: 'clamp(6px, 1.3vw, 8px) clamp(8px, 1.8vw, 12px)', fontSize: 'clamp(10px, 1.9vw, 12px)', fontWeight: '500', borderRadius: '8px', border: '1px solid #d1d5db', background: '#fff', color: '#374151', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
+  btnPrimary: { display: 'inline-flex', alignItems: 'center', gap: '5px', padding: 'clamp(6px, 1.3vw, 8px) clamp(8px, 1.8vw, 12px)', fontSize: 'clamp(10px, 1.9vw, 12px)', fontWeight: '600', borderRadius: '8px', border: 'none', background: '#2563eb', color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
+  btnDanger: { padding: 'clamp(6px, 1.3vw, 8px) clamp(8px, 1.8vw, 12px)', fontSize: 'clamp(10px, 1.9vw, 12px)', color: '#dc2626', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' },
+  filterInput: { width: '100%', padding: '8px 12px', fontSize: 'clamp(11px, 2vw, 13px)', border: '1px solid #d1d5db', borderRadius: '8px', outline: 'none', background: '#fff', color: '#374151', boxSizing: 'border-box' },
+  tableCard: { background: '#fff', borderRadius: '12px', border: '1px solid #f3f4f6', overflow: 'hidden' },
+  tableHeaderBar: { padding: 'clamp(8px, 1.8vw, 12px) clamp(10px, 2.5vw, 16px)', borderBottom: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '8px' },
+  tableTitle: { fontSize: 'clamp(12px, 2.2vw, 14px)', fontWeight: '600', color: '#374151', margin: 0 },
+  countBadge: { fontSize: '10px', color: '#6b7280', background: '#e5e7eb', padding: '2px 8px', borderRadius: '12px' },
   tableWrap: { overflowX: 'auto', WebkitOverflowScrolling: 'touch' },
   table: { width: '100%', borderCollapse: 'collapse', minWidth: '700px' },
   thead: { background: '#f9fafb' },
-  th: { padding: 'clamp(8px, 2vw, 12px) clamp(10px, 2vw, 16px)', textAlign: 'left', fontSize: 'clamp(9px, 1.8vw, 11px)', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', borderBottom: '1px solid #e5e7eb', whiteSpace: 'nowrap' },
-  td: { padding: 'clamp(8px, 2vw, 12px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', color: '#374151', borderBottom: '1px solid #f3f4f6', whiteSpace: 'nowrap' },
-  tdStrong: { padding: 'clamp(8px, 2vw, 12px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(11px, 2vw, 13px)', color: '#1f2937', fontWeight: '600', borderBottom: '1px solid #f3f4f6', whiteSpace: 'nowrap' },
-  iconBtn: { padding: '6px', borderRadius: '8px', border: 'none', background: 'transparent', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' },
-  pagination: { padding: 'clamp(10px, 2vw, 16px) clamp(12px, 3vw, 20px)', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '8px' },
-  pageBtn: { display: 'inline-flex', alignItems: 'center', gap: '4px', padding: 'clamp(5px, 1.2vw, 6px) clamp(8px, 1.8vw, 12px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '500', color: '#374151', background: '#fff', border: '1px solid #d1d5db', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' },
+  th: { padding: 'clamp(8px, 1.5vw, 10px) clamp(8px, 1.8vw, 12px)', textAlign: 'left', fontSize: 'clamp(9px, 1.7vw, 10px)', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', borderBottom: '1px solid #e5e7eb', whiteSpace: 'nowrap' },
+  td: { padding: 'clamp(8px, 1.5vw, 10px) clamp(8px, 1.8vw, 12px)', fontSize: 'clamp(10px, 1.9vw, 12px)', color: '#374151', borderBottom: '1px solid #f3f4f6', whiteSpace: 'nowrap' },
+  tdStrong: { padding: 'clamp(8px, 1.5vw, 10px) clamp(8px, 1.8vw, 12px)', fontSize: 'clamp(10px, 1.9vw, 12px)', color: '#1f2937', fontWeight: '600', borderBottom: '1px solid #f3f4f6', whiteSpace: 'nowrap' },
+  iconBtn: { padding: '5px', borderRadius: '6px', border: 'none', background: 'transparent', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' },
+  pagination: { padding: 'clamp(8px, 1.8vw, 12px) clamp(10px, 2.5vw, 16px)', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '8px' },
+  pageBtn: { display: 'inline-flex', alignItems: 'center', gap: '3px', padding: 'clamp(4px, 1vw, 6px) clamp(6px, 1.5vw, 10px)', fontSize: 'clamp(10px, 1.9vw, 12px)', fontWeight: '500', color: '#374151', background: '#fff', border: '1px solid #d1d5db', borderRadius: '6px', cursor: 'pointer', fontFamily: 'inherit' },
   pageBtnActive: { background: '#2563eb', color: '#fff', borderColor: '#2563eb' },
   pageBtnDisabled: { opacity: 0.5, cursor: 'not-allowed' },
-  emptyState: { textAlign: 'center', padding: 'clamp(24px, 5vw, 48px) 20px', background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6' },
-  statusBadge: { display: 'inline-block', padding: '4px 10px', borderRadius: '12px', fontSize: 'clamp(9px, 1.8vw, 11px)', fontWeight: '600', whiteSpace: 'nowrap' },
-  modalOverlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(8px, 2vw, 16px)', zIndex: 50 },
-  modal: { background: '#fff', borderRadius: '16px', width: '100%', maxWidth: '800px', maxHeight: '92vh', overflowY: 'auto' },
-  modalHeader: { padding: 'clamp(12px, 2.5vw, 20px) clamp(14px, 3vw, 24px)', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' },
-  modalTitle: { fontSize: 'clamp(14px, 3vw, 18px)', fontWeight: 'bold', color: '#111827', margin: 0 },
-  modalBody: { padding: 'clamp(14px, 3vw, 24px)' },
-  modalFooter: { padding: 'clamp(12px, 2.5vw, 20px) clamp(14px, 3vw, 24px)', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '8px' },
-  formGrid3: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 'clamp(12px, 2.5vw, 20px)' },
-  formGrid2: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 'clamp(12px, 2.5vw, 20px)' },
-  formGroup: { display: 'flex', flexDirection: 'column', gap: '6px', minWidth: 0 },
-  formGroupFull: { display: 'flex', flexDirection: 'column', gap: '6px', gridColumn: '1 / -1' },
-  formLabel: { fontSize: 'clamp(11px, 2vw, 12px)', fontWeight: '600', color: '#374151', display: 'flex', alignItems: 'center', gap: '6px' },
-  formInput: { width: '100%', padding: 'clamp(8px, 1.8vw, 11px) clamp(10px, 2vw, 14px)', fontSize: 'clamp(12px, 2vw, 13px)', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', color: '#374151', background: '#fff', boxSizing: 'border-box', fontFamily: 'inherit' },
-  formTextarea: { width: '100%', padding: 'clamp(8px, 1.8vw, 11px) clamp(10px, 2vw, 14px)', fontSize: 'clamp(12px, 2vw, 13px)', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', color: '#374151', resize: 'vertical', fontFamily: 'inherit', boxSizing: 'border-box' },
-  btnSecondary: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: 'clamp(8px, 1.8vw, 10px) clamp(12px, 2.5vw, 20px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '500', color: '#374151', background: '#fff', border: '1px solid #d1d5db', borderRadius: '10px', cursor: 'pointer', fontFamily: 'inherit' },
-  btnSubmit: { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: 'clamp(8px, 1.8vw, 10px) clamp(12px, 2.5vw, 20px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '600', color: '#fff', background: '#2563eb', border: '1px solid #2563eb', borderRadius: '10px', cursor: 'pointer', fontFamily: 'inherit' },
-  photoGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 160px), 1fr))', gap: 'clamp(8px, 2vw, 16px)' },
-  photoCard: { background: '#fff', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e5e7eb' },
-  photoThumb: { height: 'clamp(100px, 20vw, 140px)', background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563eb' },
-  photoInfo: { padding: '10px 12px' },
-  card: { background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: 'clamp(12px, 2.5vw, 20px)', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' },
-  cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', gap: '8px', flexWrap: 'wrap' },
-  cardTitle: { fontSize: 'clamp(12px, 2.5vw, 15px)', fontWeight: '600', color: '#1f2937', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' },
-  progressTrack: { width: '100%', height: '8px', background: '#e5e7eb', borderRadius: '4px', overflow: 'hidden', marginTop: '6px' },
-  progressFill: { height: '100%', borderRadius: '4px', transition: 'width 0.3s' },
+  statusBadge: { display: 'inline-block', padding: '3px 8px', borderRadius: '10px', fontSize: 'clamp(9px, 1.7vw, 10px)', fontWeight: '600', whiteSpace: 'nowrap' },
+  modalOverlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(6px, 1.5vw, 12px)', zIndex: 100 },
+  modal: { background: '#fff', borderRadius: '12px', width: '100%', maxWidth: '800px', maxHeight: '92vh', overflowY: 'auto' },
+  modalHeader: { padding: 'clamp(10px, 2vw, 16px) clamp(12px, 2.5vw, 20px)', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' },
+  modalTitle: { fontSize: 'clamp(13px, 2.5vw, 16px)', fontWeight: 'bold', color: '#111827', margin: 0 },
+  modalBody: { padding: 'clamp(10px, 2.5vw, 20px)' },
+  modalFooter: { padding: 'clamp(10px, 2vw, 16px) clamp(12px, 2.5vw, 20px)', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '6px' },
+  formGrid3: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: 'clamp(10px, 2vw, 16px)' },
+  formGroup: { display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 },
+  formGroupFull: { display: 'flex', flexDirection: 'column', gap: '5px', gridColumn: '1 / -1' },
+  formLabel: { fontSize: 'clamp(10px, 1.8vw, 11px)', fontWeight: '600', color: '#374151', display: 'flex', alignItems: 'center', gap: '5px' },
+  formInput: { width: '100%', padding: 'clamp(7px, 1.5vw, 9px) clamp(8px, 1.8vw, 12px)', fontSize: 'clamp(11px, 2vw, 13px)', border: '1px solid #d1d5db', borderRadius: '8px', outline: 'none', color: '#374151', background: '#fff', boxSizing: 'border-box', fontFamily: 'inherit' },
+  formTextarea: { width: '100%', padding: 'clamp(7px, 1.5vw, 9px) clamp(8px, 1.8vw, 12px)', fontSize: 'clamp(11px, 2vw, 13px)', border: '1px solid #d1d5db', borderRadius: '8px', outline: 'none', color: '#374151', resize: 'vertical', fontFamily: 'inherit', boxSizing: 'border-box' },
+  btnSecondary: { display: 'inline-flex', alignItems: 'center', gap: '5px', padding: 'clamp(7px, 1.5vw, 9px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(10px, 1.9vw, 12px)', fontWeight: '500', color: '#374151', background: '#fff', border: '1px solid #d1d5db', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' },
+  btnSubmit: { display: 'inline-flex', alignItems: 'center', gap: '5px', padding: 'clamp(7px, 1.5vw, 9px) clamp(10px, 2vw, 16px)', fontSize: 'clamp(10px, 1.9vw, 12px)', fontWeight: '600', color: '#fff', background: '#2563eb', border: '1px solid #2563eb', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' },
 };
 
 // =============================================
-// HELPERS (unchanged)
+// HELPERS
 // =============================================
 const getStatusStyle = (status) => {
   const map = {
     'Approved': { background: '#dcfce7', color: '#166534' },
     'Completed': { background: '#dcfce7', color: '#166534' },
     'Active': { background: '#dcfce7', color: '#166534' },
-    'Enabled': { background: '#dcfce7', color: '#166534' },
-    'Resolved': { background: '#dcfce7', color: '#166534' },
-    'Released': { background: '#dcfce7', color: '#166534' },
-    'Reviewed': { background: '#dcfce7', color: '#166534' },
     'Pending': { background: '#fef3c7', color: '#854d0e' },
     'In Progress': { background: '#dbeafe', color: '#1e40af' },
-    'In Testing': { background: '#dbeafe', color: '#1e40af' },
-    'In Development': { background: '#dbeafe', color: '#1e40af' },
-    'Correction': { background: '#fed7aa', color: '#9a3412' },
-    'Rejected': { background: '#fee2e2', color: '#991b1b' },
-    'Deprecated': { background: '#fee2e2', color: '#991b1b' },
-    'Disabled': { background: '#fee2e2', color: '#991b1b' },
     'Inactive': { background: '#f3f4f6', color: '#4b5563' },
   };
   return map[status] || { background: '#f3f4f6', color: '#4b5563' };
 };
-
 const formatDate = (d) => d ? dayjs(d).format('DD/MM/YYYY') : '—';
 const getNames = (arr) => arr.filter(a => a.status === 'Active').map(a => a.name);
 
 const loadMSKVY = (key, fallback) => {
-  try {
-    const s = localStorage.getItem(key);
-    return s ? JSON.parse(s) : fallback;
-  } catch { return fallback; }
+  try { const s = localStorage.getItem(key); return s ? JSON.parse(s) : fallback; } catch { return fallback; }
 };
 const saveMSKVY = (key, data) => {
   try { localStorage.setItem(key, JSON.stringify(data)); } catch {}
 };
 
 // =============================================
-// LOGIN — Responsive
+// LOGIN
 // =============================================
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('admin@solar.com');
@@ -543,24 +326,24 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', padding: 'clamp(12px, 4vw, 20px)', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box' }}>
-      <div style={{ background: '#fff', padding: 'clamp(24px, 6vw, 40px)', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', width: '100%', maxWidth: '420px', boxSizing: 'border-box' }}>
-        <div style={{ width: 'clamp(48px, 12vw, 64px)', height: 'clamp(48px, 12vw, 64px)', background: '#dbeafe', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#2563eb' }}><Shield size={28} /></div>
-        <h1 style={{ fontSize: 'clamp(18px, 5vw, 24px)', fontWeight: 'bold', textAlign: 'center', color: '#1e3a8a', marginBottom: '4px' }}>solar ERP Portal</h1>
-        <p style={{ fontSize: 'clamp(11px, 2.5vw, 13px)', textAlign: 'center', color: '#6b7280', marginBottom: '24px' }}>Solar Project Management</p>
-        {error && <div style={{ background: '#fee2e2', color: '#991b1b', padding: '10px 14px', borderRadius: '8px', fontSize: '13px', marginBottom: '16px' }}>{error}</div>}
-        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div style={S.formGroup}><label style={S.formLabel}><Mail size={12} /> Email</label>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', padding: 'clamp(10px, 3vw, 20px)', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box' }}>
+      <div style={{ background: '#fff', padding: 'clamp(20px, 5vw, 36px)', borderRadius: '14px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', width: '100%', maxWidth: '400px', boxSizing: 'border-box' }}>
+        <div style={{ width: 'clamp(44px, 10vw, 56px)', height: 'clamp(44px, 10vw, 56px)', background: '#dbeafe', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', color: '#2563eb' }}><Shield size={26} /></div>
+        <h1 style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: 'bold', textAlign: 'center', color: '#1e3a8a', marginBottom: '4px' }}>solar ERP Portal</h1>
+        <p style={{ fontSize: 'clamp(10px, 2vw, 12px)', textAlign: 'center', color: '#6b7280', marginBottom: '20px' }}>Solar Project Management</p>
+        {error && <div style={{ background: '#fee2e2', color: '#991b1b', padding: '8px 12px', borderRadius: '6px', fontSize: '12px', marginBottom: '12px' }}>{error}</div>}
+        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div style={S.formGroup}><label style={S.formLabel}><Mail size={11} /> Email</label>
             <input type="email" value={email} onChange={e => setEmail(e.target.value)} style={S.formInput} required />
           </div>
-          <div style={S.formGroup}><label style={S.formLabel}><Lock size={12} /> Password</label>
+          <div style={S.formGroup}><label style={S.formLabel}><Lock size={11} /> Password</label>
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} style={S.formInput} required />
           </div>
-          <button type="submit" disabled={loading} style={{ background: '#2563eb', color: '#fff', padding: 'clamp(10px, 2.5vw, 12px)', border: 'none', borderRadius: '10px', fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '600', cursor: 'pointer', marginTop: '8px', fontFamily: 'inherit' }}>
+          <button type="submit" disabled={loading} style={{ background: '#2563eb', color: '#fff', padding: 'clamp(9px, 2vw, 11px)', border: 'none', borderRadius: '8px', fontSize: 'clamp(12px, 2.2vw, 14px)', fontWeight: '600', cursor: 'pointer', marginTop: '6px', fontFamily: 'inherit' }}>
             {loading ? 'Logging in...' : 'Secure Login'}
           </button>
         </form>
-        <div style={{ marginTop: '20px', textAlign: 'center', fontSize: 'clamp(10px, 2vw, 12px)', color: '#6b7280', background: '#f3f4f6', padding: '10px', borderRadius: '8px' }}>
+        <div style={{ marginTop: '16px', textAlign: 'center', fontSize: 'clamp(9px, 1.8vw, 11px)', color: '#6b7280', background: '#f3f4f6', padding: '8px', borderRadius: '6px' }}>
           <strong>Demo:</strong> admin@solar.com / admin123
         </div>
       </div>
@@ -569,84 +352,82 @@ const Login = ({ onLogin }) => {
 };
 
 // =============================================
-// HOOKS + PAGINATION
+// PRINT — SAME PAGE (Landscape)
 // =============================================
-const useTablePage = (initialData, searchKeys) => {
-  const [allData, setAllData] = useState([...initialData]);
-  const [displayData, setDisplayData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [filters, setFilters] = useState({ status: '' });
+const printReport = (data, columns, title) => {
+  try {
+    if (!data.length) { toast.error('No data to print'); return; }
+    const existing = document.getElementById('print-preview-overlay');
+    if (existing) existing.remove();
 
-  const filterAndPaginate = useCallback(() => {
-    let f = [...allData];
-    if (searchTerm) {
-      const t = searchTerm.toLowerCase();
-      f = f.filter(i => searchKeys.some(k => String(i[k] || '').toLowerCase().includes(t)));
-    }
-    if (filters.status) f = f.filter(i => i.status === filters.status);
-    setTotalItems(f.length);
-    const pages = Math.ceil(f.length / itemsPerPage) || 1;
-    setTotalPages(pages);
-    if (currentPage > pages) setCurrentPage(pages);
-    const s = (currentPage - 1) * itemsPerPage;
-    setDisplayData(f.slice(s, s + itemsPerPage));
-  }, [allData, searchTerm, filters, currentPage, itemsPerPage, searchKeys]);
+    let tableRows = '';
+    data.forEach((item, idx) => {
+      tableRows += `<tr><td style="text-align:center;">${idx + 1}</td>${columns.map(c => `<td>${c.exportValue ? c.exportValue(item) : (item[c.key] ?? '—')}</td>`).join('')}</tr>`;
+    });
 
-  useEffect(() => { filterAndPaginate(); }, [filterAndPaginate]);
+    const overlay = document.createElement('div');
+    overlay.id = 'print-preview-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99999;display:flex;flex-direction:column;padding:10px;box-sizing:border-box;overflow:hidden;';
 
-  return {
-    allData, setAllData: (n) => setAllData([...n]), displayData, searchTerm, setSearchTerm,
-    currentPage, setCurrentPage, totalPages, totalItems, itemsPerPage, setItemsPerPage,
-    filters, setFilters
-  };
-};
-
-const Pagination = ({ currentPage, totalPages, totalItems, itemsPerPage, onPageChange }) => {
-  if (totalPages <= 1) return null;
-  const pages = [];
-  let start = Math.max(1, currentPage - 1);
-  let end = Math.min(totalPages, start + 2);
-  if (end - start < 2) start = Math.max(1, end - 2);
-  for (let i = start; i <= end; i++) pages.push(i);
-
-  return (
-    <div style={S.pagination}>
-      <div style={{ fontSize: 'clamp(11px, 2vw, 13px)', color: '#4b5563' }}>
-        Showing <b>{totalItems === 0 ? 0 : ((currentPage - 1) * itemsPerPage) + 1}</b> to <b>{Math.min(currentPage * itemsPerPage, totalItems)}</b> of <b>{totalItems}</b>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
-        <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} style={{ ...S.pageBtn, ...(currentPage === 1 ? S.pageBtnDisabled : {}) }}><ChevronLeft size={14} /> Prev</button>
-        {pages.map(p => <button key={p} onClick={() => onPageChange(p)} style={{ ...S.pageBtn, ...(currentPage === p ? S.pageBtnActive : {}) }}>{p}</button>)}
-        <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} style={{ ...S.pageBtn, ...(currentPage === totalPages ? S.pageBtnDisabled : {}) }}>Next <ChevronRight size={14} /></button>
-      </div>
-    </div>
-  );
-};
-
-const StatsRow = ({ stats }) => (
-  <div style={S.statsGrid}>
-    {stats.map((s, i) => (
-      <div key={i} style={S.statCard}>
-        <div style={{ ...S.statAccent, background: s.color || '#3b82f6' }} />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-          <div style={{ minWidth: 0, flex: 1 }}>
-            <p style={S.statLabel}>{s.label}</p>
-            <p style={{ ...S.statValue, color: s.color || '#1f2937' }}>{s.value}</p>
+    overlay.innerHTML = `
+      <div style="background:#fff;border-radius:8px;flex:1;display:flex;flex-direction:column;overflow:hidden;max-width:1400px;margin:0 auto;width:100%;">
+        <div style="padding:10px 16px;background:#1e3a8a;color:#fff;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;gap:8px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:14px;font-weight:700;">Print Preview — ${title}</div>
+            <div style="font-size:11px;opacity:0.8;margin-top:2px;">${data.length} records • Landscape mode</div>
           </div>
-          <div style={{ ...S.statIconBox, background: (s.color || '#3b82f6') + '15', color: s.color || '#3b82f6' }}>{s.icon}</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button id="print-now-btn" style="padding:8px 16px;background:#16a34a;color:#fff;border:none;border-radius:6px;font-weight:600;font-size:12px;cursor:pointer;">🖨️ Print Now</button>
+            <button id="print-close-btn" style="padding:8px 16px;background:#dc2626;color:#fff;border:none;border-radius:6px;font-weight:600;font-size:12px;cursor:pointer;">✕ Close</button>
+          </div>
+        </div>
+        <div style="flex:1;overflow:auto;padding:12px;background:#f3f4f6;">
+          <div style="background:#fff;padding:12px;border-radius:6px;max-width:100%;overflow:auto;">
+            <div style="text-align:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:10px;">
+              <div style="font-size:15px;font-weight:700;letter-spacing:0.5px;">INDIAN OIL CORPORATION LIMITED</div>
+              <div style="font-size:12px;font-weight:600;margin-top:3px;">${title.toUpperCase()}</div>
+              <div style="font-size:10px;color:#555;margin-top:3px;">Generated: ${dayjs().format('DD/MM/YYYY HH:mm')} | Total: ${data.length}</div>
+            </div>
+            <table id="print-preview-table" style="width:100%;border-collapse:collapse;font-size:10px;">
+              <thead><tr style="background:#e5e7eb;">
+                <th style="border:1px solid #000;padding:5px 6px;text-align:left;font-weight:700;text-transform:uppercase;font-size:9px;">S/No.</th>
+                ${columns.map(c => `<th style="border:1px solid #000;padding:5px 6px;text-align:left;font-weight:700;text-transform:uppercase;font-size:9px;">${c.label}</th>`).join('')}
+              </tr></thead>
+              <tbody>${tableRows}</tbody>
+            </table>
+            <div style="text-align:center;font-size:9px;color:#666;margin-top:8px;padding-top:6px;border-top:1px solid #ccc;">System generated report</div>
+          </div>
         </div>
       </div>
-    ))}
-  </div>
-);
+    `;
+    document.body.appendChild(overlay);
 
-// =============================================
-// EXPORT / PRINT
-// =============================================
+    const styleEl = document.createElement('style');
+    styleEl.id = 'print-preview-style';
+    styleEl.innerHTML = `
+      @media print {
+        @page { size: A4 landscape; margin: 8mm; }
+        body * { visibility: hidden !important; }
+        #print-preview-overlay, #print-preview-overlay * { visibility: visible !important; }
+        #print-preview-overlay { position: static !important; background: white !important; padding: 0 !important; display: block !important; overflow: visible !important; }
+        #print-preview-overlay > div { max-width: 100% !important; }
+        #print-preview-overlay button { display: none !important; }
+        #print-preview-table { width: 100% !important; }
+        #print-preview-table th, #print-preview-table td { border: 1px solid #000 !important; padding: 3px 4px !important; font-size: 8px !important; word-break: break-word; white-space: normal !important; }
+      }
+    `;
+    document.head.appendChild(styleEl);
+
+    document.getElementById('print-now-btn').addEventListener('click', () => window.print());
+    document.getElementById('print-close-btn').addEventListener('click', () => {
+      overlay.remove();
+      const s = document.getElementById('print-preview-style');
+      if (s) s.remove();
+    });
+    toast.success(`Preview opened for ${data.length} records`);
+  } catch (e) { console.error(e); toast.error('Print failed'); }
+};
+
 const exportToExcel = (data, columns, filename) => {
   try {
     if (!data.length) { toast.error('No data'); return; }
@@ -670,41 +451,8 @@ const exportToExcel = (data, columns, filename) => {
   } catch (e) { toast.error('Failed'); }
 };
 
-const printReport = (data, columns, title) => {
-  try {
-    if (!data.length) { toast.error('No data'); return; }
-    const w = window.open('', '_blank', 'width=1200,height=800');
-    if (!w) { toast.error('Allow popups'); return; }
-    let html = `<!DOCTYPE html><html><head><title>${title}</title><style>
-      * { margin:0; padding:0; box-sizing:border-box; }
-      body { font-family: Arial, sans-serif; padding: 10px; background: #fff; font-size: 11px; }
-      .container { max-width: 1100px; margin: 0 auto; border: 2px solid #000; }
-      .header { text-align: center; padding: 12px; border-bottom: 2px solid #000; }
-      .header h1 { font-size: 16px; font-weight: bold; }
-      .header h2 { font-size: 13px; font-weight: bold; margin-top: 4px; }
-      .header p { font-size: 11px; margin-top: 6px; text-decoration: underline; }
-      .meta { padding: 6px 12px; border-bottom: 1px solid #000; font-size: 10px; display: flex; justify-content: space-between; }
-      table { width: 100%; border-collapse: collapse; font-size: 10px; }
-      th, td { border: 1px solid #000; padding: 5px 8px; text-align: left; }
-      th { background: #e0e0e0; font-weight: bold; text-transform: uppercase; }
-      .footer { text-align: center; padding: 8px; font-size: 9px; color: #666; border-top: 1px solid #000; }
-      @media print { th { background: #e0e0e0 !important; } }
-    </style></head><body>
-    <div class="container"><div class="header"><h1>INDIAN OIL CORPORATION LIMITED</h1><h2>${title.toUpperCase()}</h2><p>System Generated</p></div>
-      <div class="meta"><span><b>Generated:</b> ${dayjs().format('DD/MM/YYYY HH:mm')}</span><span><b>Total:</b> ${data.length}</span></div>
-      <table><thead><tr><th style="width:50px;">S/No.</th>${columns.map(c => `<th>${c.label}</th>`).join('')}</tr></thead><tbody>`;
-    data.forEach((item, idx) => {
-      html += `<tr><td>${idx + 1}</td>${columns.map(c => `<td>${c.exportValue ? c.exportValue(item) : (item[c.key] ?? '-')}</td>`).join('')}</tr>`;
-    });
-    html += `</tbody></table><div class="footer">System generated report</div></div>
-    <script>window.onload=function(){window.print();window.onafterprint=function(){window.close();}}<\/script></body></html>`;
-    w.document.write(html); w.document.close();
-    toast.success(`Printing ${data.length}`);
-  } catch (e) { toast.error('Failed'); }
-};
-
 // =============================================
-// FORM FIELD
+// FIELD
 // =============================================
 const Field = ({ label, icon, name, value, onChange, type = 'text', placeholder, required, options }) => (
   <div style={S.formGroup}>
@@ -723,1017 +471,240 @@ const Field = ({ label, icon, name, value, onChange, type = 'text', placeholder,
 );
 
 // =============================================
-// BOTTOM BAR — Responsive (Excel, Print, Show, Pagination)
+// TOP TOOLBAR
 // =============================================
-const BottomBar = ({
-  currentPage, totalPages, totalItems, itemsPerPage, onPageChange, onItemsPerPageChange,
-  onExcel, onPrint, showPagination = true
-}) => {
+const TopToolbar = ({ itemsPerPage, onItemsPerPageChange, onExcel, onPrint }) => (
+  <div style={S.topToolbar}>
+    <button onClick={onExcel} style={S.btn} title="Export to Excel"><FileSpreadsheet size={13} /> Excel</button>
+    <button onClick={onPrint} style={S.btn} title="Print report"><Printer size={13} /> Print</button>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+      <span style={{ fontSize: 'clamp(10px, 1.9vw, 12px)', color: '#6b7280' }}>Show:</span>
+      <select value={itemsPerPage} onChange={e => onItemsPerPageChange(Number(e.target.value))}
+        style={{ fontSize: 'clamp(10px, 1.9vw, 12px)', border: '1px solid #d1d5db', borderRadius: '6px', padding: '4px 6px', background: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
+        <option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option>
+      </select>
+    </div>
+  </div>
+);
+
+// =============================================
+// BOTTOM PAGINATION
+// =============================================
+const BottomPagination = ({ currentPage, totalPages, totalItems, itemsPerPage, onPageChange }) => {
+  if (totalPages <= 1) return null;
   const pages = [];
-  if (totalPages > 1) {
-    let start = Math.max(1, currentPage - 1);
-    let end = Math.min(totalPages, start + 2);
-    if (end - start < 2) start = Math.max(1, end - 2);
-    for (let i = start; i <= end; i++) pages.push(i);
-  }
-
+  let start = Math.max(1, currentPage - 1);
+  let end = Math.min(totalPages, start + 2);
+  if (end - start < 2) start = Math.max(1, end - 2);
+  for (let i = start; i <= end; i++) pages.push(i);
   return (
-    <div style={{
-      padding: 'clamp(10px, 2vw, 14px) clamp(12px, 3vw, 20px)',
-      borderTop: '1px solid #e5e7eb',
-      background: '#f9fafb',
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      gap: 'clamp(8px, 2vw, 12px)'
-    }}>
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'clamp(6px, 1.5vw, 12px)' }}>
-        <button onClick={onExcel} style={S.btn} title="Export to Excel">
-          <FileSpreadsheet size={14} /> Excel
-        </button>
-        <button onClick={onPrint} style={S.btn} title="Print report">
-          <Printer size={14} /> Print
-        </button>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ fontSize: 'clamp(10px, 2vw, 12px)', color: '#6b7280' }}>Show:</span>
-          <select
-            value={itemsPerPage}
-            onChange={e => onItemsPerPageChange(Number(e.target.value))}
-            style={{ fontSize: 'clamp(10px, 2vw, 12px)', border: '1px solid #d1d5db', borderRadius: '6px', padding: '4px 6px', background: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}
-          >
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-        </div>
-        {showPagination && totalItems > 0 && (
-          <span style={{ fontSize: 'clamp(10px, 2vw, 12px)', color: '#6b7280' }}>
-            Showing <b>{(currentPage - 1) * itemsPerPage + 1}</b>–<b>{Math.min(currentPage * itemsPerPage, totalItems)}</b> of <b>{totalItems}</b>
-          </span>
-        )}
+    <div style={S.pagination}>
+      <div style={{ fontSize: 'clamp(10px, 1.9vw, 12px)', color: '#4b5563' }}>
+        Showing <b>{totalItems === 0 ? 0 : ((currentPage - 1) * itemsPerPage) + 1}</b>–<b>{Math.min(currentPage * itemsPerPage, totalItems)}</b> of <b>{totalItems}</b>
       </div>
-
-      {showPagination && totalPages > 1 && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
-          <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} style={{ ...S.pageBtn, ...(currentPage === 1 ? S.pageBtnDisabled : {}) }}>
-            <ChevronLeft size={14} /> Prev
-          </button>
-          {pages.map(p => (
-            <button key={p} onClick={() => onPageChange(p)} style={{ ...S.pageBtn, ...(currentPage === p ? S.pageBtnActive : {}) }}>{p}</button>
-          ))}
-          <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} style={{ ...S.pageBtn, ...(currentPage === totalPages ? S.pageBtnDisabled : {}) }}>
-            Next <ChevronRight size={14} />
-          </button>
-        </div>
-      )}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '3px', flexWrap: 'wrap' }}>
+        <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} style={{ ...S.pageBtn, ...(currentPage === 1 ? S.pageBtnDisabled : {}) }}><ChevronLeft size={12} /> Prev</button>
+        {pages.map(p => <button key={p} onClick={() => onPageChange(p)} style={{ ...S.pageBtn, ...(currentPage === p ? S.pageBtnActive : {}) }}>{p}</button>)}
+        <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} style={{ ...S.pageBtn, ...(currentPage === totalPages ? S.pageBtnDisabled : {}) }}>Next <ChevronRight size={12} /></button>
+      </div>
     </div>
   );
 };
 
-// =============================================
-// TABLE PAGE — Responsive
-// =============================================
-const TablePage = ({ title, subtitle, columns, initialData, searchKeys, statusOptions, renderForm, formInitial, validateForm, stats, addLabel }) => {
-  const { allData, setAllData, displayData, searchTerm, setSearchTerm, currentPage, setCurrentPage, totalPages, totalItems, itemsPerPage, setItemsPerPage, filters, setFilters } = useTablePage(initialData, searchKeys);
-  const [showFilters, setShowFilters] = useState(false);
-  const [showView, setShowView] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [selected, setSelected] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState(formInitial);
-
-  const activeFilters = !!(filters.status || searchTerm);
-  const resetForm = () => { setFormData(formInitial); setEditingId(null); };
-  const openNew = () => { resetForm(); setShowForm(true); };
-  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
-  const openView = (item) => { setSelected(item); setShowView(true); };
-
-  const handleDelete = (item) => {
-    if (!window.confirm('Delete this record?')) return;
-    setAllData(allData.filter(d => d.id !== item.id));
-    toast.success('Deleted'); setShowView(false); setSelected(null);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const error = validateForm ? validateForm(formData) : null;
-    if (error) { toast.error(error); return; }
-    if (editingId) {
-      setAllData(allData.map(d => d.id === editingId ? { ...d, ...formData } : d));
-      toast.success('Updated');
-    } else {
-      const nextSNo = allData.length > 0 ? Math.max(...allData.map(d => d.s_no || 0)) + 1 : 1;
-      setAllData([{ ...formData, id: Date.now(), s_no: nextSNo }, ...allData]);
-      toast.success('Added');
-    }
-    setShowForm(false); resetForm();
-  };
-
-  const clearFilters = () => { setFilters({ status: '' }); setSearchTerm(''); setCurrentPage(1); };
-  const refresh = () => { setAllData([...initialData]); setCurrentPage(1); toast.success('Refreshed'); };
-
-  if (showForm) {
-    return (
-      <div style={S.page}>
-        <ToastContainer position="top-right" autoClose={3000} />
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: 'clamp(14px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div><h1 style={S.title}>{editingId ? `Edit ${title}` : `New ${title}`}</h1><p style={S.subtitle}>Fill the details below</p></div>
-            <button onClick={() => { setShowForm(false); resetForm(); }} style={S.btnSecondary}><X size={14} /> Cancel</button>
+const StatsRow = ({ stats }) => (
+  <div style={S.statsGrid}>
+    {stats.map((s, i) => (
+      <div key={i} style={S.statCard}>
+        <div style={{ ...S.statAccent, background: s.color || '#3b82f6' }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '6px' }}>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <p style={S.statLabel}>{s.label}</p>
+            <p style={{ ...S.statValue, color: s.color || '#1f2937' }}>{s.value}</p>
           </div>
-          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: 'clamp(14px, 3vw, 28px)' }}>
-            <form onSubmit={handleSubmit}>
-              <div style={S.formGrid3}>{renderForm(formData, setFormData, statusOptions)}</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '10px', paddingTop: 'clamp(16px, 3vw, 24px)', marginTop: 'clamp(16px, 3vw, 28px)', borderTop: '1px solid #e5e7eb' }}>
-                <button type="button" onClick={() => { setShowForm(false); resetForm(); }} style={S.btnSecondary}><X size={14} /> Cancel</button>
-                <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
-              </div>
-            </form>
-          </div>
+          <div style={{ ...S.statIconBox, background: (s.color || '#3b82f6') + '15', color: s.color || '#3b82f6' }}>{s.icon}</div>
         </div>
       </div>
-    );
-  }
+    ))}
+  </div>
+);
 
-  return (
-    <div style={S.page}>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>{title}</h1><p style={S.subtitle}>{subtitle}</p></div>
-      {stats && <StatsRow stats={stats} />}
-
-      <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
-          <Search size={16} style={S.searchIcon} />
-          <input type="text" placeholder={`Search ${title}...`} value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }} style={S.searchInput} />
-          {searchTerm && <button onClick={() => { setSearchTerm(''); setCurrentPage(1); }} style={S.clearIcon}><X size={14} /></button>}
-        </div>
-        <button onClick={refresh} style={S.btn}><RefreshCw size={14} /> Refresh</button>
-        <button onClick={() => setShowFilters(!showFilters)} style={{ ...S.btn, ...(showFilters ? S.btnActive : {}) }}><Filter size={14} /> {showFilters ? 'Hide' : 'Filters'}</button>
-        {activeFilters && <button onClick={clearFilters} style={S.btnDanger}>Clear</button>}
-        <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> {addLabel || `Add`}</button>
-      </div>
-
-      {showFilters && (
-        <div style={S.filterPanel}>
-          <div style={S.filterGrid}>
-            <div><label style={S.filterLabel}>Status</label>
-              <select value={filters.status} onChange={e => { setFilters({ ...filters, status: e.target.value }); setCurrentPage(1); }} style={S.filterInput}>
-                <option value="">All Status</option>
-                {statusOptions.map(s => <option key={s} value={s}>{s}</option>)}
-              </select>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {displayData.length === 0 ? (
-        <div style={S.emptyState}>
-          <div style={{ width: '64px', height: '64px', background: '#dbeafe', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#2563eb' }}><FileText size={28} /></div>
-          <h3 style={{ fontSize: '15px', color: '#374151', margin: '0 0 8px 0' }}>No records</h3>
-          <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> Add</button>
-        </div>
-      ) : (
-        <div style={S.tableCard}>
-          <div style={S.tableHeaderBar}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-              <h2 style={S.tableTitle}>All {title}</h2>
-              <span style={S.countBadge}>{totalItems}</span>
-            </div>
-          </div>
-          <div style={S.tableWrap}>
-            <table style={S.table}>
-              <thead style={S.thead}>
-                <tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}<th style={S.th}>Actions</th></tr>
-              </thead>
-              <tbody>
-                {displayData.map((item, idx) => {
-                  const seq = ((currentPage - 1) * itemsPerPage) + idx + 1;
-                  return (
-                    <tr key={item.id}>
-                      <td style={S.td}>{item.s_no || seq}</td>
-                      {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
-                      <td style={S.td}>
-                        <div style={{ display: 'flex', gap: '2px' }}>
-                          <button onClick={() => openView(item)} style={{ ...S.iconBtn, color: '#2563eb' }} title="View"><Eye size={15} /></button>
-                          <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }} title="Edit"><Edit size={15} /></button>
-                          <button onClick={() => handleDelete(item)} style={{ ...S.iconBtn, color: '#dc2626' }} title="Delete"><Trash2 size={15} /></button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-          <BottomBar
-            currentPage={currentPage}
-            totalPages={totalPages}
-            totalItems={totalItems}
-            itemsPerPage={itemsPerPage}
-            onPageChange={setCurrentPage}
-            onItemsPerPageChange={(v) => { setItemsPerPage(v); setCurrentPage(1); }}
-            onExcel={() => exportToExcel(allData, columns, title.toLowerCase().replace(/\s+/g, '_'))}
-            onPrint={() => printReport(allData, columns, title)}
-          />
-        </div>
-      )}
-
-      {showView && selected && (
-        <div style={S.modalOverlay} onClick={() => { setShowView(false); setSelected(null); }}>
-          <div style={S.modal} onClick={e => e.stopPropagation()}>
-            <div style={S.modalHeader}>
-              <div><h2 style={S.modalTitle}>{title} Details</h2></div>
-              <button onClick={() => { setShowView(false); setSelected(null); }} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
-            </div>
-            <div style={S.modalBody}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 'clamp(10px, 2vw, 16px)' }}>
-                {columns.map(c => (
-                  <div key={c.key}>
-                    <p style={{ fontSize: '11px', color: '#6b7280', margin: '0 0 4px 0', fontWeight: '600', textTransform: 'uppercase' }}>{c.label}</p>
-                    <p style={{ fontSize: '14px', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{c.render ? c.render(selected) : (selected[c.key] ?? '—')}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div style={S.modalFooter}>
-              <button onClick={() => { setShowView(false); setSelected(null); }} style={S.btnSecondary}>Close</button>
-              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={14} /> Edit</button>
-            </div>
-          </div>
-        </div>
-      )}
+const ComingSoonPage = ({ title = 'Coming Soon' }) => (
+  <div style={S.page}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', textAlign: 'center' }}>
+      <div style={{ width: 'clamp(60px, 15vw, 90px)', height: 'clamp(60px, 15vw, 90px)', background: '#dbeafe', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563eb', marginBottom: '20px' }}><Construction size={36} /></div>
+      <h1 style={{ fontSize: 'clamp(18px, 4vw, 26px)', fontWeight: 'bold', color: '#1f2937', margin: 0, marginBottom: '8px' }}>Coming Soon</h1>
+      <p style={{ fontSize: 'clamp(11px, 2vw, 14px)', color: '#6b7280', margin: 0, maxWidth: '400px' }}>{title} module is under development. Stay tuned!</p>
     </div>
-  );
-};
+  </div>
+);
 
 // =============================================
-// SIMPLE MASTER PAGE — Responsive
+// DASHBOARD PAGE — Clickable Cards
 // =============================================
-const SimpleMasterPage = ({ title, subtitle, storageKey, defaultColumns, defaultData }) => {
-  const [columns, setColumns] = useState(() => {
-    const s = localStorage.getItem(storageKey + '_cols');
-    return s ? JSON.parse(s) : defaultColumns;
-  });
-  const [data, setData] = useState(() => {
-    const s = localStorage.getItem(storageKey + '_data');
-    return s ? JSON.parse(s) : defaultData;
-  });
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showForm, setShowForm] = useState(false);
-  const [showColForm, setShowColForm] = useState(false);
-  const [showView, setShowView] = useState(false);
-  const [selected, setSelected] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({});
-  const [newCol, setNewCol] = useState({ key: '', label: '' });
-  const [page, setPage] = useState(1);
-  const perPage = 8;
+const DashboardPage = ({ onNavigate }) => {
+  const totalSubstations = [...new Set(MSKVY_CONTRACTORS.map(c => c.substation))].length;
+  const totalArea = MSKVY_CONTRACTORS.reduce((s, c) => s + (parseFloat(c.area) || 0), 0).toFixed(2);
+  const totalDistricts = [...new Set(MSKVY_CONTRACTORS.map(c => c.district))].length;
+  const totalContractors = [...new Set(MSKVY_CONTRACTORS.map(c => c.contractor))].length;
+  const totalTalukas = [...new Set(MSKVY_CONTRACTORS.map(c => c.taluka))].length;
+  const totalSupervisors = [...new Set(MSKVY_CONTRACTORS.map(c => c.supervisor).filter(Boolean))].length;
+  const totalSolarMW = MSKVY_CONTRACTORS.reduce((s, c) => s + (parseFloat(c.solar) || 0), 0).toFixed(2);
 
-  useEffect(() => { localStorage.setItem(storageKey + '_cols', JSON.stringify(columns)); }, [columns, storageKey]);
-  useEffect(() => { localStorage.setItem(storageKey + '_data', JSON.stringify(data)); }, [data, storageKey]);
-
-  const filtered = data.filter(item => !searchTerm || Object.values(item).some(v => String(v || '').toLowerCase().includes(searchTerm.toLowerCase())));
-  const totalPages = Math.ceil(filtered.length / perPage) || 1;
-  const start = (page - 1) * perPage;
-  const display = filtered.slice(start, start + perPage);
-
-  const openNew = () => { const e = {}; columns.forEach(c => e[c.key] = ''); setFormData(e); setEditingId(null); setShowForm(true); };
-  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
-  const del = (item) => { if (!window.confirm('Delete?')) return; setData(data.filter(d => d.id !== item.id)); toast.success('Deleted'); setShowView(false); };
-  const submit = (e) => {
-    e.preventDefault();
-    if (editingId) { setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d)); toast.success('Updated'); }
-    else { const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1; setData([{ ...formData, id: Date.now(), s_no: n }, ...data]); toast.success('Added'); }
-    setShowForm(false);
-  };
-  const addCol = (e) => {
-    e.preventDefault();
-    if (!newCol.key || !newCol.label) { toast.error('Both required'); return; }
-    if (columns.some(c => c.key === newCol.key)) { toast.error('Key exists'); return; }
-    setColumns([...columns, { key: newCol.key, label: newCol.label, dynamic: true }]);
-    setNewCol({ key: '', label: '' }); setShowColForm(false); toast.success('Column added');
-  };
-  const rmCol = (key) => { if (!window.confirm('Remove column?')) return; setColumns(columns.filter(c => c.key !== key)); toast.success('Removed'); };
-
-  if (showForm) {
-    return (
-      <div style={S.page}>
-        <ToastContainer position="top-right" autoClose={3000} />
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: 'clamp(14px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div><h1 style={S.title}>{editingId ? `Edit ${title}` : `New ${title}`}</h1><p style={S.subtitle}>Fill below</p></div>
-            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
-          </div>
-          <div style={{ background: '#fff', borderRadius: '16px', padding: 'clamp(14px, 3vw, 28px)', border: '1px solid #f3f4f6' }}>
-            <form onSubmit={submit}>
-              <div style={S.formGrid3}>
-                {columns.map(col => <Field key={col.key} label={col.label} name={col.key} value={formData[col.key] || ''} onChange={e => setFormData({ ...formData, [col.key]: e.target.value })} placeholder={`Enter ${col.label}`} />)}
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '10px', paddingTop: 'clamp(16px, 3vw, 24px)', marginTop: 'clamp(16px, 3vw, 28px)', borderTop: '1px solid #e5e7eb' }}>
-                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
-                <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const cards = [
+    { id: 'contractors', title: 'Contractor List', subtitle: 'All EPC Sub-Contractors', value: MSKVY_CONTRACTORS.length, label: 'Total Records', icon: <Building2 size={26} />, color: '#2563eb', bg: '#eff6ff', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
+    { id: 'substations', title: 'Substations', subtitle: 'Unique 33/11 KV feeders', value: totalSubstations, label: 'Active Substations', icon: <Zap size={26} />, color: '#ea580c', bg: '#fff7ed', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
+    { id: 'districts', title: 'Districts', subtitle: 'Coverage in Maharashtra', value: totalDistricts, label: 'Districts', icon: <MapPin size={26} />, color: '#7c3aed', bg: '#f3e8ff', onClick: () => onNavigate('mskvy', 'mskvy-district') },
+    { id: 'talukas', title: 'Talukas', subtitle: 'Sub-district areas', value: totalTalukas, label: 'Talukas', icon: <Globe size={26} />, color: '#0891b2', bg: '#cffafe', onClick: () => onNavigate('mskvy', 'mskvy-district') },
+    { id: 'area', title: 'Total Land Area', subtitle: 'Across all sites', value: `${totalArea} ac`, label: 'Total Acres', icon: <Ruler size={26} />, color: '#16a34a', bg: '#dcfce7', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
+    { id: 'solar', title: 'Solar Capacity', subtitle: 'Planned installations', value: `${totalSolarMW} MW`, label: 'Solar MW', icon: <Activity size={26} />, color: '#f59e0b', bg: '#fef3c7', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
+    { id: 'survey-contractors', title: 'Unique Contractors', subtitle: 'Different companies', value: totalContractors, label: 'Companies', icon: <FolderOpen size={26} />, color: '#dc2626', bg: '#fee2e2', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
+    { id: 'supervisors', title: 'Site Supervisors', subtitle: 'Field engineers', value: totalSupervisors, label: 'Team Members', icon: <Users size={26} />, color: '#0d9488', bg: '#ccfbf1', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
+    { id: 'substation-surveys', title: 'Substation Surveys', subtitle: 'Completed checklist', value: MSKVY_SUBSTATION_SURVEYS.length, label: 'Surveys', icon: <ClipboardList size={26} />, color: '#1e40af', bg: '#dbeafe', onClick: () => onNavigate('mskvy', 'mskvy-substation-survey') },
+    { id: 'land-surveys', title: 'Land Surveys', subtitle: 'Land verification done', value: MSKVY_LAND_SURVEYS.length, label: 'Surveys', icon: <FileCheck size={26} />, color: '#15803d', bg: '#dcfce7', onClick: () => onNavigate('mskvy', 'mskvy-land-survey') },
+    { id: 'district-master', title: 'District Master', subtitle: 'Manage districts', value: MASTER_MSKVY_DISTRICT.length, label: 'Districts', icon: <Database size={26} />, color: '#9333ea', bg: '#f3e8ff', onClick: () => onNavigate('mskvy', 'mskvy-district') },
+    { id: 'survey-status', title: 'Survey Status', subtitle: 'Status master', value: MASTER_MSKVY_SURVEY_STATUS.length, label: 'Statuses', icon: <CheckCircle size={26} />, color: '#ca8a04', bg: '#fef9c3', onClick: () => onNavigate('mskvy', 'mskvy-survey-status') },
+  ];
 
   return (
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>{title}</h1><p style={S.subtitle}>{subtitle}</p></div>
-
-      <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
-          <Search size={16} style={S.searchIcon} />
-          <input type="text" placeholder={`Search ${title}...`} value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
-          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={14} /></button>}
-        </div>
-        <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> Add</button>
-        <button onClick={() => setShowColForm(true)} style={S.btnPurple}><Columns size={14} /> Add Column</button>
+      <div style={S.header}>
+        <h1 style={S.title}>Management Dashboard</h1>
+        <p style={S.subtitle}>Click any card to open the module</p>
       </div>
-
-      {showColForm && (
-        <div style={S.modalOverlay} onClick={() => setShowColForm(false)}>
-          <div style={{ ...S.modal, maxWidth: '480px' }} onClick={e => e.stopPropagation()}>
-            <div style={S.modalHeader}>
-              <div><h2 style={S.modalTitle}>Add Column</h2><p style={{ fontSize: '12px', color: '#6b7280', marginTop: '4px' }}>Add custom field</p></div>
-              <button onClick={() => setShowColForm(false)} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 'clamp(10px, 2vw, 16px)', marginBottom: 'clamp(14px, 3vw, 24px)' }}>
+        {cards.map(card => (
+          <div key={card.id} onClick={card.onClick}
+            style={{ background: '#fff', borderRadius: '14px', padding: 'clamp(14px, 2.5vw, 20px)', border: '1px solid #e5e7eb', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden', userSelect: 'none' }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.1)'; e.currentTarget.style.borderColor = card.color; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.borderColor = '#e5e7eb'; }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', background: card.color }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+              <div style={{ width: 'clamp(40px, 8vw, 52px)', height: 'clamp(40px, 8vw, 52px)', background: card.bg, color: card.color, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{card.icon}</div>
+              <div style={{ color: '#9ca3af' }}><ArrowRight size={16} /></div>
             </div>
-            <form onSubmit={addCol}>
-              <div style={S.modalBody}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <Field label="Key" icon={<Hash size={12} />} name="key" value={newCol.key} onChange={e => setNewCol({ ...newCol, key: e.target.value })} placeholder="e.g. manager_name" required />
-                  <Field label="Label" icon={<Tag size={12} />} name="label" value={newCol.label} onChange={e => setNewCol({ ...newCol, label: e.target.value })} placeholder="e.g. Manager Name" required />
-                </div>
-              </div>
-              <div style={S.modalFooter}>
-                <button type="button" onClick={() => setShowColForm(false)} style={S.btnSecondary}>Cancel</button>
-                <button type="submit" style={S.btnSubmit}><Plus size={14} /> Add</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 'clamp(10px, 2vw, 16px)', marginBottom: 'clamp(14px, 3vw, 24px)' }}>
-        {display.map(item => (
-          <div key={item.id} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: 'clamp(12px, 2.5vw, 16px)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', gap: '8px' }}>
-              <div style={{ minWidth: 0, flex: 1 }}>
-                <p style={{ fontSize: '12px', color: '#6b7280', margin: '0 0 2px 0' }}>S/No. {item.s_no}</p>
-                <p style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '600', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{item.name || item[columns[0]?.key] || 'Record'}</p>
-              </div>
-              <div style={{ display: 'flex', gap: '2px', flexShrink: 0 }}>
-                <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }}><Eye size={15} /></button>
-                <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }}><Edit size={15} /></button>
-                <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }}><Trash2 size={15} /></button>
-              </div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 120px), 1fr))', gap: '8px' }}>
-              {columns.map(col => (
-                <div key={col.key} style={{ background: '#f9fafb', padding: '8px 10px', borderRadius: '8px', position: 'relative', minWidth: 0 }}>
-                  <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 2px 0', fontWeight: '600', textTransform: 'uppercase' }}>{col.label}</p>
-                  <p style={{ fontSize: '12px', color: '#111827', margin: 0, fontWeight: '500', wordBreak: 'break-word' }}>
-                    {col.key === 'status' ? <span style={{ ...S.statusBadge, ...getStatusStyle(item[col.key]) }}>{item[col.key] || '—'}</span> : (item[col.key] || '—')}
-                  </p>
-                  {col.dynamic && <button onClick={() => rmCol(col.key)} style={{ position: 'absolute', top: '2px', right: '2px', background: 'transparent', border: 'none', color: '#dc2626', cursor: 'pointer' }}><X size={10} /></button>}
-                </div>
-              ))}
-            </div>
+            <p style={{ fontSize: 'clamp(11px, 2vw, 13px)', color: '#6b7280', margin: 0, fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{card.title}</p>
+            <p style={{ fontSize: 'clamp(20px, 4.5vw, 30px)', color: card.color, fontWeight: 'bold', margin: '4px 0 2px 0', lineHeight: 1 }}>{card.value}</p>
+            <p style={{ fontSize: 'clamp(10px, 1.8vw, 11px)', color: '#9ca3af', margin: 0 }}>{card.label}</p>
+            <p style={{ fontSize: 'clamp(10px, 1.9vw, 12px)', color: '#6b7280', margin: '8px 0 0 0', fontStyle: 'italic' }}>{card.subtitle}</p>
           </div>
         ))}
       </div>
-
-      <div style={{ ...S.tableCard }}>
-        <BottomBar
-          currentPage={page}
-          totalPages={totalPages}
-          totalItems={filtered.length}
-          itemsPerPage={perPage}
-          onPageChange={setPage}
-          onItemsPerPageChange={() => {}}
-          onExcel={() => exportToExcel(data, columns, title.toLowerCase().replace(/\s+/g, '_'))}
-          onPrint={() => printReport(data, columns, title)}
-        />
-      </div>
-
-      {filtered.length === 0 && (
-        <div style={S.emptyState}>
-          <div style={{ width: '64px', height: '64px', background: '#dbeafe', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#2563eb' }}><FileText size={28} /></div>
-          <h3 style={{ fontSize: '15px', color: '#374151', margin: '0 0 8px 0' }}>No records</h3>
-          <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> Add</button>
-        </div>
-      )}
-
-      {showView && selected && (
-        <div style={S.modalOverlay} onClick={() => setShowView(false)}>
-          <div style={S.modal} onClick={e => e.stopPropagation()}>
-            <div style={S.modalHeader}>
-              <div><h2 style={S.modalTitle}>{title} Details</h2></div>
-              <button onClick={() => setShowView(false)} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
-            </div>
-            <div style={S.modalBody}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 'clamp(10px, 2vw, 16px)' }}>
-                {columns.map(col => (
-                  <div key={col.key}>
-                    <p style={{ fontSize: '11px', color: '#6b7280', margin: '0 0 4px 0', fontWeight: '600', textTransform: 'uppercase' }}>{col.label}</p>
-                    <p style={{ fontSize: '14px', color: '#111827', margin: 0, wordBreak: 'break-word' }}>
-                      {col.key === 'status' ? <span style={{ ...S.statusBadge, ...getStatusStyle(selected[col.key]) }}>{selected[col.key] || '—'}</span> : (selected[col.key] || '—')}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div style={S.modalFooter}>
-              <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
-              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={14} /> Edit</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
 // =============================================
-// PAGE WRAPPERS (unchanged)
+// DISTRICT MASTER PAGE
 // =============================================
-const ProjectListPage = () => {
-  const columns = [
-    { key: 'site_code', label: 'Site Code', strong: true },
-    { key: 'name', label: 'Project Name' },
-    { key: 'category', label: 'Category' },
-    { key: 'capacity', label: 'Capacity' },
-    { key: 'location', label: 'Location' },
-    { key: 'contractor', label: 'Contractor' },
-    { key: 'field_worker', label: 'Field Worker' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', site_code: '', name: '', category: '', capacity: '', location: '', contractor: '', field_worker: '', progress: '', status: 'Pending', start_date: '', end_date: '', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Site Code" icon={<Hash size={12} />} name="site_code" value={fd.site_code} onChange={onChange} placeholder="SP-XXX-001" required />
-        <Field label="Project Name" icon={<FileText size={12} />} name="name" value={fd.name} onChange={onChange} required />
-        <Field label="Category" icon={<Tag size={12} />} name="category" value={fd.category} onChange={onChange} options={getNames(MASTER_PROJ_CATEGORY)} />
-        <Field label="Capacity" icon={<Gauge size={12} />} name="capacity" value={fd.capacity} onChange={onChange} options={getNames(MASTER_CAPACITY)} />
-        <Field label="Location" icon={<Globe size={12} />} name="location" value={fd.location} onChange={onChange} />
-        <Field label="Contractor" icon={<Building2 size={12} />} name="contractor" value={fd.contractor} onChange={onChange} options={DEMO_CONTRACTORS.map(c => c.name)} />
-        <Field label="Field Worker" icon={<User size={12} />} name="field_worker" value={fd.field_worker} onChange={onChange} options={DEMO_FIELD_WORKERS.map(w => w.name)} />
-        <Field label="Progress (%)" icon={<TrendingUp size={12} />} name="progress" type="number" value={fd.progress} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={getNames(MASTER_PROJ_STATUS)} />
-        <Field label="Start Date" icon={<Calendar size={12} />} name="start_date" type="date" value={fd.start_date} onChange={onChange} />
-        <Field label="End Date" icon={<Calendar size={12} />} name="end_date" type="date" value={fd.end_date} onChange={onChange} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="All Projects" subtitle="Manage solar projects" columns={columns} initialData={DEMO_PROJECTS} searchKeys={['name', 'site_code', 'location']} statusOptions={getNames(MASTER_PROJ_STATUS)} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => (!fd.name || !fd.site_code) ? 'Required' : null} addLabel="Add Project" />;
-};
+const DistrictMasterPage = () => {
+  const [data, setData] = useState(() => loadMSKVY('mskvy_district_v2', MASTER_MSKVY_DISTRICT));
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [showView, setShowView] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  useEffect(() => { saveMSKVY('mskvy_district_v2', data); }, [data]);
 
-const ProjectSitesPage = () => {
-  const columns = [
-    { key: 'site_code', label: 'Site Code', strong: true }, { key: 'project', label: 'Project' },
-    { key: 'category', label: 'Category' }, { key: 'location', label: 'Location' },
-    { key: 'area', label: 'Area' }, { key: 'gps', label: 'GPS' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', site_code: '', project: '', category: '', location: '', area: '', gps: '', status: 'Active', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Site Code" icon={<Hash size={12} />} name="site_code" value={fd.site_code} onChange={onChange} required />
-        <Field label="Project" icon={<FolderOpen size={12} />} name="project" value={fd.project} onChange={onChange} options={DEMO_PROJECTS.map(p => p.name)} required />
-        <Field label="Category" icon={<Tag size={12} />} name="category" value={fd.category} onChange={onChange} options={getNames(MASTER_PROJ_CATEGORY)} />
-        <Field label="Location" icon={<Globe size={12} />} name="location" value={fd.location} onChange={onChange} />
-        <Field label="Area" icon={<Gauge size={12} />} name="area" value={fd.area} onChange={onChange} />
-        <Field label="GPS" icon={<MapPin size={12} />} name="gps" value={fd.gps} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Active', 'Inactive', 'Completed']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Project Sites" subtitle="Manage sites" columns={columns} initialData={DEMO_PROJECT_SITES} searchKeys={['site_code', 'project', 'location']} statusOptions={['Active', 'Inactive', 'Completed']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => (!fd.site_code || !fd.project) ? 'Required' : null} addLabel="Add Site" />;
-};
+  const emptyForm = { code: '', name: '', state: 'Maharashtra', talukas: '', total_substations: '', contractors: '', status: 'Active', remarks: '' };
+  const [formData, setFormData] = useState(emptyForm);
+  const filtered = data.filter(i => !searchTerm || ['name', 'code', 'talukas', 'contractors', 'state'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase())));
+  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+  const start = (page - 1) * itemsPerPage;
+  const display = filtered.slice(start, start + itemsPerPage);
 
-const ProjectMilestonesPage = () => {
-  const columns = [
-    { key: 'project', label: 'Project', strong: true }, { key: 'milestone_type', label: 'Type' },
-    { key: 'milestone', label: 'Milestone' }, { key: 'target_date', label: 'Target', render: (i) => formatDate(i.target_date) },
-    { key: 'actual_date', label: 'Actual', render: (i) => formatDate(i.actual_date) },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', project: '', milestone_type: '', milestone: '', target_date: '', actual_date: '', status: 'Pending', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Project" icon={<FolderOpen size={12} />} name="project" value={fd.project} onChange={onChange} options={DEMO_PROJECTS.map(p => p.name)} required />
-        <Field label="Milestone Type" icon={<Layers size={12} />} name="milestone_type" value={fd.milestone_type} onChange={onChange} options={getNames(MASTER_MILESTONE_TYPE)} />
-        <Field label="Milestone" icon={<FileText size={12} />} name="milestone" value={fd.milestone} onChange={onChange} required />
-        <Field label="Target Date" icon={<Calendar size={12} />} name="target_date" type="date" value={fd.target_date} onChange={onChange} />
-        <Field label="Actual Date" icon={<Calendar size={12} />} name="actual_date" type="date" value={fd.actual_date} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
+  const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
+  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
+  const del = (item) => { if (!window.confirm(`Delete "${item.name}"?`)) return; setData(data.filter(d => d.id !== item.id)); toast.success('Deleted'); setShowView(false); };
+  const submit = (e) => {
+    e.preventDefault();
+    if (!formData.name) { toast.error('District name required'); return; }
+    if (editingId) { setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d)); toast.success('Updated'); }
+    else { const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1; setData([{ ...formData, id: Date.now(), s_no: n }, ...data]); toast.success('Added'); }
+    setShowForm(false); setEditingId(null);
   };
-  return <TablePage title="Milestones" subtitle="Track milestones" columns={columns} initialData={DEMO_PROJECT_MILESTONES} searchKeys={['project', 'milestone']} statusOptions={['Pending', 'In Progress', 'Completed']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => (!fd.project || !fd.milestone) ? 'Required' : null} addLabel="Add Milestone" />;
-};
 
-const ProjectBudgetPage = () => {
   const columns = [
-    { key: 'project', label: 'Project', strong: true }, { key: 'category', label: 'Category' },
-    { key: 'sanctioned', label: 'Sanctioned', render: (i) => `₹${Number(i.sanctioned).toLocaleString('en-IN')}` },
-    { key: 'spent', label: 'Spent', render: (i) => `₹${Number(i.spent).toLocaleString('en-IN')}` },
-    { key: 'balance', label: 'Balance', render: (i) => `₹${Number(i.balance).toLocaleString('en-IN')}` },
-    { key: 'utilization', label: 'Utilization' },
+    { key: 'code', label: 'Code' }, { key: 'name', label: 'District Name', strong: true },
+    { key: 'state', label: 'State' }, { key: 'talukas', label: 'Talukas' },
+    { key: 'total_substations', label: 'Substations' },
     { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
   ];
-  const formInitial = { s_no: '', project: '', category: '', sanctioned: '', spent: '', balance: '', utilization: '', status: 'Pending', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
+
+  if (showForm) {
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     return (
-      <>
-        <Field label="Project" icon={<FolderOpen size={12} />} name="project" value={fd.project} onChange={onChange} options={DEMO_PROJECTS.map(p => p.name)} required />
-        <Field label="Category" icon={<Tag size={12} />} name="category" value={fd.category} onChange={onChange} options={getNames(MASTER_PROJ_CATEGORY)} />
-        <Field label="Sanctioned (₹)" icon={<Banknote size={12} />} name="sanctioned" type="number" value={fd.sanctioned} onChange={onChange} required />
-        <Field label="Spent (₹)" icon={<Wallet size={12} />} name="spent" type="number" value={fd.spent} onChange={onChange} />
-        <Field label="Balance (₹)" icon={<Banknote size={12} />} name="balance" type="number" value={fd.balance} onChange={onChange} />
-        <Field label="Utilization" icon={<TrendingUp size={12} />} name="utilization" value={fd.utilization} onChange={onChange} placeholder="75%" />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Pending', 'Approved', 'Correction', 'Completed']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Project Budgets" subtitle="Track budgets" columns={columns} initialData={DEMO_PROJECT_BUDGETS} searchKeys={['project']} statusOptions={['Pending', 'Approved', 'Correction', 'Completed']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => (!fd.project || !fd.sanctioned) ? 'Required' : null} addLabel="Add Budget" />;
-};
-
-const ProjectDocumentsPage = () => {
-  const columns = [
-    { key: 'project', label: 'Project', strong: true }, { key: 'doc_name', label: 'Document' },
-    { key: 'doc_type', label: 'Type' }, { key: 'size', label: 'Size' },
-    { key: 'uploaded', label: 'Uploaded', render: (i) => formatDate(i.uploaded) },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', project: '', doc_name: '', doc_type: '', size: '', uploaded: '', status: 'Pending', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Project" icon={<FolderOpen size={12} />} name="project" value={fd.project} onChange={onChange} options={DEMO_PROJECTS.map(p => p.name)} required />
-        <Field label="Document Name" icon={<FileText size={12} />} name="doc_name" value={fd.doc_name} onChange={onChange} required />
-        <Field label="Type" icon={<Tag size={12} />} name="doc_type" value={fd.doc_type} onChange={onChange} options={getNames(MASTER_DOC_TYPE)} />
-        <Field label="Size" icon={<Gauge size={12} />} name="size" value={fd.size} onChange={onChange} placeholder="2.4 MB" />
-        <Field label="Uploaded" icon={<Calendar size={12} />} name="uploaded" type="date" value={fd.uploaded} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Pending', 'Approved', 'Rejected']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Project Documents" subtitle="Manage documents" columns={columns} initialData={DEMO_PROJECT_DOCUMENTS} searchKeys={['project', 'doc_name']} statusOptions={['Pending', 'Approved', 'Rejected']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => (!fd.project || !fd.doc_name) ? 'Required' : null} addLabel="Add Document" />;
-};
-
-const ProjectAssignmentsPage = () => {
-  const columns = [
-    { key: 'project', label: 'Project', strong: true }, { key: 'contractor', label: 'Contractor' },
-    { key: 'worker', label: 'Worker' }, { key: 'role', label: 'Role' },
-    { key: 'assigned_date', label: 'Assigned', render: (i) => formatDate(i.assigned_date) },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', project: '', contractor: '', worker: '', role: '', assigned_date: '', status: 'Active', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Project" icon={<FolderOpen size={12} />} name="project" value={fd.project} onChange={onChange} options={DEMO_PROJECTS.map(p => p.name)} required />
-        <Field label="Contractor" icon={<Building2 size={12} />} name="contractor" value={fd.contractor} onChange={onChange} options={DEMO_CONTRACTORS.map(c => c.name)} />
-        <Field label="Field Worker" icon={<User size={12} />} name="worker" value={fd.worker} onChange={onChange} options={DEMO_FIELD_WORKERS.map(w => w.name)} />
-        <Field label="Role" icon={<Award size={12} />} name="role" value={fd.role} onChange={onChange} options={getNames(MASTER_WORKER_ROLE)} />
-        <Field label="Assigned Date" icon={<Calendar size={12} />} name="assigned_date" type="date" value={fd.assigned_date} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Active', 'Completed', 'Inactive']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Assignments" subtitle="Manage assignments" columns={columns} initialData={DEMO_PROJECT_ASSIGNMENTS} searchKeys={['project', 'contractor', 'worker']} statusOptions={['Active', 'Completed', 'Inactive']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.project ? 'Required' : null} addLabel="Add Assignment" />;
-};
-
-const ContractorPage = () => {
-  const columns = [
-    { key: 'name', label: 'Contractor Name', strong: true }, { key: 'type', label: 'Type' },
-    { key: 'contact', label: 'Contact' }, { key: 'email', label: 'Email' },
-    { key: 'license_type', label: 'License Type' }, { key: 'projects', label: 'Projects' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', name: '', type: '', contact: '', email: '', license: '', license_type: '', projects: '', status: 'Pending', joined: '', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Contractor Name" icon={<Building2 size={12} />} name="name" value={fd.name} onChange={onChange} required />
-        <Field label="Contractor Type" icon={<Tag size={12} />} name="type" value={fd.type} onChange={onChange} options={getNames(MASTER_CONTRACTOR_TYPE)} />
-        <Field label="Contact" icon={<Phone size={12} />} name="contact" value={fd.contact} onChange={onChange} />
-        <Field label="Email" icon={<Mail size={12} />} name="email" type="email" value={fd.email} onChange={onChange} />
-        <Field label="License No" icon={<Award size={12} />} name="license" value={fd.license} onChange={onChange} />
-        <Field label="License Type" icon={<Shield size={12} />} name="license_type" value={fd.license_type} onChange={onChange} options={getNames(MASTER_LICENSE_TYPE)} />
-        <Field label="Projects" icon={<FolderOpen size={12} />} name="projects" type="number" value={fd.projects} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Pending', 'Approved', 'Rejected']} />
-        <Field label="Joined Date" icon={<Calendar size={12} />} name="joined" type="date" value={fd.joined} onChange={onChange} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Contractors" subtitle="Manage contractors" columns={columns} initialData={DEMO_CONTRACTORS} searchKeys={['name', 'email', 'license']} statusOptions={['Pending', 'Approved', 'Rejected']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.name ? 'Name required' : null} addLabel="Add Contractor" />;
-};
-
-const FieldWorkerPage = () => {
-  const columns = [
-    { key: 'name', label: 'Worker Name', strong: true }, { key: 'role', label: 'Role' },
-    { key: 'skill', label: 'Skill' }, { key: 'phone', label: 'Phone' },
-    { key: 'contractor', label: 'Contractor' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', name: '', phone: '', role: '', skill: '', contractor: '', assigned_sites: '', status: 'Active', last_activity: '', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Worker Name" icon={<User size={12} />} name="name" value={fd.name} onChange={onChange} required />
-        <Field label="Role" icon={<Award size={12} />} name="role" value={fd.role} onChange={onChange} options={getNames(MASTER_WORKER_ROLE)} />
-        <Field label="Skill" icon={<Tag size={12} />} name="skill" value={fd.skill} onChange={onChange} options={getNames(MASTER_WORKER_SKILL)} />
-        <Field label="Phone" icon={<Phone size={12} />} name="phone" value={fd.phone} onChange={onChange} />
-        <Field label="Contractor" icon={<Building2 size={12} />} name="contractor" value={fd.contractor} onChange={onChange} options={DEMO_CONTRACTORS.map(c => c.name)} />
-        <Field label="Assigned Sites" icon={<FolderOpen size={12} />} name="assigned_sites" type="number" value={fd.assigned_sites} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Active', 'Inactive']} />
-        <Field label="Last Activity" icon={<Calendar size={12} />} name="last_activity" type="date" value={fd.last_activity} onChange={onChange} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Field Workers" subtitle="Manage workers" columns={columns} initialData={DEMO_FIELD_WORKERS} searchKeys={['name', 'phone', 'contractor']} statusOptions={['Active', 'Inactive']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.name ? 'Required' : null} addLabel="Add Worker" />;
-};
-
-const ReportsPage = () => {
-  const columns = [
-    { key: 'project', label: 'Project', strong: true }, { key: 'worker', label: 'Worker' },
-    { key: 'report_type', label: 'Type' }, { key: 'priority', label: 'Priority' },
-    { key: 'submitted', label: 'Submitted', render: (i) => formatDate(i.submitted) },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', project: '', worker: '', report_type: '', priority: '', submitted: '', photos: '', gps: 'Yes', status: 'Pending', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Project" icon={<FileText size={12} />} name="project" value={fd.project} onChange={onChange} options={DEMO_PROJECTS.map(p => p.name)} required />
-        <Field label="Field Worker" icon={<User size={12} />} name="worker" value={fd.worker} onChange={onChange} options={DEMO_FIELD_WORKERS.map(w => w.name)} />
-        <Field label="Report Type" icon={<Tag size={12} />} name="report_type" value={fd.report_type} onChange={onChange} options={getNames(MASTER_REPORT_TYPE)} />
-        <Field label="Priority" icon={<AlertCircle size={12} />} name="priority" value={fd.priority} onChange={onChange} options={getNames(MASTER_REPORT_PRIORITY)} />
-        <Field label="Submitted" icon={<Calendar size={12} />} name="submitted" type="date" value={fd.submitted} onChange={onChange} />
-        <Field label="Photos" icon={<Camera size={12} />} name="photos" type="number" value={fd.photos} onChange={onChange} />
-        <Field label="GPS" icon={<MapPin size={12} />} name="gps" value={fd.gps} onChange={onChange} options={['Yes', 'No']} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Pending', 'Approved', 'Correction', 'Rejected']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Reports" subtitle="Field reports" columns={columns} initialData={DEMO_REPORTS} searchKeys={['project', 'worker']} statusOptions={['Pending', 'Approved', 'Correction', 'Rejected']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.project ? 'Required' : null} addLabel="Add Report" />;
-};
-
-const UsersPage = () => {
-  const columns = [
-    { key: 'name', label: 'Name', strong: true }, { key: 'email', label: 'Email' },
-    { key: 'role', label: 'Role', render: (i) => <span style={{ ...S.statusBadge, background: '#dbeafe', color: '#1e40af' }}>{i.role}</span> },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-    { key: 'remarks', label: 'Remarks' },
-  ];
-  const formInitial = { s_no: '', name: '', email: '', role: '', status: 'Active', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Name" icon={<User size={12} />} name="name" value={fd.name} onChange={onChange} required />
-        <Field label="Email" icon={<Mail size={12} />} name="email" type="email" value={fd.email} onChange={onChange} />
-        <Field label="Role" icon={<Shield size={12} />} name="role" value={fd.role} onChange={onChange} options={getNames(MASTER_USER_ROLE)} />
-        <Field label="Status" icon={<CheckCircle size={12} />} name="status" value={fd.status} onChange={onChange} options={['Active', 'Inactive']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Users" subtitle="Manage users" columns={columns} initialData={DEMO_USERS} searchKeys={['name', 'email', 'role']} statusOptions={['Active', 'Inactive']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => (!fd.name || !fd.email) ? 'Required' : null} addLabel="Add User" />;
-};
-
-const ContractorAppPage = () => {
-  const columns = [
-    { key: 'contractor', label: 'Contractor', strong: true }, { key: 'app_name', label: 'App' },
-    { key: 'version', label: 'Version' }, { key: 'device', label: 'Device' },
-    { key: 'last_sync', label: 'Last Sync' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', contractor: '', app_name: 'Contractor App', version: '', device: '', os_version: '', last_sync: '', status: 'Active', projects: '', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Contractor" icon={<Building2 size={12} />} name="contractor" value={fd.contractor} onChange={onChange} options={DEMO_CONTRACTORS.map(c => c.name)} required />
-        <Field label="App Name" icon={<Smartphone size={12} />} name="app_name" value={fd.app_name} onChange={onChange} options={getNames(MASTER_APP_NAME)} />
-        <Field label="Version" icon={<Hash size={12} />} name="version" value={fd.version} onChange={onChange} placeholder="1.2.0" />
-        <Field label="Device" icon={<Smartphone size={12} />} name="device" value={fd.device} onChange={onChange} placeholder="Android 12" />
-        <Field label="OS Version" icon={<Server size={12} />} name="os_version" value={fd.os_version} onChange={onChange} options={getNames(MASTER_OS_VERSION)} />
-        <Field label="Last Sync" icon={<Clock size={12} />} name="last_sync" value={fd.last_sync} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Active', 'Inactive']} />
-        <Field label="Projects" icon={<FolderOpen size={12} />} name="projects" type="number" value={fd.projects} onChange={onChange} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Contractor App" subtitle="Manage contractor app" columns={columns} initialData={DEMO_CONTRACTOR_APPS} searchKeys={['contractor', 'device']} statusOptions={['Active', 'Inactive']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.contractor ? 'Required' : null} addLabel="Add Installation" />;
-};
-
-const WorkerAppPage = () => {
-  const columns = [
-    { key: 'worker', label: 'Field Worker', strong: true }, { key: 'app_name', label: 'App' },
-    { key: 'version', label: 'Version' }, { key: 'device', label: 'Device' },
-    { key: 'gps', label: 'GPS' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', worker: '', app_name: 'Field Worker App', version: '', device: '', last_sync: '', gps: 'Enabled', status: 'Active', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Field Worker" icon={<User size={12} />} name="worker" value={fd.worker} onChange={onChange} options={DEMO_FIELD_WORKERS.map(w => w.name)} required />
-        <Field label="App Name" icon={<Smartphone size={12} />} name="app_name" value={fd.app_name} onChange={onChange} options={getNames(MASTER_APP_NAME)} />
-        <Field label="Version" icon={<Hash size={12} />} name="version" value={fd.version} onChange={onChange} placeholder="1.2.0" />
-        <Field label="Device" icon={<Smartphone size={12} />} name="device" value={fd.device} onChange={onChange} />
-        <Field label="Last Sync" icon={<Clock size={12} />} name="last_sync" value={fd.last_sync} onChange={onChange} />
-        <Field label="GPS" icon={<MapPin size={12} />} name="gps" value={fd.gps} onChange={onChange} options={getNames(MASTER_GPS_STATUS)} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Active', 'Inactive']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Field Worker App" subtitle="Manage worker app" columns={columns} initialData={DEMO_WORKER_APPS} searchKeys={['worker', 'device']} statusOptions={['Active', 'Inactive']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.worker ? 'Required' : null} addLabel="Add Installation" />;
-};
-
-const AppVersionsPage = () => {
-  const columns = [
-    { key: 'app', label: 'App', strong: true }, { key: 'version', label: 'Version' },
-    { key: 'released', label: 'Released', render: (i) => formatDate(i.released) },
-    { key: 'size', label: 'Size' }, { key: 'downloads', label: 'Downloads' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', app: '', version: '', released: '', size: '', downloads: '', status: 'Active', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Application" icon={<Smartphone size={12} />} name="app" value={fd.app} onChange={onChange} options={getNames(MASTER_APP_NAME)} required />
-        <Field label="Version" icon={<Hash size={12} />} name="version" value={fd.version} onChange={onChange} required />
-        <Field label="Released" icon={<Calendar size={12} />} name="released" type="date" value={fd.released} onChange={onChange} />
-        <Field label="Size" icon={<Gauge size={12} />} name="size" value={fd.size} onChange={onChange} />
-        <Field label="Downloads" icon={<Download size={12} />} name="downloads" type="number" value={fd.downloads} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Active', 'Deprecated']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="App Versions" subtitle="Manage versions" columns={columns} initialData={DEMO_APP_VERSIONS} searchKeys={['app', 'version']} statusOptions={['Active', 'Deprecated']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => (!fd.app || !fd.version) ? 'Required' : null} addLabel="Add Version" />;
-};
-
-const AppReleasesPage = () => {
-  const columns = [
-    { key: 'app', label: 'App', strong: true }, { key: 'version', label: 'Version' },
-    { key: 'release_type', label: 'Type' },
-    { key: 'released', label: 'Released', render: (i) => formatDate(i.released) },
-    { key: 'features', label: 'Features' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', app: '', version: '', release_type: '', released: '', features: '', status: 'In Development', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Application" icon={<Smartphone size={12} />} name="app" value={fd.app} onChange={onChange} options={getNames(MASTER_APP_NAME)} required />
-        <Field label="Version" icon={<Hash size={12} />} name="version" value={fd.version} onChange={onChange} required />
-        <Field label="Release Type" icon={<Rocket size={12} />} name="release_type" value={fd.release_type} onChange={onChange} options={getNames(MASTER_RELEASE_TYPE)} />
-        <Field label="Released" icon={<Calendar size={12} />} name="released" type="date" value={fd.released} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['In Development', 'In Testing', 'Released']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Features</label>
-          <textarea name="features" value={fd.features} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={2} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="App Releases" subtitle="Manage app releases" columns={columns} initialData={DEMO_APP_RELEASES} searchKeys={['app', 'version']} statusOptions={['In Development', 'In Testing', 'Released']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => (!fd.app || !fd.version) ? 'Required' : null} addLabel="Add Release" />;
-};
-
-const AppCrashLogsPage = () => {
-  const columns = [
-    { key: 'app', label: 'App', strong: true }, { key: 'version', label: 'Version' },
-    { key: 'user', label: 'User' }, { key: 'crash_type', label: 'Crash Type' },
-    { key: 'occurred', label: 'Occurred' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', app: '', version: '', user: '', crash_type: '', occurred: '', device: '', status: 'Pending', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Application" icon={<Smartphone size={12} />} name="app" value={fd.app} onChange={onChange} options={getNames(MASTER_APP_NAME)} required />
-        <Field label="Version" icon={<Hash size={12} />} name="version" value={fd.version} onChange={onChange} required />
-        <Field label="User" icon={<User size={12} />} name="user" value={fd.user} onChange={onChange} />
-        <Field label="Crash Type" icon={<Bug size={12} />} name="crash_type" value={fd.crash_type} onChange={onChange} options={getNames(MASTER_CRASH_TYPE)} />
-        <Field label="Occurred" icon={<Clock size={12} />} name="occurred" value={fd.occurred} onChange={onChange} />
-        <Field label="Device" icon={<Smartphone size={12} />} name="device" value={fd.device} onChange={onChange} options={getNames(MASTER_OS_VERSION)} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Pending', 'Resolved']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Crash Logs" subtitle="App crash logs" columns={columns} initialData={DEMO_APP_CRASH_LOGS} searchKeys={['app', 'user', 'crash_type']} statusOptions={['Pending', 'Resolved']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => (!fd.app || !fd.version) ? 'Required' : null} addLabel="Add Crash Log" />;
-};
-
-const AppFeedbackPage = () => {
-  const columns = [
-    { key: 'app', label: 'App', strong: true }, { key: 'user', label: 'User' },
-    { key: 'rating', label: 'Rating' }, { key: 'feedback', label: 'Feedback' },
-    { key: 'submitted', label: 'Submitted', render: (i) => formatDate(i.submitted) },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  const formInitial = { s_no: '', app: '', user: '', rating: '', feedback: '', submitted: '', status: 'Pending', remarks: '' };
-  const renderForm = (fd, setFd) => {
-    const onChange = e => setFd({ ...fd, [e.target.name]: e.target.value });
-    return (
-      <>
-        <Field label="Application" icon={<Smartphone size={12} />} name="app" value={fd.app} onChange={onChange} options={getNames(MASTER_APP_NAME)} required />
-        <Field label="User" icon={<User size={12} />} name="user" value={fd.user} onChange={onChange} />
-        <Field label="Rating" icon={<Award size={12} />} name="rating" value={fd.rating} onChange={onChange} options={getNames(MASTER_RATING)} />
-        <Field label="Submitted" icon={<Calendar size={12} />} name="submitted" type="date" value={fd.submitted} onChange={onChange} />
-        <Field label="Status" icon={<Shield size={12} />} name="status" value={fd.status} onChange={onChange} options={['Pending', 'Reviewed']} />
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Feedback</label>
-          <textarea name="feedback" value={fd.feedback} onChange={onChange} rows={3} style={S.formTextarea} />
-        </div>
-        <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
-          <textarea name="remarks" value={fd.remarks} onChange={onChange} rows={2} style={S.formTextarea} />
-        </div>
-      </>
-    );
-  };
-  return <TablePage title="Feedback" subtitle="App feedback" columns={columns} initialData={DEMO_APP_FEEDBACK} searchKeys={['app', 'user']} statusOptions={['Pending', 'Reviewed']} formInitial={formInitial} renderForm={renderForm} validateForm={(fd) => !fd.app ? 'Required' : null} addLabel="Add Feedback" />;
-};
-
-const PhotosPage = () => {
-  const columns = [
-    { key: 'name', label: 'Photo', strong: true }, { key: 'project', label: 'Project' },
-    { key: 'media_type', label: 'Media Type' }, { key: 'category', label: 'Category' },
-    { key: 'worker', label: 'Uploaded By' }, { key: 'gps', label: 'GPS' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  return (
-    <div style={S.page}>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>Photo Gallery</h1><p style={S.subtitle}>View photographs</p></div>
-      <div style={S.tableCard}>
-        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Photos</h2><span style={S.countBadge}>{DEMO_PHOTOS.length}</span></div>
-        <div style={{ padding: 'clamp(12px, 3vw, 20px)' }}>
-          <div style={S.photoGrid}>
-            {DEMO_PHOTOS.map(p => (
-              <div key={p.id} style={S.photoCard}>
-                <div style={S.photoThumb}><Camera size={36} /></div>
-                <div style={S.photoInfo}>
-                  <p style={{ fontSize: 'clamp(11px, 2vw, 12px)', fontWeight: '600', color: '#374151', margin: '0 0 2px 0' }}>{p.name}</p>
-                  <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', color: '#9ca3af', margin: 0 }}>{p.project}</p>
-                  <p style={{ fontSize: 'clamp(9px, 1.8vw, 10px)', color: '#9ca3af', marginTop: '4px' }}>GPS: {p.gps}</p>
+      <div style={S.page}>
+        <ToastContainer position="top-right" autoClose={3000} />
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ marginBottom: 'clamp(12px, 2.5vw, 20px)', display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h1 style={S.title}>{editingId ? 'Edit District' : 'New District'}</h1>
+            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+          </div>
+          <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #f3f4f6', padding: 'clamp(12px, 2.5vw, 24px)' }}>
+            <form onSubmit={submit}>
+              <div style={S.formGrid3}>
+                <Field label="Code" icon={<Hash size={11} />} name="code" value={formData.code} onChange={onChange} />
+                <Field label="District Name" icon={<MapPin size={11} />} name="name" value={formData.name} onChange={onChange} required />
+                <Field label="State" icon={<Globe size={11} />} name="state" value={formData.state} onChange={onChange} />
+                <Field label="Total Substations" icon={<Zap size={11} />} name="total_substations" type="number" value={formData.total_substations} onChange={onChange} />
+                <Field label="Status" icon={<Shield size={11} />} name="status" value={formData.status} onChange={onChange} options={['Active', 'Inactive']} />
+                <div style={S.formGroupFull}><label style={S.formLabel}><MapPin size={11} /> Talukas</label>
+                  <textarea name="talukas" value={formData.talukas} onChange={onChange} rows={2} style={S.formTextarea} />
+                </div>
+                <div style={S.formGroupFull}><label style={S.formLabel}><Building2 size={11} /> Contractors</label>
+                  <textarea name="contractors" value={formData.contractors} onChange={onChange} rows={2} style={S.formTextarea} />
+                </div>
+                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={11} /> Remarks</label>
+                  <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
                 </div>
               </div>
-            ))}
+              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '8px', paddingTop: 'clamp(12px, 2.5vw, 20px)', marginTop: 'clamp(12px, 2.5vw, 20px)', borderTop: '1px solid #e5e7eb' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+                <button type="submit" style={S.btnSubmit}><CheckCircle size={13} /> {editingId ? 'Update' : 'Submit'}</button>
+              </div>
+            </form>
           </div>
         </div>
-        <BottomBar
-          currentPage={1} totalPages={1} totalItems={DEMO_PHOTOS.length} itemsPerPage={12}
-          onPageChange={() => {}} onItemsPerPageChange={() => {}}
-          onExcel={() => exportToExcel(DEMO_PHOTOS, columns, 'photos')}
-          onPrint={() => printReport(DEMO_PHOTOS, columns, 'Photos')}
-          showPagination={false}
-        />
       </div>
-    </div>
-  );
-};
+    );
+  }
 
-const DocumentsPage = () => {
-  const columns = [
-    { key: 'name', label: 'Document', strong: true }, { key: 'project', label: 'Project' },
-    { key: 'type', label: 'Type' }, { key: 'size', label: 'Size' },
-    { key: 'uploaded', label: 'Uploaded', render: (i) => formatDate(i.uploaded) },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
   return (
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>Documents</h1><p style={S.subtitle}>Manage documents</p></div>
-      <div style={S.tableCard}>
-        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Documents</h2><span style={S.countBadge}>{DEMO_DOCUMENTS.length}</span></div>
-        <div style={S.tableWrap}>
-          <table style={S.table}>
-            <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}</tr></thead>
-            <tbody>
-              {DEMO_DOCUMENTS.map((d, i) => (
-                <tr key={d.id}>
-                  <td style={S.td}>{i + 1}</td>
-                  {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(d) : (d[c.key] ?? '—')}</td>)}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div style={S.header}><h1 style={S.title}>District Master</h1><p style={S.subtitle}>All districts with talukas, substations & contractors</p></div>
+
+      <TopToolbar itemsPerPage={itemsPerPage} onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
+        onExcel={() => exportToExcel(filtered, [{ key: 'code', label: 'Code' }, { key: 'name', label: 'District' }, { key: 'state', label: 'State' }, { key: 'talukas', label: 'Talukas' }, { key: 'total_substations', label: 'Substations' }, { key: 'contractors', label: 'Contractors' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], 'district_master')}
+        onPrint={() => printReport(filtered, [{ key: 'code', label: 'Code' }, { key: 'name', label: 'District' }, { key: 'state', label: 'State' }, { key: 'talukas', label: 'Talukas' }, { key: 'total_substations', label: 'Substations' }, { key: 'contractors', label: 'Contractors' }, { key: 'status', label: 'Status' }], 'District Master')} />
+
+      <div style={S.searchBar}>
+        <div style={{ position: 'relative', flex: '1 1 200px', minWidth: 0 }}>
+          <Search size={14} style={S.searchIcon} />
+          <input type="text" placeholder="Search district, taluka, contractor..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
+          {searchTerm && <button onClick={() => { setSearchTerm(''); setPage(1); }} style={S.clearIcon}><X size={12} /></button>}
         </div>
-        <BottomBar
-          currentPage={1} totalPages={1} totalItems={DEMO_DOCUMENTS.length} itemsPerPage={10}
-          onPageChange={() => {}} onItemsPerPageChange={() => {}}
-          onExcel={() => exportToExcel(DEMO_DOCUMENTS, columns, 'documents')}
-          onPrint={() => printReport(DEMO_DOCUMENTS, columns, 'Documents')}
-          showPagination={false}
-        />
+        <button onClick={openNew} style={S.btnPrimary}><Plus size={13} /> Add District</button>
       </div>
-    </div>
-  );
-};
 
-const ApprovalsPage = () => {
-  const items = [
-    { id: 1, s_no: 1, step: 'Registration', title: 'Contractor Registration', desc: 'EcoEnergy Pvt Ltd', status: 'Pending', date: '2024-03-10' },
-    { id: 2, s_no: 2, step: 'Project Submission', title: 'Project Submission', desc: 'Solar Pump Installation', status: 'Pending', date: '2024-03-11' },
-    { id: 3, s_no: 3, step: 'Report Review', title: 'Field Report Review', desc: 'Ground Mount Solar', status: 'Pending', date: '2024-03-12' },
-    { id: 4, s_no: 4, step: 'Final Approval', title: 'Correction Required', desc: 'Solar Water Heater', status: 'Correction', date: '2024-03-13' },
-  ];
-  const columns = [
-    { key: 'step', label: 'Step', strong: true }, { key: 'title', label: 'Title' }, { key: 'desc', label: 'Description' },
-    { key: 'date', label: 'Date', render: (i) => formatDate(i.date) },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-  return (
-    <div style={S.page}>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>Approvals</h1><p style={S.subtitle}>Approval workflow</p></div>
       <div style={S.tableCard}>
-        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>Pending Approvals</h2><span style={S.countBadge}>{items.length}</span></div>
+        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Districts</h2><span style={S.countBadge}>{filtered.length}</span></div>
         <div style={S.tableWrap}>
           <table style={S.table}>
             <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}<th style={S.th}>Actions</th></tr></thead>
             <tbody>
-              {items.map(item => (
+              {display.map((item, idx) => (
                 <tr key={item.id}>
-                  <td style={S.td}>{item.s_no}</td>
-                  <td style={S.tdStrong}>{item.step}</td>
-                  <td style={S.td}>{item.title}</td>
-                  <td style={S.td}>{item.desc}</td>
-                  <td style={S.td}>{formatDate(item.date)}</td>
-                  <td style={S.td}><span style={{ ...S.statusBadge, ...getStatusStyle(item.status) }}>{item.status}</span></td>
+                  <td style={S.td}>{start + idx + 1}</td>
+                  {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
                   <td style={S.td}>
-                    <div style={{ display: 'flex', gap: '6px' }}>
-                      <button onClick={() => toast.success('Approved')} style={{ ...S.iconBtn, color: '#16a34a' }}><CheckCircle size={15} /></button>
-                      <button onClick={() => toast.warning('Correction')} style={{ ...S.iconBtn, color: '#f59e0b' }}><Edit size={15} /></button>
-                      <button onClick={() => toast.error('Rejected')} style={{ ...S.iconBtn, color: '#dc2626' }}><X size={15} /></button>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }} title="View"><Eye size={14} /></button>
+                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }} title="Edit"><Edit size={14} /></button>
+                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }} title="Delete"><Trash2 size={14} /></button>
                     </div>
                   </td>
                 </tr>
@@ -1741,112 +712,165 @@ const ApprovalsPage = () => {
             </tbody>
           </table>
         </div>
-        <BottomBar
-          currentPage={1} totalPages={1} totalItems={items.length} itemsPerPage={10}
-          onPageChange={() => {}} onItemsPerPageChange={() => {}}
-          onExcel={() => exportToExcel(items, columns, 'approvals')}
-          onPrint={() => printReport(items, columns, 'Approvals')}
-          showPagination={false}
-        />
+        <BottomPagination currentPage={page} totalPages={totalPages} totalItems={filtered.length} itemsPerPage={itemsPerPage} onPageChange={setPage} />
       </div>
+
+      {showView && selected && (
+        <div style={S.modalOverlay} onClick={() => setShowView(false)}>
+          <div style={S.modal} onClick={e => e.stopPropagation()}>
+            <div style={S.modalHeader}><h2 style={S.modalTitle}>District Details</h2><button onClick={() => setShowView(false)} style={{ ...S.iconBtn }}><X size={18} /></button></div>
+            <div style={S.modalBody}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '12px' }}>
+                {[['Code', selected.code], ['District', selected.name], ['State', selected.state], ['Substations', selected.total_substations], ['Status', selected.status]].map(([l, v]) => (
+                  <div key={l}>
+                    <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 3px 0', fontWeight: '600', textTransform: 'uppercase' }}>{l}</p>
+                    <p style={{ fontSize: '13px', margin: 0 }}>{v || '—'}</p>
+                  </div>
+                ))}
+              </div>
+              {selected.talukas && <div style={{ marginTop: '12px', padding: '10px', background: '#eff6ff', borderRadius: '6px' }}><p style={{ fontSize: '10px', fontWeight: '700', color: '#1e40af', margin: '0 0 3px 0' }}>TALUKAS</p><p style={{ fontSize: '12px', color: '#1e3a8a', margin: 0, wordBreak: 'break-word' }}>{selected.talukas}</p></div>}
+              {selected.contractors && <div style={{ marginTop: '10px', padding: '10px', background: '#f3e8ff', borderRadius: '6px' }}><p style={{ fontSize: '10px', fontWeight: '700', color: '#6b21a8', margin: '0 0 3px 0' }}>CONTRACTORS</p><p style={{ fontSize: '12px', color: '#581c87', margin: 0, wordBreak: 'break-word' }}>{selected.contractors}</p></div>}
+              {selected.remarks && <div style={{ marginTop: '10px', padding: '10px', background: '#fef3c7', borderRadius: '6px' }}><p style={{ fontSize: '10px', fontWeight: '700', color: '#92400e', margin: '0 0 3px 0' }}>REMARKS</p><p style={{ fontSize: '12px', color: '#78350f', margin: 0, wordBreak: 'break-word' }}>{selected.remarks}</p></div>}
+            </div>
+            <div style={S.modalFooter}>
+              <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
+              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={13} /> Edit</button>
+              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={13} /> Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-const ActivityPage = () => {
+// =============================================
+// SURVEY STATUS MASTER
+// =============================================
+const SurveyStatusMasterPage = () => {
+  const [data, setData] = useState(() => loadMSKVY('mskvy_survey_status_v2', MASTER_MSKVY_SURVEY_STATUS));
+  const [showForm, setShowForm] = useState(false);
+  const [showView, setShowView] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const emptyForm = { code: '', name: '', status: 'Active', remarks: '' };
+  const [formData, setFormData] = useState(emptyForm);
+  useEffect(() => { saveMSKVY('mskvy_survey_status_v2', data); }, [data]);
+
+  const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
+  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
+  const del = (item) => { if (!window.confirm('Delete?')) return; setData(data.filter(d => d.id !== item.id)); toast.success('Deleted'); setShowView(false); };
+  const submit = (e) => {
+    e.preventDefault();
+    if (!formData.name) { toast.error('Name required'); return; }
+    if (editingId) { setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d)); toast.success('Updated'); }
+    else { const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1; setData([{ ...formData, id: Date.now(), s_no: n }, ...data]); toast.success('Added'); }
+    setShowForm(false); setEditingId(null);
+  };
+
   const columns = [
-    { key: 'type', label: 'Type', strong: true }, { key: 'description', label: 'Description' },
-    { key: 'user', label: 'User' }, { key: 'date', label: 'Date' },
+    { key: 'code', label: 'Code' }, { key: 'name', label: 'Name', strong: true },
     { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
+    { key: 'remarks', label: 'Remarks' },
   ];
+
+  if (showForm) {
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    return (
+      <div style={S.page}>
+        <ToastContainer position="top-right" autoClose={3000} />
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <div style={{ marginBottom: 'clamp(12px, 2.5vw, 20px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+            <h1 style={S.title}>{editingId ? 'Edit Status' : 'New Status'}</h1>
+            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+          </div>
+          <div style={{ background: '#fff', borderRadius: '12px', padding: 'clamp(12px, 2.5vw, 24px)', border: '1px solid #f3f4f6' }}>
+            <form onSubmit={submit}>
+              <div style={S.formGrid3}>
+                <Field label="Code" icon={<Hash size={11} />} name="code" value={formData.code} onChange={onChange} />
+                <Field label="Name" icon={<Tag size={11} />} name="name" value={formData.name} onChange={onChange} required />
+                <Field label="Status" icon={<Shield size={11} />} name="status" value={formData.status} onChange={onChange} options={['Active', 'Inactive']} />
+                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={11} /> Remarks</label>
+                  <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={2} style={S.formTextarea} />
+                </div>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e5e7eb' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+                <button type="submit" style={S.btnSubmit}><CheckCircle size={13} /> {editingId ? 'Update' : 'Submit'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>Activity Log</h1><p style={S.subtitle}>Recent activities</p></div>
+      <div style={S.header}><h1 style={S.title}>Survey Status Master</h1><p style={S.subtitle}>Manage survey statuses</p></div>
+
+      <TopToolbar itemsPerPage={10} onItemsPerPageChange={() => {}}
+        onExcel={() => exportToExcel(data, columns, 'survey_status')}
+        onPrint={() => printReport(data, columns, 'Survey Status')} />
+
+      <div style={S.searchBar}>
+        <div style={{ flex: 1 }}></div>
+        <button onClick={openNew} style={S.btnPrimary}><Plus size={13} /> Add</button>
+      </div>
+
       <div style={S.tableCard}>
-        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Activities</h2><span style={S.countBadge}>{DEMO_ACTIVITIES.length}</span></div>
+        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Statuses</h2><span style={S.countBadge}>{data.length}</span></div>
         <div style={S.tableWrap}>
           <table style={S.table}>
-            <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}</tr></thead>
+            <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}<th style={S.th}>Actions</th></tr></thead>
             <tbody>
-              {DEMO_ACTIVITIES.map((a, i) => (
-                <tr key={a.id}>
-                  <td style={S.td}>{i + 1}</td>
-                  {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(a) : (a[c.key] ?? '—')}</td>)}
+              {data.map((item, idx) => (
+                <tr key={item.id}>
+                  <td style={S.td}>{idx + 1}</td>
+                  {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
+                  <td style={S.td}>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }}><Eye size={14} /></button>
+                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }}><Edit size={14} /></button>
+                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }}><Trash2 size={14} /></button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <BottomBar
-          currentPage={1} totalPages={1} totalItems={DEMO_ACTIVITIES.length} itemsPerPage={10}
-          onPageChange={() => {}} onItemsPerPageChange={() => {}}
-          onExcel={() => exportToExcel(DEMO_ACTIVITIES, columns, 'activities')}
-          onPrint={() => printReport(DEMO_ACTIVITIES, columns, 'Activities')}
-          showPagination={false}
-        />
       </div>
-    </div>
-  );
-};
 
-const DashboardPage = () => {
-  const stats = [
-    { label: 'Total Projects', value: DEMO_PROJECTS.length, color: '#3b82f6', icon: <FolderOpen size={20} /> },
-    { label: 'Approved', value: DEMO_PROJECTS.filter(p => p.status === 'Approved').length, color: '#16a34a', icon: <CheckCircle size={20} /> },
-    { label: 'Pending', value: DEMO_PROJECTS.filter(p => p.status === 'Pending').length, color: '#f59e0b', icon: <Clock size={20} /> },
-    { label: 'Completed', value: DEMO_PROJECTS.filter(p => p.status === 'Completed').length, color: '#8b5cf6', icon: <Award size={20} /> },
-    { label: 'Contractors', value: DEMO_CONTRACTORS.length, color: '#0891b2', icon: <Building2 size={20} /> },
-    { label: 'Workers', value: DEMO_FIELD_WORKERS.length, color: '#7c3aed', icon: <Users size={20} /> },
-    { label: 'Reports', value: DEMO_REPORTS.length, color: '#dc2626', icon: <ClipboardList size={20} /> },
-    { label: 'MSKVY Records', value: MSKVY_CONTRACTORS.length, color: '#ea580c', icon: <Zap size={20} /> },
-  ];
-  return (
-    <div style={S.page}>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>Management Dashboard</h1><p style={S.subtitle}>Complete overview</p></div>
-      <StatsRow stats={stats} />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 'clamp(10px, 2vw, 20px)' }}>
-        <div style={S.card}>
-          <div style={S.cardHeader}><h2 style={S.cardTitle}><FolderOpen size={18} color="#2563eb" /> Project Progress</h2></div>
-          {DEMO_PROJECTS.slice(0, 6).map(p => {
-            const c = p.progress === 100 ? '#16a34a' : p.progress >= 50 ? '#3b82f6' : '#f59e0b';
-            return (
-              <div key={p.id} style={{ marginBottom: '14px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', gap: '8px' }}>
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <p style={{ fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '600', color: '#111827', margin: 0 }}>{p.name}</p>
-                    <p style={{ fontSize: 'clamp(10px, 1.8vw, 11px)', color: '#9ca3af', margin: '2px 0 0 0' }}>{p.site_code}</p>
-                  </div>
-                  <span style={{ fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '700', color: c, flexShrink: 0 }}>{p.progress}%</span>
-                </div>
-                <div style={S.progressTrack}><div style={{ ...S.progressFill, width: `${p.progress}%`, background: c }} /></div>
-              </div>
-            );
-          })}
-        </div>
-        <div style={S.card}>
-          <div style={S.cardHeader}><h2 style={S.cardTitle}><Activity size={18} color="#dc2626" /> Recent Activity</h2></div>
-          {DEMO_ACTIVITIES.map((a, i) => (
-            <div key={a.id} style={{ display: 'flex', gap: '12px', padding: '12px 0', borderBottom: i < DEMO_ACTIVITIES.length - 1 ? '1px solid #f3f4f6' : 'none' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#eff6ff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Activity size={14} /></div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 'clamp(11px, 2vw, 12px)', color: '#111827', margin: 0, fontWeight: '600' }}>{a.type}</p>
-                <p style={{ fontSize: 'clamp(10px, 1.8vw, 11px)', color: '#6b7280', margin: '2px 0 0 0', wordBreak: 'break-word' }}>{a.description}</p>
+      {showView && selected && (
+        <div style={S.modalOverlay} onClick={() => setShowView(false)}>
+          <div style={S.modal} onClick={e => e.stopPropagation()}>
+            <div style={S.modalHeader}><h2 style={S.modalTitle}>Status Details</h2><button onClick={() => setShowView(false)} style={{ ...S.iconBtn }}><X size={18} /></button></div>
+            <div style={S.modalBody}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '12px' }}>
+                <div><p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 3px 0', fontWeight: '600', textTransform: 'uppercase' }}>Code</p><p style={{ fontSize: '13px', margin: 0 }}>{selected.code || '—'}</p></div>
+                <div><p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 3px 0', fontWeight: '600', textTransform: 'uppercase' }}>Name</p><p style={{ fontSize: '13px', fontWeight: '600', margin: 0 }}>{selected.name}</p></div>
+                <div><p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 3px 0', fontWeight: '600', textTransform: 'uppercase' }}>Status</p><p style={{ margin: 0 }}><span style={{ ...S.statusBadge, ...getStatusStyle(selected.status) }}>{selected.status}</span></p></div>
+                <div><p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 3px 0', fontWeight: '600', textTransform: 'uppercase' }}>Remarks</p><p style={{ fontSize: '13px', margin: 0 }}>{selected.remarks || '—'}</p></div>
               </div>
             </div>
-          ))}
+            <div style={S.modalFooter}>
+              <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
+              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={13} /> Edit</button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
 
 // =============================================
-// MSKVY PAGES - Responsive
+// MSKVY CONTRACTOR LIST
 // =============================================
 const MSKVYContractorPage = () => {
-  const [data, setData] = useState(() => loadMSKVY('mskvy_contractors_v3', MSKVY_CONTRACTORS));
+  const [data, setData] = useState(() => loadMSKVY('mskvy_contractors_final', MSKVY_CONTRACTORS));
   const [searchTerm, setSearchTerm] = useState('');
   const [districtFilter, setDistrictFilter] = useState('');
   const [showView, setShowView] = useState(false);
@@ -1855,13 +879,9 @@ const MSKVYContractorPage = () => {
   const [editingId, setEditingId] = useState(null);
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  useEffect(() => { saveMSKVY('mskvy_contractors_final', data); }, [data]);
 
-  useEffect(() => { saveMSKVY('mskvy_contractors_v3', data); }, [data]);
-
-  const emptyForm = {
-    contractor: '', director: '', director_contact: '', file_name: '', district: 'AHILYANAGAR', taluka: '',
-    supervisor: '', contact: '', substation: '', area: '', solar: '', remarks: ''
-  };
+  const emptyForm = { contractor: '', director: '', director_contact: '', file_name: '', district: 'AHILYANAGAR', taluka: '', supervisor: '', contact: '', substation: '', area: '', solar: '', remarks: '' };
   const [formData, setFormData] = useState(emptyForm);
 
   const filtered = data.filter(i =>
@@ -1875,31 +895,20 @@ const MSKVYContractorPage = () => {
 
   const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
   const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
-  const del = (item) => {
-    if (!window.confirm(`Delete "${item.contractor} - ${item.file_name}"?`)) return;
-    setData(data.filter(d => d.id !== item.id));
-    toast.success('Deleted successfully');
-    setShowView(false);
-  };
+  const del = (item) => { if (!window.confirm(`Delete "${item.contractor} - ${item.file_name}"?`)) return; setData(data.filter(d => d.id !== item.id)); toast.success('Deleted'); setShowView(false); };
   const submit = (e) => {
     e.preventDefault();
     if (!formData.contractor || !formData.file_name) { toast.error('Contractor and File Name required'); return; }
-    if (editingId) {
-      setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d));
-      toast.success('Updated successfully');
-    } else {
-      const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1;
-      setData([{ ...formData, id: Date.now(), s_no: n }, ...data]);
-      toast.success('Added successfully');
-    }
+    if (editingId) { setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d)); toast.success('Updated'); }
+    else { const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1; setData([{ ...formData, id: Date.now(), s_no: n }, ...data]); toast.success('Added'); }
     setShowForm(false); setEditingId(null);
   };
 
   const stats = [
-    { label: 'Total Records', value: data.length, color: '#2563eb', icon: <Building2 size={20} /> },
-    { label: 'Districts', value: [...new Set(data.map(c => c.district))].length, color: '#7c3aed', icon: <MapPin size={20} /> },
-    { label: 'Total Area (acres)', value: data.reduce((s, c) => s + (parseFloat(c.area) || 0), 0).toFixed(2), color: '#16a34a', icon: <Ruler size={20} /> },
-    { label: 'Unique Substations', value: [...new Set(data.map(c => c.substation))].length, color: '#ea580c', icon: <Zap size={20} /> },
+    { label: 'Total Records', value: data.length, color: '#2563eb', icon: <Building2 size={18} /> },
+    { label: 'Districts', value: [...new Set(data.map(c => c.district))].length, color: '#7c3aed', icon: <MapPin size={18} /> },
+    { label: 'Total Area (acres)', value: data.reduce((s, c) => s + (parseFloat(c.area) || 0), 0).toFixed(2), color: '#16a34a', icon: <Ruler size={18} /> },
+    { label: 'Substations', value: [...new Set(data.map(c => c.substation))].length, color: '#ea580c', icon: <Zap size={18} /> },
   ];
 
   const exportCols = [
@@ -1916,31 +925,31 @@ const MSKVYContractorPage = () => {
       <div style={S.page}>
         <ToastContainer position="top-right" autoClose={3000} />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: 'clamp(14px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div><h1 style={S.title}>{editingId ? 'Edit Contractor Record' : 'New Contractor Record'}</h1><p style={S.subtitle}>Fill contractor details</p></div>
-            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
+          <div style={{ marginBottom: 'clamp(12px, 2.5vw, 20px)', display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h1 style={S.title}>{editingId ? 'Edit Contractor' : 'New Contractor'}</h1>
+            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
           </div>
-          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: 'clamp(14px, 3vw, 28px)' }}>
+          <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #f3f4f6', padding: 'clamp(12px, 2.5vw, 24px)' }}>
             <form onSubmit={submit}>
               <div style={S.formGrid3}>
-                <Field label="Contractor" icon={<Building2 size={12} />} name="contractor" value={formData.contractor} onChange={onChange} required />
-                <Field label="Director" icon={<User size={12} />} name="director" value={formData.director} onChange={onChange} />
-                <Field label="Director Contact" icon={<Phone size={12} />} name="director_contact" value={formData.director_contact} onChange={onChange} />
-                <Field label="File Name" icon={<FileText size={12} />} name="file_name" value={formData.file_name} onChange={onChange} required />
-                <Field label="District" icon={<MapPin size={12} />} name="district" value={formData.district} onChange={onChange} options={['AHILYANAGAR', 'JALGAON', 'SOLAPUR', 'NASHIK']} />
-                <Field label="Taluka" icon={<MapPin size={12} />} name="taluka" value={formData.taluka} onChange={onChange} />
-                <Field label="Site Supervisor" icon={<User size={12} />} name="supervisor" value={formData.supervisor} onChange={onChange} />
-                <Field label="Supervisor Contact" icon={<Phone size={12} />} name="contact" value={formData.contact} onChange={onChange} />
-                <Field label="Substation" icon={<Zap size={12} />} name="substation" value={formData.substation} onChange={onChange} />
-                <Field label="Area (acres)" icon={<Ruler size={12} />} name="area" type="number" value={formData.area} onChange={onChange} />
-                <Field label="Solar (MW)" icon={<Gauge size={12} />} name="solar" type="number" value={formData.solar} onChange={onChange} />
-                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
+                <Field label="Contractor" icon={<Building2 size={11} />} name="contractor" value={formData.contractor} onChange={onChange} required />
+                <Field label="Director" icon={<User size={11} />} name="director" value={formData.director} onChange={onChange} />
+                <Field label="Director Contact" icon={<Phone size={11} />} name="director_contact" value={formData.director_contact} onChange={onChange} />
+                <Field label="File Name" icon={<FileText size={11} />} name="file_name" value={formData.file_name} onChange={onChange} required />
+                <Field label="District" icon={<MapPin size={11} />} name="district" value={formData.district} onChange={onChange} options={['AHILYANAGAR', 'JALGAON', 'SOLAPUR', 'NASHIK']} />
+                <Field label="Taluka" icon={<MapPin size={11} />} name="taluka" value={formData.taluka} onChange={onChange} />
+                <Field label="Site Supervisor" icon={<User size={11} />} name="supervisor" value={formData.supervisor} onChange={onChange} />
+                <Field label="Supervisor Contact" icon={<Phone size={11} />} name="contact" value={formData.contact} onChange={onChange} />
+                <Field label="Substation" icon={<Zap size={11} />} name="substation" value={formData.substation} onChange={onChange} />
+                <Field label="Area (acres)" icon={<Ruler size={11} />} name="area" type="number" value={formData.area} onChange={onChange} />
+                <Field label="Solar (MW)" icon={<Gauge size={11} />} name="solar" type="number" value={formData.solar} onChange={onChange} />
+                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={11} /> Remarks</label>
                   <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
                 </div>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '10px', paddingTop: 'clamp(16px, 3vw, 24px)', marginTop: 'clamp(16px, 3vw, 28px)', borderTop: '1px solid #e5e7eb' }}>
-                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
-                <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
+              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '8px', paddingTop: 'clamp(12px, 2.5vw, 20px)', marginTop: 'clamp(12px, 2.5vw, 20px)', borderTop: '1px solid #e5e7eb' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+                <button type="submit" style={S.btnSubmit}><CheckCircle size={13} /> {editingId ? 'Update' : 'Submit'}</button>
               </div>
             </form>
           </div>
@@ -1952,25 +961,30 @@ const MSKVYContractorPage = () => {
   return (
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>MSKVY - Contractor List</h1><p style={S.subtitle}>EPC Sub-Contractors & Site Details</p></div>
+      <div style={S.header}><h1 style={S.title}>MSKVY - Contractor List</h1><p style={S.subtitle}>EPC Sub-Contractors & Site Details (from list-1.xlsx)</p></div>
       <StatsRow stats={stats} />
-      <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
-          <Search size={16} style={S.searchIcon} />
+
+      <TopToolbar itemsPerPage={itemsPerPage} onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
+        onExcel={() => exportToExcel(filtered, exportCols, 'mskvy_contractors')}
+        onPrint={() => printReport(filtered, exportCols, 'MSKVY Contractor List')} />
+
+      <div style={S.searchBar}>
+        <div style={{ position: 'relative', flex: '1 1 200px', minWidth: 0 }}>
+          <Search size={14} style={S.searchIcon} />
           <input type="text" placeholder="Search contractor, file, substation..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
-          {searchTerm && <button onClick={() => { setSearchTerm(''); setPage(1); }} style={S.clearIcon}><X size={14} /></button>}
+          {searchTerm && <button onClick={() => { setSearchTerm(''); setPage(1); }} style={S.clearIcon}><X size={12} /></button>}
         </div>
-        <select value={districtFilter} onChange={e => { setDistrictFilter(e.target.value); setPage(1); }} style={{ ...S.filterInput, width: 'auto', minWidth: '120px', flex: '0 1 auto' }}>
+        <select value={districtFilter} onChange={e => { setDistrictFilter(e.target.value); setPage(1); }} style={{ ...S.filterInput, width: 'auto', minWidth: '110px', flex: '0 1 auto' }}>
           <option value="">All Districts</option>
           {[...new Set(data.map(c => c.district))].map(d => <option key={d} value={d}>{d}</option>)}
         </select>
         <button onClick={() => { setSearchTerm(''); setDistrictFilter(''); setPage(1); }} style={S.btnDanger}>Clear</button>
-        <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> Add Record</button>
+        <button onClick={openNew} style={S.btnPrimary}><Plus size={13} /> Add</button>
       </div>
 
       <div style={S.tableCard}>
         <div style={S.tableHeaderBar}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <h2 style={S.tableTitle}>All Contractor Records</h2>
             <span style={S.countBadge}>{filtered.length}</span>
           </div>
@@ -1979,15 +993,9 @@ const MSKVYContractorPage = () => {
           <table style={S.table}>
             <thead style={S.thead}>
               <tr>
-                <th style={S.th}>S/No.</th>
-                <th style={S.th}>Contractor</th>
-                <th style={S.th}>File Name</th>
-                <th style={S.th}>District</th>
-                <th style={S.th}>Taluka</th>
-                <th style={S.th}>Supervisor</th>
-                <th style={S.th}>Substation</th>
-                <th style={S.th}>Area (acres)</th>
-                <th style={S.th}>Solar (MW)</th>
+                <th style={S.th}>S/No.</th><th style={S.th}>Contractor</th><th style={S.th}>File Name</th>
+                <th style={S.th}>District</th><th style={S.th}>Taluka</th><th style={S.th}>Supervisor</th>
+                <th style={S.th}>Substation</th><th style={S.th}>Area (acres)</th><th style={S.th}>Solar (MW)</th>
                 <th style={S.th}>Actions</th>
               </tr>
             </thead>
@@ -2005,9 +1013,9 @@ const MSKVYContractorPage = () => {
                   <td style={S.td}>{item.solar || '—'}</td>
                   <td style={S.td}>
                     <div style={{ display: 'flex', gap: '2px' }}>
-                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }} title="View"><Eye size={15} /></button>
-                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }} title="Edit"><Edit size={15} /></button>
-                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }} title="Delete"><Trash2 size={15} /></button>
+                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }} title="View"><Eye size={14} /></button>
+                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }} title="Edit"><Edit size={14} /></button>
+                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }} title="Delete"><Trash2 size={14} /></button>
                     </div>
                   </td>
                 </tr>
@@ -2015,52 +1023,33 @@ const MSKVYContractorPage = () => {
             </tbody>
           </table>
         </div>
-        <BottomBar
-          currentPage={page}
-          totalPages={totalPages}
-          totalItems={filtered.length}
-          itemsPerPage={itemsPerPage}
-          onPageChange={setPage}
-          onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
-          onExcel={() => exportToExcel(filtered, exportCols, 'mskvy_contractors')}
-          onPrint={() => printReport(filtered, exportCols, 'MSKVY Contractor List')}
-        />
+        <BottomPagination currentPage={page} totalPages={totalPages} totalItems={filtered.length} itemsPerPage={itemsPerPage} onPageChange={setPage} />
       </div>
 
       {showView && selected && (
         <div style={S.modalOverlay} onClick={() => setShowView(false)}>
           <div style={S.modal} onClick={e => e.stopPropagation()}>
-            <div style={S.modalHeader}>
-              <div><h2 style={S.modalTitle}>Contractor Details</h2></div>
-              <button onClick={() => setShowView(false)} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
-            </div>
+            <div style={S.modalHeader}><h2 style={S.modalTitle}>Contractor Details</h2><button onClick={() => setShowView(false)} style={{ ...S.iconBtn }}><X size={18} /></button></div>
             <div style={S.modalBody}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 'clamp(10px, 2vw, 16px)' }}>
-                {[
-                  ['Contractor', selected.contractor], ['File Name', selected.file_name],
-                  ['Director', selected.director], ['Director Contact', selected.director_contact],
-                  ['District', selected.district], ['Taluka', selected.taluka],
-                  ['Site Supervisor', selected.supervisor], ['Supervisor Contact', selected.contact],
-                  ['Substation', selected.substation], ['Area (acres)', selected.area],
-                  ['Solar (MW)', selected.solar || '—'],
-                ].map(([l, v]) => (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: 'clamp(8px, 1.5vw, 12px)' }}>
+                {[['Contractor', selected.contractor], ['File Name', selected.file_name], ['Director', selected.director], ['Director Contact', selected.director_contact], ['District', selected.district], ['Taluka', selected.taluka], ['Site Supervisor', selected.supervisor], ['Supervisor Contact', selected.contact], ['Substation', selected.substation], ['Area (acres)', selected.area], ['Solar (MW)', selected.solar || '—']].map(([l, v]) => (
                   <div key={l}>
-                    <p style={{ fontSize: '11px', color: '#6b7280', margin: '0 0 4px 0', fontWeight: '600', textTransform: 'uppercase' }}>{l}</p>
-                    <p style={{ fontSize: '14px', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
+                    <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 3px 0', fontWeight: '600', textTransform: 'uppercase' }}>{l}</p>
+                    <p style={{ fontSize: 'clamp(11px, 2vw, 13px)', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
                   </div>
                 ))}
               </div>
               {selected.remarks && (
-                <div style={{ marginTop: '20px', padding: '12px', background: '#fef3c7', borderRadius: '8px' }}>
-                  <p style={{ fontSize: '11px', color: '#92400e', fontWeight: '700', margin: '0 0 4px 0' }}>REMARKS</p>
-                  <p style={{ fontSize: '13px', color: '#78350f', margin: 0, wordBreak: 'break-word' }}>{selected.remarks}</p>
+                <div style={{ marginTop: '14px', padding: '10px', background: '#fef3c7', borderRadius: '6px' }}>
+                  <p style={{ fontSize: '10px', color: '#92400e', fontWeight: '700', margin: '0 0 3px 0' }}>REMARKS</p>
+                  <p style={{ fontSize: 'clamp(11px, 2vw, 13px)', color: '#78350f', margin: 0, wordBreak: 'break-word' }}>{selected.remarks}</p>
                 </div>
               )}
             </div>
             <div style={S.modalFooter}>
               <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
-              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={14} /> Edit</button>
-              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={14} /> Delete</button>
+              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={13} /> Edit</button>
+              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={13} /> Delete</button>
             </div>
           </div>
         </div>
@@ -2069,8 +1058,11 @@ const MSKVYContractorPage = () => {
   );
 };
 
+// =============================================
+// SUBSTATION SURVEY
+// =============================================
 const MSKVYSubstationSurveyPage = () => {
-  const [data, setData] = useState(() => loadMSKVY('mskvy_substation_v3', MSKVY_SUBSTATION_SURVEYS));
+  const [data, setData] = useState(() => loadMSKVY('mskvy_substation_final', MSKVY_SUBSTATION_SURVEYS));
   const [searchTerm, setSearchTerm] = useState('');
   const [showView, setShowView] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -2078,77 +1070,33 @@ const MSKVYSubstationSurveyPage = () => {
   const [editingId, setEditingId] = useState(null);
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  useEffect(() => { saveMSKVY('mskvy_substation_final', data); }, [data]);
 
-  useEffect(() => { saveMSKVY('mskvy_substation_v3', data); }, [data]);
-
-  const emptyForm = {
-    substation: '', subdivision: '', surveyor: '', district: 'JALGAON', taluka: '', contractor: '',
-    survey_date: '', status: 'Pending',
-    voltage_level: '', discom_division: '', connected_feeders: '', feeder_length: '', agri_pumps_load: '',
-    peak_load: '', supply_hours: '', outage_history: '',
-    transformer_capacity: '', transformer_make: '', transformer_year: '', loading_percent: '', spare_capacity: '',
-    tap_changer: '', oil_condition: '', bushing_condition: '', earthing_condition: '',
-    spare_bay: '', bay_space: '', switchgear: '', protection_relays: '', scada_rtu: '', metering: '',
-    evacuation_distance: '', right_of_way: '',
-    received_voltage: '', fault_level: '', lightning_protection: '', fire_safety: '',
-    feeder_demand: '', existing_capacity: '', pending_capacity: '', transformer_capacity_check: '',
-    sld_available: '', environmental_clearance: '', feeder_load_data: '',
-    geotagged_photos: '', coordinates: '', surveyor_sign: '', discom_sign: '', remarks: ''
-  };
+  const emptyForm = { substation: '', subdivision: '', surveyor: '', district: 'JALGAON', taluka: '', contractor: '', survey_date: '', status: 'Pending', voltage_level: '', discom_division: '', connected_feeders: '', feeder_length: '', supply_hours: '', transformer_capacity: '', tap_changer: '', oil_condition: '', bushing_condition: '', earthing_condition: '', spare_bay: '', bay_space: '', switchgear: '', protection_relays: '', scada_rtu: '', evacuation_distance: '', received_voltage: '', feeder_demand: '', existing_capacity: '', pending_capacity: '', sld_available: '', coordinates: '', remarks: '' };
   const [formData, setFormData] = useState(emptyForm);
 
-  const filtered = data.filter(i => !searchTerm ||
-    ['substation', 'surveyor', 'district', 'subdivision'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
+  const filtered = data.filter(i => !searchTerm || ['substation', 'surveyor', 'district'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase())));
   const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
   const start = (page - 1) * itemsPerPage;
   const display = filtered.slice(start, start + itemsPerPage);
 
   const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
   const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
-  const del = (item) => {
-    if (!window.confirm(`Delete survey for "${item.substation}"?`)) return;
-    setData(data.filter(d => d.id !== item.id));
-    toast.success('Deleted successfully');
-    setShowView(false);
-  };
+  const del = (item) => { if (!window.confirm('Delete?')) return; setData(data.filter(d => d.id !== item.id)); toast.success('Deleted'); setShowView(false); };
   const submit = (e) => {
     e.preventDefault();
-    if (!formData.substation || !formData.surveyor) { toast.error('Substation and Surveyor required'); return; }
-    if (editingId) {
-      setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d));
-      toast.success('Updated successfully');
-    } else {
-      const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1;
-      setData([{ ...formData, id: Date.now(), s_no: n }, ...data]);
-      toast.success('Added successfully');
-    }
+    if (!formData.substation || !formData.surveyor) { toast.error('Required fields missing'); return; }
+    if (editingId) { setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d)); toast.success('Updated'); }
+    else { const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1; setData([{ ...formData, id: Date.now(), s_no: n }, ...data]); toast.success('Added'); }
     setShowForm(false); setEditingId(null);
   };
 
   const columns = [
-    { key: 'substation', label: 'Substation', strong: true },
-    { key: 'subdivision', label: 'Subdivision' },
-    { key: 'surveyor', label: 'Surveyor' },
-    { key: 'district', label: 'District' },
-    { key: 'transformer_capacity', label: 'Transformer' },
-    { key: 'pending_capacity', label: 'Spare (MW)' },
+    { key: 'substation', label: 'Substation', strong: true }, { key: 'subdivision', label: 'Subdivision' },
+    { key: 'surveyor', label: 'Surveyor' }, { key: 'district', label: 'District' },
+    { key: 'transformer_capacity', label: 'Transformer' }, { key: 'pending_capacity', label: 'Spare' },
     { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
   ];
-
-  const SectionBlock = ({ title, children }) => (
-    <div style={{ marginBottom: '20px', border: '1px solid #e5e7eb', borderRadius: '10px', overflow: 'hidden' }}>
-      <div style={{ background: '#1e3a8a', color: '#fff', padding: '10px 14px', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '700' }}>{title}</div>
-      <div style={{ padding: '12px 14px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '10px 20px' }}>{children}</div>
-    </div>
-  );
-  const KV = ({ l, v }) => (
-    <div>
-      <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 2px 0', fontWeight: '700', textTransform: 'uppercase' }}>{l}</p>
-      <p style={{ fontSize: '13px', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
-    </div>
-  );
 
   if (showForm) {
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -2156,95 +1104,35 @@ const MSKVYSubstationSurveyPage = () => {
       <div style={S.page}>
         <ToastContainer position="top-right" autoClose={3000} />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: 'clamp(14px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div><h1 style={S.title}>{editingId ? 'Edit Substation Survey' : 'New Substation Survey'}</h1><p style={S.subtitle}>Fill the MSKVY checklist</p></div>
-            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
+          <div style={{ marginBottom: 'clamp(12px, 2.5vw, 20px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+            <h1 style={S.title}>{editingId ? 'Edit Survey' : 'New Survey'}</h1>
+            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
           </div>
-          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: 'clamp(14px, 3vw, 28px)' }}>
+          <div style={{ background: '#fff', borderRadius: '12px', padding: 'clamp(12px, 2.5vw, 24px)', border: '1px solid #f3f4f6' }}>
             <form onSubmit={submit}>
-              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>1. Substation & Feeder Basics</h3>
               <div style={S.formGrid3}>
-                <Field label="Substation Name" icon={<Zap size={12} />} name="substation" value={formData.substation} onChange={onChange} required />
-                <Field label="Subdivision" icon={<MapPin size={12} />} name="subdivision" value={formData.subdivision} onChange={onChange} />
-                <Field label="Surveyor" icon={<User size={12} />} name="surveyor" value={formData.surveyor} onChange={onChange} required />
-                <Field label="District" icon={<MapPin size={12} />} name="district" value={formData.district} onChange={onChange} options={['JALGAON', 'AHILYANAGAR', 'SOLAPUR', 'NASHIK']} />
-                <Field label="Taluka" icon={<MapPin size={12} />} name="taluka" value={formData.taluka} onChange={onChange} />
-                <Field label="Survey Date" icon={<Calendar size={12} />} name="survey_date" type="date" value={formData.survey_date} onChange={onChange} />
-                <Field label="Voltage Level" icon={<Zap size={12} />} name="voltage_level" value={formData.voltage_level} onChange={onChange} placeholder="33/11 kV" />
-                <Field label="DISCOM / Division" icon={<Building2 size={12} />} name="discom_division" value={formData.discom_division} onChange={onChange} />
-                <Field label="Connected Feeders" icon={<List size={12} />} name="connected_feeders" value={formData.connected_feeders} onChange={onChange} />
-                <Field label="Feeder Length" icon={<Ruler size={12} />} name="feeder_length" value={formData.feeder_length} onChange={onChange} />
-                <Field label="Agri Pumps & Load" icon={<Gauge size={12} />} name="agri_pumps_load" value={formData.agri_pumps_load} onChange={onChange} />
-                <Field label="Peak/Avg Load" icon={<TrendingUp size={12} />} name="peak_load" value={formData.peak_load} onChange={onChange} />
-                <Field label="Supply Hours" icon={<Clock size={12} />} name="supply_hours" value={formData.supply_hours} onChange={onChange} />
-                <Field label="Outage History" icon={<AlertCircle size={12} />} name="outage_history" value={formData.outage_history} onChange={onChange} />
-              </div>
-
-              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>2. Transformer Details</h3>
-              <div style={S.formGrid3}>
-                <Field label="Transformer Capacity" icon={<Zap size={12} />} name="transformer_capacity" value={formData.transformer_capacity} onChange={onChange} />
-                <Field label="Make" icon={<Building2 size={12} />} name="transformer_make" value={formData.transformer_make} onChange={onChange} />
-                <Field label="Year" icon={<Calendar size={12} />} name="transformer_year" value={formData.transformer_year} onChange={onChange} />
-                <Field label="Loading %" icon={<Gauge size={12} />} name="loading_percent" value={formData.loading_percent} onChange={onChange} />
-                <Field label="Spare Capacity" icon={<Gauge size={12} />} name="spare_capacity" value={formData.spare_capacity} onChange={onChange} />
-                <Field label="Tap Changer" icon={<Zap size={12} />} name="tap_changer" value={formData.tap_changer} onChange={onChange} />
-                <Field label="Oil Condition" icon={<Shield size={12} />} name="oil_condition" value={formData.oil_condition} onChange={onChange} />
-                <Field label="Bushing Condition" icon={<Shield size={12} />} name="bushing_condition" value={formData.bushing_condition} onChange={onChange} />
-                <Field label="Earthing Condition" icon={<Shield size={12} />} name="earthing_condition" value={formData.earthing_condition} onChange={onChange} />
-              </div>
-
-              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>3. Interconnection Readiness</h3>
-              <div style={S.formGrid3}>
-                <Field label="Spare Bay" icon={<Zap size={12} />} name="spare_bay" value={formData.spare_bay} onChange={onChange} />
-                <Field label="Bay Space" icon={<Ruler size={12} />} name="bay_space" value={formData.bay_space} onChange={onChange} />
-                <Field label="Switchgear" icon={<Shield size={12} />} name="switchgear" value={formData.switchgear} onChange={onChange} />
-                <Field label="Protection Relays" icon={<Shield size={12} />} name="protection_relays" value={formData.protection_relays} onChange={onChange} />
-                <Field label="SCADA / RTU" icon={<Server size={12} />} name="scada_rtu" value={formData.scada_rtu} onChange={onChange} />
-                <Field label="Metering" icon={<Gauge size={12} />} name="metering" value={formData.metering} onChange={onChange} />
-                <Field label="Evacuation Distance" icon={<Ruler size={12} />} name="evacuation_distance" value={formData.evacuation_distance} onChange={onChange} />
-                <Field label="Right of Way" icon={<MapPin size={12} />} name="right_of_way" value={formData.right_of_way} onChange={onChange} />
-              </div>
-
-              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>4. Grid Quality & Safety</h3>
-              <div style={S.formGrid3}>
-                <Field label="Received Voltage" icon={<Zap size={12} />} name="received_voltage" value={formData.received_voltage} onChange={onChange} />
-                <Field label="Fault Level" icon={<AlertCircle size={12} />} name="fault_level" value={formData.fault_level} onChange={onChange} />
-                <Field label="Lightning Protection" icon={<Shield size={12} />} name="lightning_protection" value={formData.lightning_protection} onChange={onChange} />
-                <Field label="Fire Safety" icon={<Shield size={12} />} name="fire_safety" value={formData.fire_safety} onChange={onChange} />
-              </div>
-
-              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>5. Solar Plant Sizing</h3>
-              <div style={S.formGrid3}>
-                <Field label="Feeder Demand (MW)" icon={<Gauge size={12} />} name="feeder_demand" value={formData.feeder_demand} onChange={onChange} />
-                <Field label="Existing Capacity (MW)" icon={<Zap size={12} />} name="existing_capacity" value={formData.existing_capacity} onChange={onChange} />
-                <Field label="Pending Capacity (MW)" icon={<TrendingUp size={12} />} name="pending_capacity" value={formData.pending_capacity} onChange={onChange} />
-                <Field label="Capacity vs Transformer" icon={<Gauge size={12} />} name="transformer_capacity_check" value={formData.transformer_capacity_check} onChange={onChange} />
-              </div>
-
-              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>6. Regulatory & Documentation</h3>
-              <div style={S.formGrid3}>
-                <Field label="SLD Available" icon={<FileCheck size={12} />} name="sld_available" value={formData.sld_available} onChange={onChange} />
-                <Field label="Environmental Clearance" icon={<TreePine size={12} />} name="environmental_clearance" value={formData.environmental_clearance} onChange={onChange} />
-                <Field label="Feeder Load Data" icon={<Activity size={12} />} name="feeder_load_data" value={formData.feeder_load_data} onChange={onChange} />
-              </div>
-
-              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#1e3a8a', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dbeafe' }}>7. Photos & Signatures</h3>
-              <div style={S.formGrid3}>
-                <Field label="Geo-tagged Photos" icon={<Camera size={12} />} name="geotagged_photos" value={formData.geotagged_photos} onChange={onChange} />
-                <Field label="Coordinates" icon={<MapPin size={12} />} name="coordinates" value={formData.coordinates} onChange={onChange} placeholder="lat, long" />
-                <Field label="Surveyor Sign" icon={<FileCheck size={12} />} name="surveyor_sign" value={formData.surveyor_sign} onChange={onChange} />
-                <Field label="DISCOM Sign" icon={<FileCheck size={12} />} name="discom_sign" value={formData.discom_sign} onChange={onChange} />
-                <Field label="Status" icon={<Shield size={12} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
-              </div>
-              <div style={{ marginTop: '20px' }}>
-                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
+                <Field label="Substation" icon={<Zap size={11} />} name="substation" value={formData.substation} onChange={onChange} required />
+                <Field label="Subdivision" icon={<MapPin size={11} />} name="subdivision" value={formData.subdivision} onChange={onChange} />
+                <Field label="Surveyor" icon={<User size={11} />} name="surveyor" value={formData.surveyor} onChange={onChange} required />
+                <Field label="District" icon={<MapPin size={11} />} name="district" value={formData.district} onChange={onChange} options={['JALGAON', 'AHILYANAGAR', 'SOLAPUR', 'NASHIK']} />
+                <Field label="Taluka" icon={<MapPin size={11} />} name="taluka" value={formData.taluka} onChange={onChange} />
+                <Field label="Survey Date" icon={<Calendar size={11} />} name="survey_date" type="date" value={formData.survey_date} onChange={onChange} />
+                <Field label="Voltage Level" icon={<Zap size={11} />} name="voltage_level" value={formData.voltage_level} onChange={onChange} />
+                <Field label="Connected Feeders" icon={<List size={11} />} name="connected_feeders" value={formData.connected_feeders} onChange={onChange} />
+                <Field label="Transformer" icon={<Zap size={11} />} name="transformer_capacity" value={formData.transformer_capacity} onChange={onChange} />
+                <Field label="Tap Changer" icon={<Zap size={11} />} name="tap_changer" value={formData.tap_changer} onChange={onChange} />
+                <Field label="Oil Condition" icon={<Shield size={11} />} name="oil_condition" value={formData.oil_condition} onChange={onChange} />
+                <Field label="Feeder Demand" icon={<Gauge size={11} />} name="feeder_demand" value={formData.feeder_demand} onChange={onChange} />
+                <Field label="Pending Capacity" icon={<TrendingUp size={11} />} name="pending_capacity" value={formData.pending_capacity} onChange={onChange} />
+                <Field label="Coordinates" icon={<MapPin size={11} />} name="coordinates" value={formData.coordinates} onChange={onChange} />
+                <Field label="Status" icon={<Shield size={11} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
+                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={11} /> Remarks</label>
                   <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
                 </div>
               </div>
-
-              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '10px', paddingTop: 'clamp(16px, 3vw, 24px)', marginTop: 'clamp(16px, 3vw, 28px)', borderTop: '1px solid #e5e7eb' }}>
-                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
-                <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e5e7eb' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+                <button type="submit" style={S.btnSubmit}><CheckCircle size={13} /> {editingId ? 'Update' : 'Submit'}</button>
               </div>
             </form>
           </div>
@@ -2256,19 +1144,23 @@ const MSKVYSubstationSurveyPage = () => {
   return (
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>Substation Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation - Substation Survey</p></div>
+      <div style={S.header}><h1 style={S.title}>Substation Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation</p></div>
 
-      <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
-          <Search size={16} style={S.searchIcon} />
+      <TopToolbar itemsPerPage={itemsPerPage} onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
+        onExcel={() => exportToExcel(filtered, columns, 'substation_surveys')}
+        onPrint={() => printReport(filtered, columns, 'Substation Surveys')} />
+
+      <div style={S.searchBar}>
+        <div style={{ position: 'relative', flex: '1 1 200px', minWidth: 0 }}>
+          <Search size={14} style={S.searchIcon} />
           <input type="text" placeholder="Search substation, surveyor..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
-          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={14} /></button>}
+          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={12} /></button>}
         </div>
-        <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> Add Survey</button>
+        <button onClick={openNew} style={S.btnPrimary}><Plus size={13} /> Add</button>
       </div>
 
       <div style={S.tableCard}>
-        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Substation Surveys</h2><span style={S.countBadge}>{filtered.length}</span></div>
+        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Surveys</h2><span style={S.countBadge}>{filtered.length}</span></div>
         <div style={S.tableWrap}>
           <table style={S.table}>
             <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}<th style={S.th}>Actions</th></tr></thead>
@@ -2279,9 +1171,9 @@ const MSKVYSubstationSurveyPage = () => {
                   {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
                   <td style={S.td}>
                     <div style={{ display: 'flex', gap: '2px' }}>
-                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }} title="View"><Eye size={15} /></button>
-                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }} title="Edit"><Edit size={15} /></button>
-                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }} title="Delete"><Trash2 size={15} /></button>
+                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }}><Eye size={14} /></button>
+                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }}><Edit size={14} /></button>
+                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }}><Trash2 size={14} /></button>
                     </div>
                   </td>
                 </tr>
@@ -2289,92 +1181,28 @@ const MSKVYSubstationSurveyPage = () => {
             </tbody>
           </table>
         </div>
-        <BottomBar
-          currentPage={page}
-          totalPages={totalPages}
-          totalItems={filtered.length}
-          itemsPerPage={itemsPerPage}
-          onPageChange={setPage}
-          onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
-          onExcel={() => exportToExcel(filtered, columns, 'substation_surveys')}
-          onPrint={() => printReport(filtered, columns, 'Substation Surveys')}
-        />
+        <BottomPagination currentPage={page} totalPages={totalPages} totalItems={filtered.length} itemsPerPage={itemsPerPage} onPageChange={setPage} />
       </div>
 
       {showView && selected && (
         <div style={S.modalOverlay} onClick={() => setShowView(false)}>
-          <div style={{ ...S.modal, maxWidth: '900px' }} onClick={e => e.stopPropagation()}>
-            <div style={S.modalHeader}>
-              <div>
-                <h2 style={S.modalTitle}>MSKVY Substation Survey</h2>
-                <p style={{ fontSize: '12px', color: '#6b7280', margin: '2px 0 0 0' }}>{selected.substation} • {selected.surveyor} • {formatDate(selected.survey_date)}</p>
-              </div>
-              <button onClick={() => setShowView(false)} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
-            </div>
+          <div style={S.modal} onClick={e => e.stopPropagation()}>
+            <div style={S.modalHeader}><h2 style={S.modalTitle}>Substation Survey Details</h2><button onClick={() => setShowView(false)} style={{ ...S.iconBtn }}><X size={18} /></button></div>
             <div style={S.modalBody}>
-              <SectionBlock title="1. Substation & Feeder Basics">
-                <KV l="Substation Name" v={selected.substation} />
-                <KV l="Voltage Level / Division" v={selected.voltage_level + ' • ' + selected.discom_division} />
-                <KV l="Connected Feeders" v={selected.connected_feeders} />
-                <KV l="Feeder Length" v={selected.feeder_length} />
-                <KV l="Agri Pumps & Load" v={selected.agri_pumps_load} />
-                <KV l="Peak / Average Load" v={selected.peak_load} />
-                <KV l="Supply Hours" v={selected.supply_hours} />
-                <KV l="Outage History" v={selected.outage_history} />
-              </SectionBlock>
-              <SectionBlock title="2. Transformer Details">
-                <KV l="Capacity" v={selected.transformer_capacity} />
-                <KV l="Make / Year" v={selected.transformer_make + ' / ' + selected.transformer_year} />
-                <KV l="Loading % / Spare" v={selected.loading_percent + ' / ' + selected.spare_capacity} />
-                <KV l="Tap Changer" v={selected.tap_changer} />
-                <KV l="Oil Condition" v={selected.oil_condition} />
-                <KV l="Bushing Condition" v={selected.bushing_condition} />
-                <KV l="Earthing Condition" v={selected.earthing_condition} />
-              </SectionBlock>
-              <SectionBlock title="3. Interconnection Readiness">
-                <KV l="Spare Bay" v={selected.spare_bay} />
-                <KV l="Bay Space" v={selected.bay_space} />
-                <KV l="Switchgear" v={selected.switchgear} />
-                <KV l="Protection Relays" v={selected.protection_relays} />
-                <KV l="SCADA / RTU" v={selected.scada_rtu} />
-                <KV l="Metering" v={selected.metering} />
-                <KV l="Evacuation Distance" v={selected.evacuation_distance} />
-                <KV l="Right of Way" v={selected.right_of_way} />
-              </SectionBlock>
-              <SectionBlock title="4. Grid Quality & Safety">
-                <KV l="Received Voltage" v={selected.received_voltage} />
-                <KV l="Fault Level" v={selected.fault_level} />
-                <KV l="Lightning Protection" v={selected.lightning_protection} />
-                <KV l="Fire Safety" v={selected.fire_safety} />
-              </SectionBlock>
-              <SectionBlock title="5. Solar Plant Sizing">
-                <KV l="Feeder Demand" v={selected.feeder_demand} />
-                <KV l="Existing Capacity" v={selected.existing_capacity} />
-                <KV l="Pending Capacity" v={selected.pending_capacity} />
-                <KV l="Capacity vs Transformer" v={selected.transformer_capacity_check} />
-              </SectionBlock>
-              <SectionBlock title="6. Regulatory & Documentation">
-                <KV l="SLD Available" v={selected.sld_available} />
-                <KV l="Environmental Clearance" v={selected.environmental_clearance} />
-                <KV l="Feeder Load Data" v={selected.feeder_load_data} />
-              </SectionBlock>
-              <SectionBlock title="7. Photos & Signatures">
-                <KV l="Geo-tagged Photos" v={selected.geotagged_photos} />
-                <KV l="Coordinates" v={selected.coordinates} />
-                <KV l="Surveyor Sign" v={selected.surveyor_sign} />
-                <KV l="DISCOM Sign" v={selected.discom_sign} />
-              </SectionBlock>
-              {selected.remarks && (
-                <div style={{ padding: '12px', background: '#fef3c7', borderRadius: '8px' }}>
-                  <p style={{ fontSize: '11px', color: '#92400e', fontWeight: '700', margin: '0 0 4px 0' }}>REMARKS</p>
-                  <p style={{ fontSize: '13px', color: '#78350f', margin: 0, wordBreak: 'break-word' }}>{selected.remarks}</p>
-                </div>
-              )}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '12px' }}>
+                {[['Substation', selected.substation], ['Subdivision', selected.subdivision], ['Surveyor', selected.surveyor], ['District', selected.district], ['Voltage', selected.voltage_level], ['Feeders', selected.connected_feeders], ['Transformer', selected.transformer_capacity], ['Spare', selected.pending_capacity], ['Coordinates', selected.coordinates], ['Status', selected.status]].map(([l, v]) => (
+                  <div key={l}>
+                    <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 3px 0', fontWeight: '600', textTransform: 'uppercase' }}>{l}</p>
+                    <p style={{ fontSize: '13px', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
+                  </div>
+                ))}
+              </div>
+              {selected.remarks && <div style={{ marginTop: '12px', padding: '10px', background: '#fef3c7', borderRadius: '6px' }}><p style={{ fontSize: '10px', fontWeight: '700', color: '#92400e', margin: '0 0 3px 0' }}>REMARKS</p><p style={{ fontSize: '12px', color: '#78350f', margin: 0 }}>{selected.remarks}</p></div>}
             </div>
             <div style={S.modalFooter}>
               <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
-              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={14} /> Edit</button>
-              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={14} /> Delete</button>
+              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={13} /> Edit</button>
+              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={13} /> Delete</button>
             </div>
           </div>
         </div>
@@ -2383,8 +1211,11 @@ const MSKVYSubstationSurveyPage = () => {
   );
 };
 
+// =============================================
+// LAND SURVEY
+// =============================================
 const MSKVYLandSurveyPage = () => {
-  const [data, setData] = useState(() => loadMSKVY('mskvy_land_v3', MSKVY_LAND_SURVEYS));
+  const [data, setData] = useState(() => loadMSKVY('mskvy_land_final', MSKVY_LAND_SURVEYS));
   const [searchTerm, setSearchTerm] = useState('');
   const [showView, setShowView] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -2392,70 +1223,32 @@ const MSKVYLandSurveyPage = () => {
   const [editingId, setEditingId] = useState(null);
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  useEffect(() => { saveMSKVY('mskvy_land_final', data); }, [data]);
 
-  useEffect(() => { saveMSKVY('mskvy_land_v3', data); }, [data]);
-
-  const emptyForm = {
-    village: '', block: '', district: 'JALGAON', feeder: '', surveyor: '', survey_date: '',
-    contractor: '', status: 'Pending',
-    land_nearby: '', distance_km: '', ownership: '', area_acres: '', title_status: '', litigation: '',
-    topography: '', waterlogging: '', soil_type: '', approach_road: '', water_availability: '',
-    environmental_clearance: '', geotagged_photos: '', coordinates: '', survey_map: '', remarks: ''
-  };
+  const emptyForm = { village: '', block: '', district: 'JALGAON', feeder: '', surveyor: '', survey_date: '', status: 'Pending', land_nearby: '', distance_km: '', ownership: '', title_status: '', topography: '', approach_road: '', water_availability: '', environmental_clearance: '', geotagged_photos: '', coordinates: '', survey_map: '', remarks: '' };
   const [formData, setFormData] = useState(emptyForm);
 
-  const filtered = data.filter(i => !searchTerm ||
-    ['village', 'block', 'feeder', 'surveyor', 'district'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
+  const filtered = data.filter(i => !searchTerm || ['village', 'block', 'feeder', 'surveyor'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase())));
   const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
   const start = (page - 1) * itemsPerPage;
   const display = filtered.slice(start, start + itemsPerPage);
 
   const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
   const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
-  const del = (item) => {
-    if (!window.confirm(`Delete land survey for "${item.village}"?`)) return;
-    setData(data.filter(d => d.id !== item.id));
-    toast.success('Deleted successfully');
-    setShowView(false);
-  };
+  const del = (item) => { if (!window.confirm('Delete?')) return; setData(data.filter(d => d.id !== item.id)); toast.success('Deleted'); setShowView(false); };
   const submit = (e) => {
     e.preventDefault();
-    if (!formData.village || !formData.surveyor) { toast.error('Village and Surveyor required'); return; }
-    if (editingId) {
-      setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d));
-      toast.success('Updated successfully');
-    } else {
-      const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1;
-      setData([{ ...formData, id: Date.now(), s_no: n }, ...data]);
-      toast.success('Added successfully');
-    }
+    if (!formData.village || !formData.surveyor) { toast.error('Village & Surveyor required'); return; }
+    if (editingId) { setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d)); toast.success('Updated'); }
+    else { const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1; setData([{ ...formData, id: Date.now(), s_no: n }, ...data]); toast.success('Added'); }
     setShowForm(false); setEditingId(null);
   };
 
   const columns = [
-    { key: 'village', label: 'Village', strong: true },
-    { key: 'block', label: 'Block' },
-    { key: 'district', label: 'District' },
-    { key: 'feeder', label: 'Feeder' },
-    { key: 'surveyor', label: 'Surveyor' },
-    { key: 'ownership', label: 'Ownership' },
+    { key: 'village', label: 'Village', strong: true }, { key: 'block', label: 'Block' }, { key: 'district', label: 'District' },
+    { key: 'feeder', label: 'Feeder' }, { key: 'surveyor', label: 'Surveyor' }, { key: 'ownership', label: 'Ownership' },
     { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
   ];
-
-  const SectionBlock = ({ title, children }) => (
-    <div style={{ marginBottom: '20px', border: '1px solid #e5e7eb', borderRadius: '10px', overflow: 'hidden' }}>
-      <div style={{ background: '#15803d', color: '#fff', padding: '10px 14px', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '700' }}>{title}</div>
-      <div style={{ padding: '12px 14px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '10px 20px' }}>{children}</div>
-    </div>
-  );
-  const KV = ({ l, v }) => (
-    <div>
-      <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 2px 0', fontWeight: '700', textTransform: 'uppercase' }}>{l}</p>
-      <p style={{ fontSize: '13px', color: '#111827', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
-    </div>
-  );
 
   if (showForm) {
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -2463,56 +1256,30 @@ const MSKVYLandSurveyPage = () => {
       <div style={S.page}>
         <ToastContainer position="top-right" autoClose={3000} />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: 'clamp(14px, 3vw, 24px)', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div><h1 style={S.title}>{editingId ? 'Edit Land Survey' : 'New Land Survey'}</h1><p style={S.subtitle}>Fill the MSKVY land checklist</p></div>
-            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
+          <div style={{ marginBottom: 'clamp(12px, 2.5vw, 20px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+            <h1 style={S.title}>{editingId ? 'Edit Land Survey' : 'New Land Survey'}</h1>
+            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
           </div>
-          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #f3f4f6', padding: 'clamp(14px, 3vw, 28px)' }}>
+          <div style={{ background: '#fff', borderRadius: '12px', padding: 'clamp(12px, 2.5vw, 24px)', border: '1px solid #f3f4f6' }}>
             <form onSubmit={submit}>
-              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#15803d', marginBottom: '16px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>Basic Info</h3>
               <div style={S.formGrid3}>
-                <Field label="Village" icon={<MapPin size={12} />} name="village" value={formData.village} onChange={onChange} required />
-                <Field label="Block" icon={<MapPin size={12} />} name="block" value={formData.block} onChange={onChange} />
-                <Field label="District" icon={<MapPin size={12} />} name="district" value={formData.district} onChange={onChange} options={['JALGAON', 'AHILYANAGAR', 'SOLAPUR', 'NASHIK']} />
-                <Field label="Feeder" icon={<Zap size={12} />} name="feeder" value={formData.feeder} onChange={onChange} />
-                <Field label="Surveyor" icon={<User size={12} />} name="surveyor" value={formData.surveyor} onChange={onChange} required />
-                <Field label="Survey Date" icon={<Calendar size={12} />} name="survey_date" type="date" value={formData.survey_date} onChange={onChange} />
-                <Field label="Contractor" icon={<Building2 size={12} />} name="contractor" value={formData.contractor} onChange={onChange} />
-                <Field label="Status" icon={<Shield size={12} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
-              </div>
-
-              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#15803d', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>1. Land Details</h3>
-              <div style={S.formGrid3}>
-                <Field label="Land within/adjacent (5 km)" icon={<MapPin size={12} />} name="land_nearby" value={formData.land_nearby} onChange={onChange} options={['YES', 'NO']} />
-                <Field label="Distance (km)" icon={<Ruler size={12} />} name="distance_km" value={formData.distance_km} onChange={onChange} />
-                <Field label="Ownership" icon={<Shield size={12} />} name="ownership" value={formData.ownership} onChange={onChange} options={['Private', 'Govt', 'Panchayat']} />
-                <Field label="Area (acres)" icon={<Ruler size={12} />} name="area_acres" type="number" value={formData.area_acres} onChange={onChange} />
-                <Field label="Title Status" icon={<FileText size={12} />} name="title_status" value={formData.title_status} onChange={onChange} />
-                <Field label="Litigation" icon={<FileWarning size={12} />} name="litigation" value={formData.litigation} onChange={onChange} />
-                <Field label="Topography" icon={<Layers size={12} />} name="topography" value={formData.topography} onChange={onChange} />
-                <Field label="Waterlogging" icon={<AlertCircle size={12} />} name="waterlogging" value={formData.waterlogging} onChange={onChange} />
-                <Field label="Soil Type" icon={<Layers size={12} />} name="soil_type" value={formData.soil_type} onChange={onChange} />
-                <Field label="Approach Road" icon={<MapPin size={12} />} name="approach_road" value={formData.approach_road} onChange={onChange} />
-                <Field label="Water Availability" icon={<Shield size={12} />} name="water_availability" value={formData.water_availability} onChange={onChange} />
-                <Field label="Environmental Clearance" icon={<TreePine size={12} />} name="environmental_clearance" value={formData.environmental_clearance} onChange={onChange} />
-              </div>
-
-              <h3 style={{ fontSize: 'clamp(13px, 2.5vw, 15px)', fontWeight: '700', color: '#15803d', marginBottom: '16px', marginTop: '24px', paddingBottom: '8px', borderBottom: '2px solid #dcfce7' }}>2. Site Photos & Records</h3>
-              <div style={S.formGrid3}>
-                <Field label="Geo-tagged Photos" icon={<Camera size={12} />} name="geotagged_photos" value={formData.geotagged_photos} onChange={onChange} />
-                <Field label="Coordinates" icon={<MapPin size={12} />} name="coordinates" value={formData.coordinates} onChange={onChange} placeholder="lat, long" />
-                <Field label="Survey Map" icon={<MapPin size={12} />} name="survey_map" value={formData.survey_map} onChange={onChange} />
-              </div>
-
-              <div style={{ marginTop: '20px' }}>
-                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={12} /> Remarks</label>
+                <Field label="Village" icon={<MapPin size={11} />} name="village" value={formData.village} onChange={onChange} required />
+                <Field label="Block" icon={<MapPin size={11} />} name="block" value={formData.block} onChange={onChange} />
+                <Field label="District" icon={<MapPin size={11} />} name="district" value={formData.district} onChange={onChange} options={['JALGAON', 'AHILYANAGAR', 'SOLAPUR', 'NASHIK']} />
+                <Field label="Feeder" icon={<Zap size={11} />} name="feeder" value={formData.feeder} onChange={onChange} />
+                <Field label="Surveyor" icon={<User size={11} />} name="surveyor" value={formData.surveyor} onChange={onChange} required />
+                <Field label="Survey Date" icon={<Calendar size={11} />} name="survey_date" type="date" value={formData.survey_date} onChange={onChange} />
+                <Field label="Ownership" icon={<Shield size={11} />} name="ownership" value={formData.ownership} onChange={onChange} options={['Private', 'Govt', 'Panchayat']} />
+                <Field label="Topography" icon={<Layers size={11} />} name="topography" value={formData.topography} onChange={onChange} />
+                <Field label="Coordinates" icon={<MapPin size={11} />} name="coordinates" value={formData.coordinates} onChange={onChange} />
+                <Field label="Status" icon={<Shield size={11} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
+                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={11} /> Remarks</label>
                   <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
                 </div>
               </div>
-
-              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '10px', paddingTop: 'clamp(16px, 3vw, 24px)', marginTop: 'clamp(16px, 3vw, 28px)', borderTop: '1px solid #e5e7eb' }}>
-                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={14} /> Cancel</button>
-                <button type="submit" style={S.btnSubmit}><CheckCircle size={14} /> {editingId ? 'Update' : 'Submit'}</button>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e5e7eb' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+                <button type="submit" style={S.btnSubmit}><CheckCircle size={13} /> {editingId ? 'Update' : 'Submit'}</button>
               </div>
             </form>
           </div>
@@ -2524,15 +1291,19 @@ const MSKVYLandSurveyPage = () => {
   return (
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>Land Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation - Land Survey</p></div>
+      <div style={S.header}><h1 style={S.title}>Land Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation</p></div>
 
-      <div style={S.searchBarTop}>
-        <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 0 }}>
-          <Search size={16} style={S.searchIcon} />
+      <TopToolbar itemsPerPage={itemsPerPage} onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
+        onExcel={() => exportToExcel(filtered, columns, 'land_surveys')}
+        onPrint={() => printReport(filtered, columns, 'Land Surveys')} />
+
+      <div style={S.searchBar}>
+        <div style={{ position: 'relative', flex: '1 1 200px', minWidth: 0 }}>
+          <Search size={14} style={S.searchIcon} />
           <input type="text" placeholder="Search village, feeder..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
-          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={14} /></button>}
+          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={12} /></button>}
         </div>
-        <button onClick={openNew} style={S.btnPrimary}><Plus size={14} /> Add Land Survey</button>
+        <button onClick={openNew} style={S.btnPrimary}><Plus size={13} /> Add</button>
       </div>
 
       <div style={S.tableCard}>
@@ -2547,9 +1318,9 @@ const MSKVYLandSurveyPage = () => {
                   {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
                   <td style={S.td}>
                     <div style={{ display: 'flex', gap: '2px' }}>
-                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }} title="View"><Eye size={15} /></button>
-                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }} title="Edit"><Edit size={15} /></button>
-                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }} title="Delete"><Trash2 size={15} /></button>
+                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }}><Eye size={14} /></button>
+                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }}><Edit size={14} /></button>
+                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }}><Trash2 size={14} /></button>
                     </div>
                   </td>
                 </tr>
@@ -2557,59 +1328,28 @@ const MSKVYLandSurveyPage = () => {
             </tbody>
           </table>
         </div>
-        <BottomBar
-          currentPage={page}
-          totalPages={totalPages}
-          totalItems={filtered.length}
-          itemsPerPage={itemsPerPage}
-          onPageChange={setPage}
-          onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
-          onExcel={() => exportToExcel(filtered, columns, 'land_surveys')}
-          onPrint={() => printReport(filtered, columns, 'Land Surveys')}
-        />
+        <BottomPagination currentPage={page} totalPages={totalPages} totalItems={filtered.length} itemsPerPage={itemsPerPage} onPageChange={setPage} />
       </div>
 
       {showView && selected && (
         <div style={S.modalOverlay} onClick={() => setShowView(false)}>
-          <div style={{ ...S.modal, maxWidth: '900px' }} onClick={e => e.stopPropagation()}>
-            <div style={S.modalHeader}>
-              <div>
-                <h2 style={S.modalTitle}>MSKVY Land Survey</h2>
-                <p style={{ fontSize: '12px', color: '#6b7280', margin: '2px 0 0 0' }}>Village {selected.village} • Block {selected.block} • {selected.surveyor} • {formatDate(selected.survey_date)}</p>
-              </div>
-              <button onClick={() => setShowView(false)} style={{ ...S.iconBtn, color: '#6b7280' }}><X size={18} /></button>
-            </div>
+          <div style={S.modal} onClick={e => e.stopPropagation()}>
+            <div style={S.modalHeader}><h2 style={S.modalTitle}>Land Survey Details</h2><button onClick={() => setShowView(false)} style={{ ...S.iconBtn }}><X size={18} /></button></div>
             <div style={S.modalBody}>
-              <SectionBlock title="1. Land Details">
-                <KV l="Land within/adjacent" v={selected.land_nearby} />
-                <KV l="Distance (km)" v={selected.distance_km} />
-                <KV l="Ownership" v={selected.ownership} />
-                <KV l="Area (acres)" v={selected.area_acres} />
-                <KV l="Title Status" v={selected.title_status} />
-                <KV l="Litigation" v={selected.litigation} />
-                <KV l="Topography" v={selected.topography} />
-                <KV l="Waterlogging" v={selected.waterlogging} />
-                <KV l="Soil Type" v={selected.soil_type} />
-                <KV l="Approach Road" v={selected.approach_road} />
-                <KV l="Water Availability" v={selected.water_availability} />
-                <KV l="Environmental Clearance" v={selected.environmental_clearance} />
-              </SectionBlock>
-              <SectionBlock title="2. Site Photos & Records">
-                <KV l="Geo-tagged Photos" v={selected.geotagged_photos} />
-                <KV l="Coordinates" v={selected.coordinates} />
-                <KV l="Survey Map" v={selected.survey_map} />
-              </SectionBlock>
-              {selected.remarks && (
-                <div style={{ padding: '12px', background: '#dcfce7', borderRadius: '8px' }}>
-                  <p style={{ fontSize: '11px', color: '#166534', fontWeight: '700', margin: '0 0 4px 0' }}>REMARKS</p>
-                  <p style={{ fontSize: '13px', color: '#14532d', margin: 0, wordBreak: 'break-word' }}>{selected.remarks}</p>
-                </div>
-              )}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '12px' }}>
+                {[['Village', selected.village], ['Block', selected.block], ['District', selected.district], ['Feeder', selected.feeder], ['Surveyor', selected.surveyor], ['Ownership', selected.ownership], ['Topography', selected.topography], ['Coordinates', selected.coordinates], ['Status', selected.status]].map(([l, v]) => (
+                  <div key={l}>
+                    <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 3px 0', fontWeight: '600', textTransform: 'uppercase' }}>{l}</p>
+                    <p style={{ fontSize: '13px', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
+                  </div>
+                ))}
+              </div>
+              {selected.remarks && <div style={{ marginTop: '12px', padding: '10px', background: '#dcfce7', borderRadius: '6px' }}><p style={{ fontSize: '10px', fontWeight: '700', color: '#166534', margin: '0 0 3px 0' }}>REMARKS</p><p style={{ fontSize: '12px', color: '#14532d', margin: 0 }}>{selected.remarks}</p></div>}
             </div>
             <div style={S.modalFooter}>
               <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
-              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={14} /> Edit</button>
-              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={14} /> Delete</button>
+              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={13} /> Edit</button>
+              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={13} /> Delete</button>
             </div>
           </div>
         </div>
@@ -2619,19 +1359,10 @@ const MSKVYLandSurveyPage = () => {
 };
 
 // =============================================
-// MENU CONFIG (unchanged)
+// MENU CONFIG
 // =============================================
 const MENU_CONFIG = {
-  dashboard: {
-    main: [
-      { id: 'dashboard-main', label: 'Management Dashboard' },
-      { id: 'activity-log', label: 'Activity Log' },
-    ],
-    masters: [
-      { id: 'dm-widget', label: 'Widget Types', table: 'dm_widget', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: [{ id: 1, s_no: 1, code: 'STAT', name: 'Stat Card', status: 'Active', remarks: 'Card' }, { id: 2, s_no: 2, code: 'CHART', name: 'Chart', status: 'Active', remarks: 'Chart' }] },
-      { id: 'dm-report', label: 'Report Types', table: 'dm_report', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: [{ id: 1, s_no: 1, code: 'DAILY', name: 'Daily', status: 'Active', remarks: 'Daily' }, { id: 2, s_no: 2, code: 'MONTHLY', name: 'Monthly', status: 'Active', remarks: 'Monthly' }] },
-    ],
-  },
+  dashboard: { main: [{ id: 'dashboard-main', label: 'Management Dashboard' }, { id: 'activity-log', label: 'Activity Log' }], masters: [] },
   mskvy: {
     main: [
       { id: 'mskvy-contractors', label: 'MSKVY Contractor List' },
@@ -2639,103 +1370,23 @@ const MENU_CONFIG = {
       { id: 'mskvy-land-survey', label: 'Land Surveys' },
     ],
     masters: [
-      { id: 'mskvy-district', label: 'District Master', table: 'mskvy_district', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_MSKVY_DISTRICT },
-      { id: 'mskvy-survey-status', label: 'Survey Status', table: 'mskvy_survey_status', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_MSKVY_SURVEY_STATUS },
+      { id: 'mskvy-district', label: 'District Master' },
+      { id: 'mskvy-survey-status', label: 'Survey Status' },
     ],
   },
-  projects: {
-    main: [
-      { id: 'proj-list', label: 'All Projects' },
-      { id: 'proj-sites', label: 'Project Sites' },
-      { id: 'proj-milestones', label: 'Milestones' },
-      { id: 'proj-budgets', label: 'Budgets' },
-      { id: 'proj-documents', label: 'Documents' },
-      { id: 'proj-assignments', label: 'Assignments' },
-    ],
-    masters: [
-      { id: 'pm-status', label: 'Project Status', table: 'pm_status', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'color', label: 'Color' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_PROJ_STATUS },
-      { id: 'pm-category', label: 'Project Category', table: 'pm_category', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_PROJ_CATEGORY },
-      { id: 'pm-capacity', label: 'Capacity', table: 'pm_capacity', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Capacity' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_CAPACITY },
-      { id: 'pm-milestone', label: 'Milestone Type', table: 'pm_milestone', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_MILESTONE_TYPE },
-      { id: 'pm-doctype', label: 'Document Type', table: 'pm_doctype', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_DOC_TYPE },
-    ],
-  },
-  contractors: {
-    main: [{ id: 'contractors-all', label: 'All Contractors' }],
-    masters: [
-      { id: 'cm-type', label: 'Contractor Type', table: 'cm_type', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_CONTRACTOR_TYPE },
-      { id: 'cm-license', label: 'License Type', table: 'cm_license', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_LICENSE_TYPE },
-      { id: 'cm-status', label: 'Approval Status', table: 'cm_status', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_APPROVAL_STATUS },
-    ],
-  },
-  'field-workers': {
-    main: [{ id: 'fw-all', label: 'All Field Workers' }],
-    masters: [
-      { id: 'wm-role', label: 'Worker Role', table: 'wm_role', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_WORKER_ROLE },
-      { id: 'wm-skill', label: 'Worker Skill', table: 'wm_skill', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_WORKER_SKILL },
-      { id: 'wm-status', label: 'Worker Status', table: 'wm_status', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_STATUS },
-    ],
-  },
-  reports: {
-    main: [{ id: 'reports-all', label: 'All Reports' }],
-    masters: [
-      { id: 'rm-type', label: 'Report Type', table: 'rm_type', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_REPORT_TYPE },
-      { id: 'rm-priority', label: 'Report Priority', table: 'rm_priority', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_REPORT_PRIORITY },
-      { id: 'rm-status', label: 'Report Status', table: 'rm_status', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_APPROVAL_STATUS },
-    ],
-  },
-  media: {
-    main: [{ id: 'photos', label: 'Photo Gallery' }, { id: 'documents', label: 'Documents' }],
-    masters: [
-      { id: 'mm-type', label: 'Media Type', table: 'mm_type', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_MEDIA_TYPE },
-      { id: 'mm-category', label: 'Media Category', table: 'mm_category', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_MEDIA_CATEGORY },
-      { id: 'mm-doctype', label: 'Document Type', table: 'mm_doctype', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_DOC_TYPE },
-    ],
-  },
-  approvals: {
-    main: [{ id: 'approvals-all', label: 'Pending Approvals' }],
-    masters: [
-      { id: 'am-step', label: 'Approval Step', table: 'am_step', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_APPROVAL_STEP },
-      { id: 'am-status', label: 'Approval Status', table: 'am_status', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_APPROVAL_STATUS },
-    ],
-  },
-  applications: {
-    main: [
-      { id: 'app-contractor', label: 'Contractor App' },
-      { id: 'app-worker', label: 'Field Worker App' },
-      { id: 'app-versions', label: 'App Versions' },
-      { id: 'app-releases', label: 'App Releases' },
-      { id: 'app-crashes', label: 'Crash Logs' },
-      { id: 'app-feedback', label: 'App Feedback' },
-    ],
-    masters: [
-      { id: 'apm-app', label: 'App Names', table: 'apm_app', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_APP_NAME },
-      { id: 'apm-gps', label: 'GPS Status', table: 'apm_gps', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_GPS_STATUS },
-      { id: 'apm-os', label: 'OS Version', table: 'apm_os', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_OS_VERSION },
-      { id: 'apm-release-type', label: 'Release Type', table: 'apm_release_type', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_RELEASE_TYPE },
-      { id: 'apm-crash-type', label: 'Crash Type', table: 'apm_crash_type', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_CRASH_TYPE },
-      { id: 'apm-rating', label: 'Rating', table: 'apm_rating', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_RATING },
-    ],
-  },
-  masters: {
-    main: [],
-    masters: [
-      { id: 'mm-approval', label: 'Approval Status', table: 'mm_approval', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_APPROVAL_STATUS },
-      { id: 'mm-status', label: 'General Status', table: 'mm_status', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_STATUS },
-      { id: 'mm-priority', label: 'Priority', table: 'mm_priority', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_REPORT_PRIORITY },
-    ],
-  },
-  users: {
-    main: [{ id: 'users-all', label: 'All Users' }],
-    masters: [
-      { id: 'um-role', label: 'User Role', table: 'um_role', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_USER_ROLE },
-      { id: 'um-status', label: 'User Status', table: 'um_status', columns: [{ key: 'code', label: 'Code' }, { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }, { key: 'remarks', label: 'Remarks' }], data: MASTER_STATUS },
-    ],
-  },
+  projects: { main: [{ id: 'proj-list', label: 'All Projects' }], masters: [] },
+  contractors: { main: [{ id: 'contractors-all', label: 'All Contractors' }], masters: [] },
+  'field-workers': { main: [{ id: 'fw-all', label: 'All Field Workers' }], masters: [] },
+  reports: { main: [{ id: 'reports-all', label: 'All Reports' }], masters: [] },
+  media: { main: [{ id: 'photos', label: 'Photo Gallery' }, { id: 'documents', label: 'Documents' }], masters: [] },
+  approvals: { main: [{ id: 'approvals-all', label: 'Pending Approvals' }], masters: [] },
+  applications: { main: [{ id: 'app-contractor', label: 'Contractor App' }, { id: 'app-worker', label: 'Field Worker App' }], masters: [] },
+  masters: { main: [], masters: [{ id: 'mm-status', label: 'General Status' }] },
+  users: { main: [{ id: 'users-all', label: 'All Users' }], masters: [] },
 };
 
 // =============================================
-// MAIN APP — Responsive
+// MAIN APP
 // =============================================
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -2781,38 +1432,25 @@ const App = () => {
     { id: 'users', label: 'Users' },
   ];
 
+  const handleCardNavigate = (menuId, subMenuId) => {
+    setActiveMenu(menuId);
+    setActiveSubMenu(subMenuId);
+    if (isMobile) setMobileMenuOpen(false);
+  };
+
   const renderContent = () => {
-    const cm = MENU_CONFIG[activeMenu];
-    if (cm) {
-      const mi = cm.masters.find(m => m.id === activeSubMenu);
-      if (mi) return <SimpleMasterPage title={mi.label} subtitle={`Master list of ${mi.label.toLowerCase()}`} storageKey={mi.table} defaultColumns={mi.columns} defaultData={mi.data} />;
-    }
     switch (activeSubMenu) {
-      case 'dashboard-main': return <DashboardPage />;
-      case 'activity-log': return <ActivityPage />;
+      case 'dashboard-main': return <DashboardPage onNavigate={handleCardNavigate} />;
       case 'mskvy-contractors': return <MSKVYContractorPage />;
       case 'mskvy-substation-survey': return <MSKVYSubstationSurveyPage />;
       case 'mskvy-land-survey': return <MSKVYLandSurveyPage />;
-      case 'proj-list': return <ProjectListPage />;
-      case 'proj-sites': return <ProjectSitesPage />;
-      case 'proj-milestones': return <ProjectMilestonesPage />;
-      case 'proj-budgets': return <ProjectBudgetPage />;
-      case 'proj-documents': return <ProjectDocumentsPage />;
-      case 'proj-assignments': return <ProjectAssignmentsPage />;
-      case 'contractors-all': return <ContractorPage />;
-      case 'fw-all': return <FieldWorkerPage />;
-      case 'reports-all': return <ReportsPage />;
-      case 'photos': return <PhotosPage />;
-      case 'documents': return <DocumentsPage />;
-      case 'approvals-all': return <ApprovalsPage />;
-      case 'app-contractor': return <ContractorAppPage />;
-      case 'app-worker': return <WorkerAppPage />;
-      case 'app-versions': return <AppVersionsPage />;
-      case 'app-releases': return <AppReleasesPage />;
-      case 'app-crashes': return <AppCrashLogsPage />;
-      case 'app-feedback': return <AppFeedbackPage />;
-      case 'users-all': return <UsersPage />;
-      default: return <DashboardPage />;
+      case 'mskvy-district': return <DistrictMasterPage />;
+      case 'mskvy-survey-status': return <SurveyStatusMasterPage />;
+      default: {
+        const cm = MENU_CONFIG[activeMenu];
+        const subItem = cm && (cm.main.find(s => s.id === activeSubMenu) || cm.masters.find(m => m.id === activeSubMenu));
+        return <ComingSoonPage title={subItem?.label || 'Module'} />;
+      }
     }
   };
 
@@ -2834,55 +1472,43 @@ const App = () => {
   return (
     <Router>
       <div style={{ display: 'flex', height: '100vh', background: '#f3f4f6', fontFamily: 'system-ui, sans-serif', overflow: 'hidden' }}>
-        {/* Overlay for mobile */}
         {isMobile && mobileMenuOpen && (
-          <div
-            onClick={() => setMobileMenuOpen(false)}
-            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 40 }}
-          />
+          <div onClick={() => setMobileMenuOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 40 }} />
         )}
-
-        {/* SIDEBAR */}
         <div style={{
           background: '#111827', color: '#fff', display: 'flex', flexDirection: 'column',
-          width: isMobile ? (mobileMenuOpen ? '260px' : '0') : (sidebarOpen ? '250px' : '60px'),
-          transition: 'width 0.3s',
-          flexShrink: 0,
-          position: isMobile ? 'fixed' : 'relative',
-          top: 0, bottom: 0, left: 0,
-          zIndex: isMobile ? 50 : 'auto',
-          overflow: 'hidden',
-          height: '100vh'
+          width: isMobile ? (mobileMenuOpen ? '260px' : '0') : (sidebarOpen ? '240px' : '60px'),
+          transition: 'width 0.3s', flexShrink: 0,
+          position: isMobile ? 'fixed' : 'relative', top: 0, bottom: 0, left: 0,
+          zIndex: isMobile ? 50 : 'auto', overflow: 'hidden', height: '100vh'
         }}>
           {!isMobile && (
-            <div style={{ padding: '16px', borderBottom: '1px solid #1f2937', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              {sidebarOpen && <span style={{ fontWeight: 'bold', fontSize: '15px', letterSpacing: '1px' }}>solar ERP</span>}
+            <div style={{ padding: '14px', borderBottom: '1px solid #1f2937', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              {sidebarOpen && <span style={{ fontWeight: 'bold', fontSize: '14px', letterSpacing: '1px' }}>solar ERP</span>}
               <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex' }}>
                 {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
               </button>
             </div>
           )}
           {isMobile && (
-            <div style={{ padding: '16px', borderBottom: '1px solid #1f2937', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontWeight: 'bold', fontSize: '15px', letterSpacing: '1px' }}>solar ERP</span>
-              <button onClick={() => setMobileMenuOpen(false)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex' }}>
-                <X size={18} />
-              </button>
+            <div style={{ padding: '14px', borderBottom: '1px solid #1f2937', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontWeight: 'bold', fontSize: '14px', letterSpacing: '1px' }}>solar ERP</span>
+              <button onClick={() => setMobileMenuOpen(false)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex' }}><X size={18} /></button>
             </div>
           )}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '12px 8px' }}>
+          <div style={{ flex: 1, overflowY: 'auto', padding: '10px 6px' }}>
             {cm.main.length > 0 && (
               <>
-                {(sidebarOpen || isMobile) && <p style={{ fontSize: '10px', color: '#6b7280', margin: '8px 12px 6px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>Main</p>}
+                {(sidebarOpen || isMobile) && <p style={{ fontSize: '9px', color: '#6b7280', margin: '6px 10px 5px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>Main</p>}
                 {cm.main.map(item => (
                   <button key={item.id} onClick={() => handleSubMenuClick(item.id)} style={{
-                    width: '100%', display: 'flex', alignItems: 'center', gap: '10px',
-                    padding: '10px 12px', borderRadius: '8px', border: 'none',
+                    width: '100%', display: 'flex', alignItems: 'center', gap: '8px',
+                    padding: '9px 10px', borderRadius: '6px', border: 'none',
                     background: activeSubMenu === item.id ? '#2563eb' : 'transparent',
                     color: activeSubMenu === item.id ? '#fff' : '#d1d5db',
-                    cursor: 'pointer', fontSize: '13px', textAlign: 'left', marginBottom: '2px', fontFamily: 'inherit'
+                    cursor: 'pointer', fontSize: '12px', textAlign: 'left', marginBottom: '2px', fontFamily: 'inherit'
                   }}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: activeSubMenu === item.id ? '#fff' : '#60a5fa', flexShrink: 0 }} />
+                    <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: activeSubMenu === item.id ? '#fff' : '#60a5fa', flexShrink: 0 }} />
                     {(sidebarOpen || isMobile) && <span>{item.label}</span>}
                   </button>
                 ))}
@@ -2890,65 +1516,63 @@ const App = () => {
             )}
             {cm.masters.length > 0 && (
               <>
-                {(sidebarOpen || isMobile) && <p style={{ fontSize: '10px', color: '#fbbf24', margin: '16px 12px 6px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}><Database size={10} /> Masters</p>}
-                {!sidebarOpen && !isMobile && <div style={{ height: '1px', background: '#374151', margin: '12px 8px' }} />}
+                {(sidebarOpen || isMobile) && <p style={{ fontSize: '9px', color: '#fbbf24', margin: '12px 10px 5px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '5px' }}><Database size={9} /> Masters</p>}
                 {cm.masters.map(item => (
                   <button key={item.id} onClick={() => handleSubMenuClick(item.id)} style={{
-                    width: '100%', display: 'flex', alignItems: 'center', gap: '10px',
-                    padding: '9px 12px', borderRadius: '8px', border: 'none',
+                    width: '100%', display: 'flex', alignItems: 'center', gap: '8px',
+                    padding: '8px 10px', borderRadius: '6px', border: 'none',
                     background: activeSubMenu === item.id ? '#7c3aed' : 'transparent',
                     color: activeSubMenu === item.id ? '#fff' : '#9ca3af',
-                    cursor: 'pointer', fontSize: '12.5px', textAlign: 'left', marginBottom: '2px', fontFamily: 'inherit'
+                    cursor: 'pointer', fontSize: '11.5px', textAlign: 'left', marginBottom: '2px', fontFamily: 'inherit'
                   }}>
-                    <List size={12} style={{ flexShrink: 0 }} />
+                    <List size={11} style={{ flexShrink: 0 }} />
                     {(sidebarOpen || isMobile) && <span>{item.label}</span>}
                   </button>
                 ))}
               </>
             )}
           </div>
-          <div style={{ padding: '12px', borderTop: '1px solid #1f2937' }}>
+          <div style={{ padding: '10px', borderTop: '1px solid #1f2937' }}>
             {(sidebarOpen || isMobile) ? (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
-                  <div style={{ width: '30px', height: '30px', background: '#374151', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><User size={14} /></div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
+                  <div style={{ width: '26px', height: '26px', background: '#374151', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><User size={12} /></div>
                   <div style={{ minWidth: 0 }}>
-                    <p style={{ fontSize: '12px', fontWeight: '600', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.name || 'Admin'}</p>
-                    <p style={{ fontSize: '10px', color: '#9ca3af', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.role || 'Super Admin'}</p>
+                    <p style={{ fontSize: '11px', fontWeight: '600', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.name || 'Admin'}</p>
+                    <p style={{ fontSize: '9px', color: '#9ca3af', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.role || 'Super Admin'}</p>
                   </div>
                 </div>
-                <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex', flexShrink: 0 }}><LogOut size={14} /></button>
+                <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex', flexShrink: 0 }}><LogOut size={13} /></button>
               </div>
             ) : (
-              <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', width: '100%', display: 'flex', justifyContent: 'center' }}><LogOut size={16} /></button>
+              <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', width: '100%', display: 'flex', justifyContent: 'center' }}><LogOut size={15} /></button>
             )}
           </div>
         </div>
 
-        {/* MAIN */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
           <div style={{ background: '#fff', borderBottom: '1px solid #e5e7eb', flexShrink: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px)', gap: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0, flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'clamp(8px, 1.8vw, 10px) clamp(10px, 2.5vw, 20px)', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0, flex: 1 }}>
                 {isMobile && (
-                  <button onClick={() => setMobileMenuOpen(true)} style={{ background: 'transparent', border: '1px solid #d1d5db', borderRadius: '6px', padding: '6px', cursor: 'pointer', display: 'flex', flexShrink: 0 }}>
-                    <List size={16} />
+                  <button onClick={() => setMobileMenuOpen(true)} style={{ background: 'transparent', border: '1px solid #d1d5db', borderRadius: '5px', padding: '5px', cursor: 'pointer', display: 'flex', flexShrink: 0 }}>
+                    <List size={14} />
                   </button>
                 )}
-                <h2 style={{ fontSize: 'clamp(11px, 2.2vw, 15px)', fontWeight: '600', color: '#1f2937', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <h2 style={{ fontSize: 'clamp(10px, 2vw, 13px)', fontWeight: '600', color: '#1f2937', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {topMenus.find(m => m.id === activeMenu)?.label} / {cm.main.find(s => s.id === activeSubMenu)?.label || cm.masters.find(m => m.id === activeSubMenu)?.label || ''}
                 </h2>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(6px, 1.5vw, 16px)', flexShrink: 0 }}>
-                {!isMobile && <span style={{ fontSize: '12px', color: '#4b5563' }}>Welcome, {user?.name || 'Admin'}</span>}
-                <button style={{ background: 'transparent', border: 'none', color: '#4b5563', cursor: 'pointer', display: 'flex' }}><Bell size={16} /></button>
-                <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#dc2626', fontSize: 'clamp(10px, 2vw, 12px)', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit' }}>Logout</button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(4px, 1.5vw, 12px)', flexShrink: 0 }}>
+                {!isMobile && <span style={{ fontSize: '11px', color: '#4b5563' }}>Welcome, {user?.name || 'Admin'}</span>}
+                <button style={{ background: 'transparent', border: 'none', color: '#4b5563', cursor: 'pointer', display: 'flex' }}><Bell size={15} /></button>
+                <button onClick={handleLogout} style={{ background: 'transparent', border: 'none', color: '#dc2626', fontSize: 'clamp(9px, 1.8vw, 11px)', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit' }}>Logout</button>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '2px', padding: '0 clamp(8px, 2vw, 24px)', borderTop: '1px solid #f3f4f6', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+            <div style={{ display: 'flex', gap: '2px', padding: '0 clamp(8px, 2vw, 20px)', borderTop: '1px solid #f3f4f6', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
               {topMenus.map(menu => (
                 <button key={menu.id} onClick={() => handleMenuClick(menu.id)} style={{
-                  padding: 'clamp(8px, 1.8vw, 10px) clamp(8px, 1.8vw, 14px)', fontSize: 'clamp(11px, 2vw, 13px)', fontWeight: '500', background: 'transparent', border: 'none',
+                  padding: 'clamp(7px, 1.5vw, 9px) clamp(7px, 1.5vw, 12px)', fontSize: 'clamp(10px, 1.9vw, 12px)', fontWeight: '500', background: 'transparent', border: 'none',
                   borderBottom: activeMenu === menu.id ? '2px solid #2563eb' : '2px solid transparent',
                   color: activeMenu === menu.id ? '#2563eb' : '#4b5563',
                   cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit'
