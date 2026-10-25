@@ -5,13 +5,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import dayjs from 'dayjs';
 import * as XLSX from 'xlsx';
 import {
-  Search, Filter, Plus, Edit, Trash2, Eye, X, ChevronLeft, ChevronRight,
-  RefreshCw, CheckCircle, Printer, FileSpreadsheet,
-  Hash, User, Globe, FileText, Shield, Calendar, Tag, Gauge, Camera, MapPin,
+  Search, Plus, Edit, Trash2, Eye, X, ChevronLeft, ChevronRight,
+  CheckCircle, Printer, FileSpreadsheet,
+  Hash, User, Globe, FileText, Shield, Calendar, Tag, Gauge, MapPin,
   Users, Building2, FolderOpen, ClipboardList, Bell, LogOut, Lock, Mail,
-  Phone, Award, TrendingUp, AlertCircle, Clock, Database, Columns,
-  Smartphone, Download, Upload, Activity, Layers, FileCheck,
-  Banknote, Wallet, List, Bug, Rocket, Server, Zap, Ruler, TreePine, FileWarning,
+  Phone, TrendingUp, Database, List, Zap, Ruler,
   Construction, ArrowRight, Navigation, Compass, ExternalLink
 } from 'lucide-react';
 
@@ -31,30 +29,24 @@ const getGoogleMapsUrl = (coords) => {
 
 // =============================================
 // MSKVY CONTRACTORS — ALL 127 records
-// KMZ verified: PAHAL (15) + TERAVON (10) + SOLTRIUM (22) + SOLACE (7) + NVVP (5) + RKBG (2) = 61
 // =============================================
 const MSKVY_CONTRACTORS = [
-  // Sr.1 KRIVI (4)
   { id: 1, s_no: 1, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 01', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '8380868899', substation: '33/11 KV NIGHOJ', area: '34.05', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 2, s_no: 2, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 02', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV JAWLA', area: '33.55', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 3, s_no: 3, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 03', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV SUPA OLD', area: '28.1', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 4, s_no: 4, contractor: 'KRIVI Energy Pvt Ltd', director: 'Mr. Bhupendra Ji', director_contact: '9326275972', file_name: 'KIRVI 04', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV LONI MAWALA', area: '25.65', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
-  // Sr.2 KYRA (6)
   { id: 5, s_no: 5, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 01', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV WADZIRE', area: '24.45', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
   { id: 6, s_no: 6, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 02', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Chitalkar', contact: '', substation: '33/11 KV SUPA MIDC', area: '11', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
   { id: 7, s_no: 7, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 03', district: 'AHILYANAGAR', taluka: 'Pathardi', supervisor: 'Asif Sayyad', contact: '9970289478', substation: '33/11 KV KASAR PIMPALGAON', area: '27.35', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
   { id: 8, s_no: 8, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 04', district: 'AHILYANAGAR', taluka: 'Pathardi', supervisor: 'Asif Sayyad', contact: '', substation: '33/11 KV MANIKDAUNDI', area: '14.05', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
   { id: 9, s_no: 9, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 05', district: 'AHILYANAGAR', taluka: 'Rahata', supervisor: 'Shrikant Labade', contact: '8010029784', substation: '33/11 KV KORHALE', area: '26.6', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
   { id: 10, s_no: 10, contractor: 'KYRA Photon Tech Pvt Ltd', director: 'Mr. V Balaji', director_contact: '9790923111', file_name: 'KYRA 06', district: 'AHILYANAGAR', taluka: 'Sangamner', supervisor: 'Shrikant Labade', contact: '', substation: '33/11 KV PEMGIRI', area: '34.85', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Site engineer visited. Land in KMZ file was Forest Land.' },
-  // Sr.3 RK (2)
   { id: 11, s_no: 11, contractor: 'R K Engineers & Consultants', director: 'Mr. Karan Masuria', director_contact: '9601199047', file_name: 'RK 01', district: 'AHILYANAGAR', taluka: 'Sangamner', supervisor: 'Shrikant Labade', contact: '', substation: '33/11 KV NIMON', area: '30.65', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '6 MW plant already connected. Land in KMZ was private, farmer unaware of lease.' },
   { id: 12, s_no: 12, contractor: 'R K Engineers & Consultants', director: 'Mr. Karan Masuria', director_contact: '9601199047', file_name: 'RK 02', district: 'AHILYANAGAR', taluka: 'Shrigonda', supervisor: 'Yogesh Parkhe', contact: '9890440425', substation: '33/11 KV PIMPALGAON PISA', area: '42.65', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Land private, farmer growing sugarcane, unaware of lease.' },
-  // Sr.4 RVP (4)
   { id: 13, s_no: 13, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 01', district: 'AHILYANAGAR', taluka: 'Karjat', supervisor: 'Yogesh Parkhe', contact: '', substation: '33/11 KV PATEWADI', area: '25.7', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
   { id: 14, s_no: 14, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 02', district: 'AHILYANAGAR', taluka: 'Nevasa', supervisor: 'Asif Sayyad', contact: '', substation: '33/11 KV MIDC PANDHARIPUL', area: '31.40', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
   { id: 15, s_no: 15, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 03', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Parkhe', contact: '', substation: '33/11 KV TAKALI DHOKESHWAR', area: '43.95', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
   { id: 16, s_no: 16, contractor: 'SHREE RVP Construction Pvt Ltd', director: '', director_contact: '', file_name: 'RVP 04', district: 'AHILYANAGAR', taluka: 'Parner', supervisor: 'Yogesh Parkhe', contact: '', substation: '33/11 KV RALEGAN THERPAL', area: '34.45', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Survey with EPC. Private land, farmer unaware of lease.' },
-  // ========== Sr.5 SOLACE (7) — KMZ VERIFIED ==========
   { id: 17, s_no: 17, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 01', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '9359874996', substation: '33/11 kV KURHE', area: '26.00', solar: '', coordinates: '21.0301435, 75.1311775', distance_km: '1.410', obstruction_clearance_m: '350', substation_number: '', sr_no: '', land_status: 'Replacement Search', location: 'Amalner Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
   { id: 18, s_no: 18, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 02', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '', substation: '33/11 kV BHARWAS', area: '19.75', solar: '', coordinates: '21.0942480, 74.9453075', distance_km: '1.059', obstruction_clearance_m: '350', substation_number: '', sr_no: '', land_status: 'Replacement Search', location: 'Amalner Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
   { id: 19, s_no: 19, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 03', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '', substation: '33/11kV GANDHALI', area: '19.05', solar: '', coordinates: '21.1076344, 75.0983474', distance_km: '1.096', obstruction_clearance_m: '350', substation_number: '', sr_no: '', land_status: 'Replacement Search', location: 'Amalner Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
@@ -62,22 +54,18 @@ const MSKVY_CONTRACTORS = [
   { id: 21, s_no: 21, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 05', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Shubham Yadav', contact: '', substation: '33/11 kV ANTURLI (DHAR)', area: '15.65', solar: '', coordinates: '21.0916978, 75.0509381', distance_km: '1.375', obstruction_clearance_m: '350', substation_number: '', sr_no: '', land_status: 'Replacement Search', location: 'Amalner Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
   { id: 22, s_no: 22, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 06', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Prithviraj Bhoi', contact: '9096472314', substation: '33/11 kV JANVA', area: '11.65', solar: '', coordinates: '20.9694776, 74.9678378', distance_km: '1.051', obstruction_clearance_m: '350', substation_number: '', sr_no: '', land_status: 'Replacement Search', location: 'Amalner Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
   { id: 23, s_no: 23, contractor: 'SOLACE Cogen Pvt Ltd', director: '', director_contact: '', file_name: 'SOLACE COGEN 07', district: 'JALGAON', taluka: 'Amalner', supervisor: 'Prithviraj Bhoi', contact: '', substation: 'DAHIWAD', area: '6.55', solar: '', coordinates: '21.0775706, 75.1983137', distance_km: '0.998', obstruction_clearance_m: '350', substation_number: '', sr_no: '', land_status: 'Replacement Search', location: 'Amalner Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
-  // ========== Sr.6 NVVP (5) — KMZ VERIFIED ==========
   { id: 24, s_no: 24, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 01', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '9922140587', substation: '33/11 kV KURWEL', area: '34.25', solar: '', coordinates: '21.1685696, 75.2783386', distance_km: '1.156', obstruction_clearance_m: '350', substation_number: '124093', sr_no: '220', land_status: 'Replacement Search', location: 'Chopda Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
   { id: 25, s_no: 25, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 02', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 kV VIRWADE', area: '27.30', solar: '', coordinates: '21.3063102, 75.3642453', distance_km: '1.133', obstruction_clearance_m: '350', substation_number: '124076', sr_no: '221', land_status: 'Replacement Search', location: 'Chopda Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
   { id: 26, s_no: 26, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 03', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 kV NIMGAVHAN', area: '15.45', solar: '', coordinates: '21.1644767, 75.2256799', distance_km: '1.377', obstruction_clearance_m: '350', substation_number: '124070', sr_no: '222', land_status: 'Alternate Land Option 1 – Replacement Search', location: 'Chopda Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
   { id: 27, s_no: 27, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 04', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 kV BUDHGAON', area: '11.15', solar: '', coordinates: '21.1778513, 75.1439688', distance_km: '1.039', obstruction_clearance_m: '350', substation_number: '124172', sr_no: '223', land_status: 'Replacement Search', location: 'Chopda Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
   { id: 28, s_no: 28, contractor: 'NVVP Green Energy Pvt Ltd', director: '', director_contact: '', file_name: 'NVVP 05', district: 'JALGAON', taluka: 'Erandol', supervisor: 'Gajanan Sonawane', contact: '9529887256', substation: '33/11 kV KASODA', area: '40.65', solar: '', coordinates: '20.8242600, 75.3090049', distance_km: '1.486', obstruction_clearance_m: '350', substation_number: '124065', sr_no: '224', land_status: 'Replacement Search', location: 'Erandol Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
-  // ========== Sr.7 RKBG (2) — KMZ VERIFIED ==========
   { id: 29, s_no: 29, contractor: 'RKBG Greentech Pvt Ltd', director: '', director_contact: '', file_name: 'RKBG 01', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 kV LASUR', area: '70.70', solar: '', coordinates: '21.3033087, 75.2087132', distance_km: '1.878', obstruction_clearance_m: '350', substation_number: '124075', sr_no: '218', land_status: 'Replacement Search', location: 'Chopda Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
   { id: 30, s_no: 30, contractor: 'RKBG Greentech Pvt Ltd', director: '', director_contact: '', file_name: 'RKBG 02', district: 'JALGAON', taluka: 'Chopda', supervisor: 'Gajanan Sonawane', contact: '', substation: '33/11 kV MANGARUL', area: '40.50', solar: '', coordinates: '21.2235286, 75.4026217', distance_km: '1.182', obstruction_clearance_m: '350', substation_number: '124074', sr_no: '219', land_status: 'Replacement Search', location: 'Chopda Taluka, Jalgaon District, Maharashtra', remarks: 'KMZ verified. Zero intersections. Min clearance 350m.' },
-  // Sr.8 WAN (5)
   { id: 31, s_no: 31, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 01', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV KAJGAON', area: '41.1', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Survey with EPC & design team. Farming land, farmer denied lease.' },
   { id: 32, s_no: 32, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 02', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV GIRAD', area: '29.7', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Survey with EPC. Farming land, farmer denied lease.' },
   { id: 33, s_no: 33, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 03', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV LON PIRACHE', area: '22.2', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Survey with EPC. Farming land, farmer denied lease.' },
   { id: 34, s_no: 34, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 04', district: 'JALGAON', taluka: 'Bhadgaon', supervisor: 'Hemant Agarwal', contact: '', substation: '33 KV AMADADA', area: '5.4', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Survey with EPC. Farming land, farmer denied lease.' },
   { id: 35, s_no: 35, contractor: 'WAN Technology (OPC) Pvt Ltd', director: '', director_contact: '', file_name: 'WAN 05', district: 'JALGAON', taluka: 'Bhusawal', supervisor: 'Hemant Agarwal', contact: '', substation: '33/11 KV VELHALE', area: '39.75', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: 'Farming land, farmer denied lease. Road too thin for heavy vehicles.' },
-  // Sr.9 SWELECT (16)
   { id: 36, s_no: 36, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 1', district: 'JALGAON', taluka: 'Jalgaon', supervisor: '', contact: '', substation: '33/11 KV VASANTWADI WAWADADA', area: '15.55', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 37, s_no: 37, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 2', district: 'JALGAON', taluka: 'Jamner', supervisor: 'Mangesh Kale', contact: '8483981271', substation: '33/11 KV FATTEPUR', area: '35.2', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 38, s_no: 38, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 3', district: 'JALGAON', taluka: 'Jamner', supervisor: 'Mangesh Kale', contact: '', substation: '33/11 KV TONDAPUR', area: '35.15', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
@@ -94,20 +82,16 @@ const MSKVY_CONTRACTORS = [
   { id: 49, s_no: 49, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 14', district: 'JALGAON', taluka: 'Raver', supervisor: 'Brijesh Verma', contact: '', substation: '33/11 KV AINPUR', area: '40.4', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 50, s_no: 50, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 15', district: 'JALGAON', taluka: 'Raver', supervisor: 'Brijesh Verma', contact: '', substation: '33/11 KV MOHAGAN', area: '20.4', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 51, s_no: 51, contractor: 'SWELECT Energy Systems Ltd', director: '', director_contact: '', file_name: 'SWELECT 16', district: 'JALGAON', taluka: 'Yawai', supervisor: '', contact: '', substation: '33/11 KV DAHIGAON', area: '46', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
-  // Sr.10 AMBIT (3)
   { id: 52, s_no: 52, contractor: 'AMBIT Energy Pvt Ltd', director: '', director_contact: '', file_name: 'AMBIT 01', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV SUBSTATION SADE', area: '26', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 53, s_no: 53, contractor: 'AMBIT Energy Pvt Ltd', director: '', director_contact: '', file_name: 'AMBIT 02', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV POTEGAON', area: '26', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 54, s_no: 54, contractor: 'AMBIT Energy Pvt Ltd', director: '', director_contact: '', file_name: 'AMBIT 03', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV VITE', area: '21', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
-  // Sr.11 OMSHAM (2)
   { id: 55, s_no: 55, contractor: 'OMSHAM Solutions LLP', director: '', director_contact: '', file_name: 'OMSHAM 01', district: 'SOLAPUR', taluka: 'Madha', supervisor: '', contact: '', substation: '33/11KV PIMPLENEAR', area: '41', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 56, s_no: 56, contractor: 'OMSHAM Solutions LLP', director: '', director_contact: '', file_name: 'OMSHAM 02', district: 'SOLAPUR', taluka: 'Madha', supervisor: '', contact: '', substation: '33/11 KV ALEGAON', area: '26', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
-  // Sr.12 Prashant Plastic (5)
   { id: 57, s_no: 57, contractor: 'Prashant Plastic Industries LLP', director: '', director_contact: '', file_name: 'PRASHANT PLASTIC 01', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV MANJARGAON', area: '16', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 58, s_no: 58, contractor: 'Prashant Plastic Industries LLP', director: '', director_contact: '', file_name: 'PRASHANT PLASTIC 02', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV JINTI', area: '16', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 59, s_no: 59, contractor: 'Prashant Plastic Industries LLP', director: '', director_contact: '', file_name: 'PRASHANT PLASTIC 03', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV PAREWADES', area: '11', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 60, s_no: 60, contractor: 'Prashant Plastic Industries LLP', director: '', director_contact: '', file_name: 'PRASHANT PLASTIC 04', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: '33/11 KV SALSE', area: '11', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 61, s_no: 61, contractor: 'Prashant Plastic Industries LLP', director: '', director_contact: '', file_name: 'PRASHANT PLASTIC 05', district: 'SOLAPUR', taluka: 'Karmala', supervisor: '', contact: '', substation: 'HINGANI', area: '11', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
-  // ========== Sr.13 PAHAL (15) — KMZ VERIFIED ==========
   { id: 62, s_no: 62, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL BORGAON', district: 'NASHIK', taluka: 'Surgana', supervisor: '', contact: '', substation: '33/11 KV BORGAON', area: '24.80', solar: '4.76', coordinates: '20.5150398, 73.7320758', distance_km: '1.122', obstruction_clearance_m: '0', substation_number: '', sr_no: '', land_status: 'Proposed ground-mounted solar project', location: 'Surgana Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Zero intersections.' },
   { id: 63, s_no: 63, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL CHAS', district: 'NASHIK', taluka: 'Sinnar', supervisor: 'Kiran Deore', contact: '', substation: 'CHAS', area: '12.25', solar: '2.25', coordinates: '19.6728002, 74.0814986', distance_km: '1.021', obstruction_clearance_m: '350', substation_number: '', sr_no: '', land_status: 'Alternate Land Option 1 – Replacement Search', location: 'Sinnar Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
   { id: 64, s_no: 64, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL CHIKHALAMBE', district: 'NASHIK', taluka: 'Chandvad', supervisor: '', contact: '', substation: '33 kV CHIKHALAMBE', area: '50.15', solar: '9.83', coordinates: '20.2478347, 74.0388140', distance_km: '1.175', obstruction_clearance_m: '350', substation_number: '', sr_no: '', land_status: 'Alternate Land Option 1 – Replacement Search', location: 'Chandvad Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
@@ -123,7 +107,6 @@ const MSKVY_CONTRACTORS = [
   { id: 74, s_no: 74, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL WADANGALI', district: 'NASHIK', taluka: 'Sinnar', supervisor: 'Kiran Deore', contact: '', substation: 'WADANGALI', area: '42.35', solar: '8.27', coordinates: '19.9195374, 74.1504808', distance_km: '1.779', obstruction_clearance_m: '350', substation_number: '184057', sr_no: '152', land_status: 'Alternate Land Option 1 – Replacement Search', location: 'Sinnar Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
   { id: 75, s_no: 75, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL KHAMBALE', district: 'NASHIK', taluka: 'Trimbakeshwar', supervisor: 'Manish Gupta', contact: '8368550313', substation: '33/11 kV KHAMBALE', area: '28.75', solar: '5.55', coordinates: '19.9512815, 73.6245782', distance_km: '1.412', obstruction_clearance_m: '350', substation_number: '184052', sr_no: '', land_status: 'Alternate Land Option 1 – Replacement Search', location: 'Trimbakeshwar Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
   { id: 76, s_no: 76, contractor: 'PAHAL Green Energy Pvt Ltd', director: 'Mukesh Patel', director_contact: '9870037830', file_name: 'PAHAL WADZIRE', district: 'NASHIK', taluka: 'Sinnar', supervisor: 'Kiran Deore', contact: '8788624365', substation: '33/11 kV WADZIRE', area: '18.40', solar: '3.48', coordinates: '19.9179711, 73.9647255', distance_km: '1.083', obstruction_clearance_m: '350', substation_number: '184134', sr_no: '155', land_status: 'Replacement Search', location: 'Sinnar Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
-  // ========== Sr.14 TERAVON (10) — KMZ VERIFIED ==========
   { id: 77, s_no: 77, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON VIRGAON', district: 'NASHIK', taluka: 'Baglan', supervisor: 'Sanket Jadhav', contact: '', substation: 'VIRGAON', area: '71.10', solar: '14.02', coordinates: '20.6773146, 74.1407232', distance_km: '1.276', obstruction_clearance_m: '350', substation_number: '184037', sr_no: '113', land_status: 'Replacement Search', location: 'Baglan Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
   { id: 78, s_no: 78, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON JORAN', district: 'NASHIK', taluka: 'Baglan', supervisor: 'Sanket Jadhav', contact: '', substation: 'JORAN', area: '62.00', solar: '12.20', coordinates: '20.6555234, 74.0638627', distance_km: '2.392', obstruction_clearance_m: '350', substation_number: '184071', sr_no: '114', land_status: 'Replacement Search', location: 'Baglan Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
   { id: 79, s_no: 79, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON AJANG', district: 'NASHIK', taluka: 'Malegaon', supervisor: 'Kalpesh Ahire', contact: '8459834191', substation: '33/11 kV AJANG', area: '48.80', solar: '9.56', coordinates: '20.6209890, 74.4622634', distance_km: '1.211', obstruction_clearance_m: '139.8', substation_number: '184203', sr_no: '135', land_status: 'Replacement Search', location: 'Malegaon Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 139.8m.' },
@@ -134,7 +117,6 @@ const MSKVY_CONTRACTORS = [
   { id: 84, s_no: 84, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON THENGODA', district: 'NASHIK', taluka: 'Satana', supervisor: 'Swapnil Ahire', contact: '', substation: 'THENGODA', area: '86.95', solar: '17.19', coordinates: '20.5047361, 74.1817143', distance_km: '3.119', obstruction_clearance_m: '350', substation_number: '184027', sr_no: '149', land_status: 'Replacement Search', location: 'Satana Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
   { id: 85, s_no: 85, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON VADNER', district: 'NASHIK', taluka: 'Malegaon', supervisor: 'Kalpesh Ahire', contact: '', substation: '33/11 kV VADNER', area: '68.45', solar: '13.49', coordinates: '20.5367553, 74.3879955', distance_km: '3.591', obstruction_clearance_m: '91.1', substation_number: '184033', sr_no: '134', land_status: 'Adaptive Replacement Search', location: 'Malegaon Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 91.1m.' },
   { id: 86, s_no: 86, contractor: 'TERAVON Green Energies Ltd', director: 'Parth Patel', director_contact: '9723266543', file_name: 'TERAVON VINCHUR', district: 'NASHIK', taluka: 'Niphad', supervisor: 'Akash Tripathi', contact: '6267082203', substation: '33/11 kV VINCHUR', area: '40.10', solar: '7.82', coordinates: '20.0781559, 74.2223381', distance_km: '1.185', obstruction_clearance_m: '350', substation_number: '', sr_no: '', land_status: 'Replacement Search', location: 'Niphad Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
-  // ========== Sr.15 SOLTRIUM (23) — KMZ VERIFIED ==========
   { id: 87, s_no: 87, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 01', district: 'NASHIK', taluka: 'Chandvad', supervisor: 'Avinash Nikam', contact: '', substation: '33kV SHIRUR TANGADI', area: '28.40', solar: '5.48', coordinates: '20.3621432, 74.1447237', distance_km: '1.708', obstruction_clearance_m: '350', substation_number: '184219', sr_no: '121', land_status: 'Alternate Land Option 1 – Replacement Search', location: 'Chandvad Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
   { id: 88, s_no: 88, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 02', district: 'NASHIK', taluka: 'Chandvad', supervisor: 'Kalpesh Ahire', contact: '', substation: 'DUGAON', area: '24.30', solar: '4.66', coordinates: '20.3293939, 74.3434043', distance_km: '2.314', obstruction_clearance_m: '350', substation_number: '184077', sr_no: '122', land_status: 'Alternate Land Option 1 – Replacement Search', location: 'Chandvad Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
   { id: 89, s_no: 89, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 03', district: 'NASHIK', taluka: 'Chandvad', supervisor: '', contact: '', substation: '33/11 kV KHADAK-OZAR', area: '22.25', solar: '4.25', coordinates: '20.2535649, 74.1478250', distance_km: '1.993', obstruction_clearance_m: '350', substation_number: '184144', sr_no: '123', land_status: 'Alternate Land Option 1 – Replacement Search', location: 'Chandvad Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
@@ -158,7 +140,6 @@ const MSKVY_CONTRACTORS = [
   { id: 107, s_no: 107, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 21', district: 'NASHIK', taluka: 'Malegaon', supervisor: 'Kalpesh Ahire', contact: '', substation: '33/11 KV SAVKARWADI', area: '24.90', solar: '4.78', coordinates: '20.3811258, 74.4385746', distance_km: '2.324', obstruction_clearance_m: '350', substation_number: '184274', sr_no: '136', land_status: 'Replacement Search', location: 'Malegaon Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
   { id: 108, s_no: 108, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 22', district: 'NASHIK', taluka: 'Malegaon', supervisor: 'Kalpesh Ahire', contact: '', substation: '33/11 kV VIRANI', area: '11.55', solar: '2.11', coordinates: '20.7568888, 74.4705646', distance_km: '1.352', obstruction_clearance_m: '350', substation_number: '184287', sr_no: '137', land_status: 'Replacement Search', location: 'Malegaon Taluka, Nashik District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
   { id: 109, s_no: 109, contractor: 'SOLTRIUM Power Pvt Ltd', director: 'Venkatesh Rajaratnam', director_contact: '8056015332', file_name: 'SOLTRIUM 23', district: 'AHILYANAGAR', taluka: 'Sangamner', supervisor: 'Shrikant Labade', contact: '', substation: '33 kV TALEGAON', area: '61.85', solar: '12.17', coordinates: '19.6986009, 74.3104266', distance_km: '1.251', obstruction_clearance_m: '350', substation_number: '14018', sr_no: '109', land_status: 'Replacement Search', location: 'Sangamner Taluka, Ahilyanagar District, Maharashtra', remarks: 'KMZ verified. Min clearance 350m.' },
-  // Sr.16 XYZ (18)
   { id: 110, s_no: 110, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ1', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 KV SHIRWAL S/S', area: '46', solar: '10.22', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 111, s_no: 111, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ2', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 KV KUDAL', area: '46', solar: '10.22', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
   { id: 112, s_no: 112, contractor: 'XYZ', director: '', director_contact: '', file_name: 'XYZ3', district: 'SOLAPUR', taluka: 'AKKALKOT', supervisor: '', contact: '', substation: '33/11 KV AKKALKOT', area: '31', solar: '6.89', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' },
@@ -180,44 +161,92 @@ const MSKVY_CONTRACTORS = [
 ];
 
 // =============================================
-// MSKVY SUBSTATION SURVEYS
+// MSKVY SUBSTATION SURVEYS — KAJGAON full 28 items
 // =============================================
 const MSKVY_SUBSTATION_SURVEYS = [
   {
-    id: 1, s_no: 1, substation: 'KAJGAON 33/11 KV Substation', subdivision: 'Bhadgaon', surveyor: 'Hemant Agrawal',
-    district: 'JALGAON', taluka: 'Bhadgaon', contractor: 'WAN Technology (OPC) Pvt Ltd',
-    survey_date: '2026-10-22', status: 'Completed',
-    voltage_level: '33/11 kV', discom_division: 'Division - Bhadgaon',
-    connected_feeders: '5 Agri, 6 Domestic', feeder_length: '10km, 12km, 7km',
-    agri_pumps_load: '', peak_load: '', supply_hours: '8 Hours', outage_history: '',
-    transformer_capacity: '5 MVA X 4 Nos', transformer_make: '', transformer_year: '',
-    loading_percent: '', spare_capacity: '', tap_changer: '33/11',
-    oil_condition: 'Good', bushing_condition: 'Good', earthing_condition: 'Good',
-    spare_bay: 'New Bay Needed', bay_space: 'Available', switchgear: 'Good',
-    protection_relays: 'Yes', scada_rtu: 'Yes', metering: 'Available',
-    evacuation_distance: '1.5 Km', right_of_way: 'Not Found Any',
-    received_voltage: '11 KV', fault_level: '', lightning_protection: 'Yes',
-    fire_safety: 'Yes', feeder_demand: '15 MW', existing_capacity: '5 MW', pending_capacity: '0.464 MW',
+    id: 1, s_no: 1,
+    substation: 'KAJGAON 33/11 KV Substation',
+    subdivision: 'Bhadgaon',
+    surveyor: 'Hemant Agrawal',
+    district: 'JALGAON',
+    taluka: 'Bhadgaon',
+    contractor: 'WAN Technology (OPC) Pvt Ltd',
+    survey_date: '2026-10-22',
+    status: 'Completed',
+    voltage_level: '33/11 kV',
+    discom_division: 'Division - Bhadgaon',
+    connected_feeders: '5 Agri, 6 Domestic',
+    feeder_length: '10km, 12km, 7km',
+    agri_pumps_load: '',
+    peak_load: '',
+    supply_hours: '8 Hours',
+    outage_history: '',
+    transformer_capacity: '5 MVA X 4 Nos',
+    transformer_make: '',
+    transformer_year: '',
+    loading_percent: '',
+    spare_capacity: '',
+    tap_changer: '33/11',
+    oil_condition: 'Good',
+    bushing_condition: 'Good',
+    earthing_condition: 'Good',
+    spare_bay: 'New Bay Needed',
+    bay_space: 'Available',
+    switchgear: 'Good',
+    protection_relays: 'Yes',
+    scada_rtu: 'Yes',
+    metering: 'Available',
+    evacuation_distance: '1.5 Km',
+    right_of_way: 'Not Found Any',
+    received_voltage: '11 KV',
+    fault_level: '',
+    lightning_protection: 'Yes',
+    fire_safety: 'Yes',
+    feeder_demand: '15 MW',
+    existing_capacity: '5 MW',
+    pending_capacity: '0.464 MW',
     transformer_capacity_check: '4 X 5 MVA',
-    sld_available: 'Available', environmental_clearance: 'Yes', feeder_load_data: '89Amp, 41Amp, 73Amp',
-    geotagged_photos: 'Attached', coordinates: '20.571375, 75.150647',
-    surveyor_sign: 'Signed', discom_sign: 'Signed', remarks: '1 transformer add come to 8 to 10 days'
+    sld_available: 'Available',
+    environmental_clearance: 'Yes',
+    feeder_load_data: '89Amp, 41Amp, 73Amp',
+    geotagged_photos: 'Attached',
+    coordinates: '20.571375, 75.150647',
+    surveyor_sign: 'Signed',
+    discom_sign: 'Signed',
+    remarks: '1 transformer add come to 8 to 10 days'
   },
 ];
 
 // =============================================
-// MSKVY LAND SURVEYS
+// MSKVY LAND SURVEYS — KAJGAON full 9 items
 // =============================================
 const MSKVY_LAND_SURVEYS = [
   {
-    id: 1, s_no: 1, village: 'KAJGAON', block: 'Bhadgaon', district: 'JALGAON',
-    feeder: 'KAJGAON 33/11 KV', surveyor: 'Hemant Agrawal', survey_date: '2026-10-22',
-    contractor: 'WAN Technology (OPC) Pvt Ltd', status: 'Completed',
-    land_nearby: 'YES', distance_km: '1.7 KM', ownership: 'Private', area_acres: '',
-    title_status: 'Farming Land', litigation: '',
-    topography: 'No', waterlogging: 'NA', soil_type: '', approach_road: 'access for heavy vehicles',
-    water_availability: 'Yes', environmental_clearance: 'NA',
-    geotagged_photos: 'Yes', coordinates: '20.561303, 75.159826', survey_map: 'Yes',
+    id: 1, s_no: 1,
+    village: 'KAJGAON',
+    block: 'Bhadgaon',
+    district: 'JALGAON',
+    feeder: 'KAJGAON 33/11 KV',
+    surveyor: 'Hemant Agrawal',
+    survey_date: '2026-10-22',
+    contractor: 'WAN Technology (OPC) Pvt Ltd',
+    status: 'Completed',
+    land_nearby: 'YES',
+    distance_km: '1.7 KM',
+    ownership: 'Private',
+    area_acres: '',
+    title_status: 'Farming Land',
+    litigation: '',
+    topography: 'No',
+    waterlogging: 'NA',
+    soil_type: '',
+    approach_road: 'access for heavy vehicles',
+    water_availability: 'Yes',
+    environmental_clearance: 'NA',
+    geotagged_photos: 'Yes',
+    coordinates: '20.561303, 75.159826',
+    survey_map: 'Yes',
     remarks: 'Village KAJGAON, Block Bhadgaon, Dist - Jalgaon, Maharashtra.'
   },
 ];
@@ -279,7 +308,7 @@ const S = {
   statusBadge: { display: 'inline-block', padding: '3px 8px', borderRadius: '10px', fontSize: 'clamp(9px, 1.7vw, 10px)', fontWeight: '600', whiteSpace: 'nowrap' },
   modalOverlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(6px, 1.5vw, 12px)', zIndex: 100 },
   modal: { background: '#fff', borderRadius: '12px', width: '100%', maxWidth: '800px', maxHeight: '92vh', overflowY: 'auto' },
-  modalHeader: { padding: 'clamp(10px, 2vw, 16px) clamp(12px, 2.5vw, 20px)', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' },
+  modalHeader: { padding: 'clamp(10px, 2vw, 16px) clamp(12px, 2.5vw, 20px)', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px', position: 'sticky', top: 0, background: '#fff', zIndex: 2 },
   modalTitle: { fontSize: 'clamp(13px, 2.5vw, 16px)', fontWeight: 'bold', color: '#111827', margin: 0 },
   modalBody: { padding: 'clamp(10px, 2.5vw, 20px)' },
   modalFooter: { padding: 'clamp(10px, 2vw, 16px) clamp(12px, 2.5vw, 20px)', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '6px' },
@@ -307,7 +336,6 @@ const getStatusStyle = (status) => {
   };
   return map[status] || { background: '#f3f4f6', color: '#4b5563' };
 };
-const formatDate = (d) => d ? dayjs(d).format('DD/MM/YYYY') : '—';
 
 const loadMSKVY = (key, fallback) => {
   try { const s = localStorage.getItem(key); return s ? JSON.parse(s) : fallback; } catch { return fallback; }
@@ -366,7 +394,7 @@ const Login = ({ onLogin }) => {
 };
 
 // =============================================
-// PRINT
+// PRINT & EXPORT
 // =============================================
 const printReport = (data, columns, title) => {
   try {
@@ -395,7 +423,7 @@ const printReport = (data, columns, title) => {
         <div style="flex:1;overflow:auto;padding:12px;background:#f3f4f6;">
           <div style="background:#fff;padding:12px;border-radius:6px;">
             <div style="text-align:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:10px;">
-              <div style="font-size:15px;font-weight:700;">INDIAN OIL CORPORATION LIMITED</div>
+              <div style="font-size:15px;font-weight:700;">MSKVY FEEDER SOLARISATION</div>
               <div style="font-size:12px;font-weight:600;margin-top:3px;">${title.toUpperCase()}</div>
               <div style="font-size:10px;color:#555;margin-top:3px;">Generated: ${dayjs().format('DD/MM/YYYY HH:mm')} | Total: ${data.length}</div>
             </div>
@@ -530,51 +558,77 @@ const ComingSoonPage = ({ title = 'Coming Soon' }) => (
 );
 
 // =============================================
-// DASHBOARD PAGE
+// DASHBOARD PAGE — SIRF 2 CARDS, CHOTA SIZE
 // =============================================
 const DashboardPage = ({ onNavigate }) => {
-  const totalSubstations = [...new Set(MSKVY_CONTRACTORS.map(c => c.substation))].length;
-  const totalArea = MSKVY_CONTRACTORS.reduce((s, c) => s + (parseFloat(c.area) || 0), 0).toFixed(2);
-  const totalDistricts = [...new Set(MSKVY_CONTRACTORS.map(c => c.district))].length;
-  const totalContractors = [...new Set(MSKVY_CONTRACTORS.map(c => c.contractor))].length;
-  const totalTalukas = [...new Set(MSKVY_CONTRACTORS.map(c => c.taluka))].length;
-  const totalSupervisors = [...new Set(MSKVY_CONTRACTORS.map(c => c.supervisor).filter(Boolean))].length;
-  const totalSolarMW = MSKVY_CONTRACTORS.reduce((s, c) => s + (parseFloat(c.solar) || 0), 0).toFixed(2);
-  const kmzVerified = MSKVY_CONTRACTORS.filter(c => c.coordinates).length;
+  const totalContractors = MSKVY_CONTRACTORS.length;
+  const totalSubstationSurveys = MSKVY_SUBSTATION_SURVEYS.length;
 
   const cards = [
-    { id: 'contractors', title: 'Contractor List', subtitle: 'All EPC Sub-Contractors', value: MSKVY_CONTRACTORS.length, label: 'Total Records', icon: <Building2 size={26} />, color: '#2563eb', bg: '#eff6ff', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
-    { id: 'substations', title: 'Substations', subtitle: 'Unique 33/11 KV feeders', value: totalSubstations, label: 'Active Substations', icon: <Zap size={26} />, color: '#ea580c', bg: '#fff7ed', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
-    { id: 'districts', title: 'Districts', subtitle: 'Coverage in Maharashtra', value: totalDistricts, label: 'Districts', icon: <MapPin size={26} />, color: '#7c3aed', bg: '#f3e8ff', onClick: () => onNavigate('mskvy', 'mskvy-district') },
-    { id: 'talukas', title: 'Talukas', subtitle: 'Sub-district areas', value: totalTalukas, label: 'Talukas', icon: <Globe size={26} />, color: '#0891b2', bg: '#cffafe', onClick: () => onNavigate('mskvy', 'mskvy-district') },
-    { id: 'area', title: 'Total Land Area', subtitle: 'Across all sites', value: `${totalArea} ac`, label: 'Total Acres', icon: <Ruler size={26} />, color: '#16a34a', bg: '#dcfce7', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
-    { id: 'solar', title: 'Solar Capacity', subtitle: 'Planned installations', value: `${totalSolarMW} MW`, label: 'Solar MW', icon: <Activity size={26} />, color: '#f59e0b', bg: '#fef3c7', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
-    { id: 'kmz', title: 'KMZ Verified', subtitle: 'GIS mapped sites', value: kmzVerified, label: 'Sites Verified', icon: <Compass size={26} />, color: '#0d9488', bg: '#ccfbf1', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
-    { id: 'supervisors', title: 'Site Supervisors', subtitle: 'Field engineers', value: totalSupervisors, label: 'Team Members', icon: <Users size={26} />, color: '#dc2626', bg: '#fee2e2', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
-    { id: 'contractors-unique', title: 'Unique Contractors', subtitle: 'Different companies', value: totalContractors, label: 'Companies', icon: <FolderOpen size={26} />, color: '#9333ea', bg: '#f3e8ff', onClick: () => onNavigate('mskvy', 'mskvy-contractors') },
-    { id: 'substation-surveys', title: 'Substation Surveys', subtitle: 'Completed checklist', value: MSKVY_SUBSTATION_SURVEYS.length, label: 'Surveys', icon: <ClipboardList size={26} />, color: '#1e40af', bg: '#dbeafe', onClick: () => onNavigate('mskvy', 'mskvy-substation-survey') },
-    { id: 'land-surveys', title: 'Land Surveys', subtitle: 'Land verification done', value: MSKVY_LAND_SURVEYS.length, label: 'Surveys', icon: <FileCheck size={26} />, color: '#15803d', bg: '#dcfce7', onClick: () => onNavigate('mskvy', 'mskvy-land-survey') },
-    { id: 'district-master', title: 'District Master', subtitle: 'Manage districts', value: MASTER_MSKVY_DISTRICT.length, label: 'Districts', icon: <Database size={26} />, color: '#ca8a04', bg: '#fef9c3', onClick: () => onNavigate('mskvy', 'mskvy-district') },
+    {
+      id: 'contractors',
+      title: 'Contractor List',
+      subtitle: 'All EPC Sub-Contractors',
+      value: totalContractors,
+      label: 'Total Records',
+      icon: <Building2 size={24} />,
+      color: '#2563eb',
+      bg: '#eff6ff',
+      onClick: () => onNavigate('mskvy', 'mskvy-contractors')
+    },
+    {
+      id: 'substation-surveys',
+      title: 'Substation Surveys',
+      subtitle: 'Completed Checklist',
+      value: totalSubstationSurveys,
+      label: 'Surveys',
+      icon: <ClipboardList size={24} />,
+      color: '#1e40af',
+      bg: '#dbeafe',
+      onClick: () => onNavigate('mskvy', 'mskvy-substation-survey')
+    },
   ];
 
   return (
     <div style={S.page}>
       <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>Management Dashboard</h1><p style={S.subtitle}>Click any card to open the module</p></div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: 'clamp(10px, 2vw, 16px)', marginBottom: 'clamp(14px, 3vw, 24px)' }}>
+      <div style={S.header}>
+        <h1 style={S.title}>Management Dashboard</h1>
+        <p style={S.subtitle}>Click any card to open the module</p>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 'clamp(12px, 2.5vw, 20px)', maxWidth: '640px' }}>
         {cards.map(card => (
           <div key={card.id} onClick={card.onClick}
-            style={{ background: '#fff', borderRadius: '14px', padding: 'clamp(14px, 2.5vw, 20px)', border: '1px solid #e5e7eb', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden', userSelect: 'none' }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.1)'; e.currentTarget.style.borderColor = card.color; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.borderColor = '#e5e7eb'; }}>
+            style={{
+              background: '#fff',
+              borderRadius: '10px',
+              padding: 'clamp(14px, 2.5vw, 18px)',
+              border: '1px solid #e5e7eb',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+              position: 'relative',
+              overflow: 'hidden',
+              userSelect: 'none'
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
+              e.currentTarget.style.borderColor = card.color;
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)';
+              e.currentTarget.style.borderColor = '#e5e7eb';
+            }}>
             <div style={{ position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', background: card.color }} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-              <div style={{ width: 'clamp(40px, 8vw, 52px)', height: 'clamp(40px, 8vw, 52px)', background: card.bg, color: card.color, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{card.icon}</div>
-              <div style={{ color: '#9ca3af' }}><ArrowRight size={16} /></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
+              <div style={{ width: 'clamp(36px, 7vw, 44px)', height: 'clamp(36px, 7vw, 44px)', background: card.bg, color: card.color, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{card.icon}</div>
+              <div style={{ color: '#9ca3af' }}><ArrowRight size={14} /></div>
             </div>
-            <p style={{ fontSize: 'clamp(11px, 2vw, 13px)', color: '#6b7280', margin: 0, fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{card.title}</p>
-            <p style={{ fontSize: 'clamp(18px, 4vw, 28px)', color: card.color, fontWeight: 'bold', margin: '4px 0 2px 0', lineHeight: 1, wordBreak: 'break-word' }}>{card.value}</p>
-            <p style={{ fontSize: 'clamp(10px, 1.8vw, 11px)', color: '#9ca3af', margin: 0 }}>{card.label}</p>
+            <p style={{ fontSize: 'clamp(11px, 2vw, 12px)', color: '#6b7280', margin: 0, fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{card.title}</p>
+            <p style={{ fontSize: 'clamp(20px, 4vw, 26px)', color: card.color, fontWeight: 'bold', margin: '4px 0 2px 0', lineHeight: 1 }}>{card.value}</p>
+            <p style={{ fontSize: 'clamp(9px, 1.8vw, 10px)', color: '#9ca3af', margin: 0 }}>{card.label}</p>
           </div>
         ))}
       </div>
@@ -586,7 +640,7 @@ const DashboardPage = ({ onNavigate }) => {
 // MSKVY CONTRACTOR LIST — with Google Earth links
 // =============================================
 const MSKVYContractorPage = () => {
-  const [data, setData] = useState(() => loadMSKVY('mskvy_contractors_v6', MSKVY_CONTRACTORS));
+  const [data, setData] = useState(() => loadMSKVY('mskvy_contractors_v7', MSKVY_CONTRACTORS));
   const [searchTerm, setSearchTerm] = useState('');
   const [districtFilter, setDistrictFilter] = useState('');
   const [showView, setShowView] = useState(false);
@@ -595,7 +649,7 @@ const MSKVYContractorPage = () => {
   const [editingId, setEditingId] = useState(null);
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  useEffect(() => { saveMSKVY('mskvy_contractors_v6', data); }, [data]);
+  useEffect(() => { saveMSKVY('mskvy_contractors_v7', data); }, [data]);
 
   const emptyForm = { contractor: '', director: '', director_contact: '', file_name: '', district: 'AHILYANAGAR', taluka: '', supervisor: '', contact: '', substation: '', area: '', solar: '', coordinates: '', distance_km: '', obstruction_clearance_m: '', substation_number: '', sr_no: '', land_status: '', location: '', remarks: '' };
   const [formData, setFormData] = useState(emptyForm);
@@ -675,7 +729,7 @@ const MSKVYContractorPage = () => {
                 <Field label="Obstruction Clearance (m)" icon={<Shield size={11} />} name="obstruction_clearance_m" type="number" value={formData.obstruction_clearance_m} onChange={onChange} />
                 <Field label="Substation Number" icon={<Hash size={11} />} name="substation_number" value={formData.substation_number} onChange={onChange} />
                 <Field label="Client Sr. No." icon={<Hash size={11} />} name="sr_no" value={formData.sr_no} onChange={onChange} />
-                <Field label="Land Status" icon={<FileCheck size={11} />} name="land_status" value={formData.land_status} onChange={onChange} />
+                <Field label="Land Status" icon={<FileText size={11} />} name="land_status" value={formData.land_status} onChange={onChange} />
                 <div style={S.formGroupFull}><label style={S.formLabel}><MapPin size={11} /> Location</label>
                   <input type="text" name="location" value={formData.location} onChange={onChange} style={S.formInput} />
                 </div>
@@ -852,10 +906,490 @@ const MSKVYContractorPage = () => {
 };
 
 // =============================================
+// SUBSTATION SURVEY PAGE — MODAL WITH FULL 28-ITEM CHECKLIST
+// =============================================
+const MSKVYSubstationSurveyPage = () => {
+  const [data, setData] = useState(() => loadMSKVY('mskvy_substation_v7', MSKVY_SUBSTATION_SURVEYS));
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showView, setShowView] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  useEffect(() => { saveMSKVY('mskvy_substation_v7', data); }, [data]);
+
+  const emptyForm = { substation: '', subdivision: '', surveyor: '', district: 'JALGAON', taluka: '', contractor: '', survey_date: '', status: 'Pending', voltage_level: '', connected_feeders: '', transformer_capacity: '', tap_changer: '', oil_condition: '', feeder_demand: '', pending_capacity: '', coordinates: '', remarks: '' };
+  const [formData, setFormData] = useState(emptyForm);
+
+  const filtered = data.filter(i => !searchTerm || ['substation', 'surveyor', 'district'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase())));
+  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+  const start = (page - 1) * itemsPerPage;
+  const display = filtered.slice(start, start + itemsPerPage);
+
+  const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
+  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
+  const del = (item) => { if (!window.confirm('Delete?')) return; setData(data.filter(d => d.id !== item.id)); toast.success('Deleted'); setShowView(false); };
+  const submit = (e) => {
+    e.preventDefault();
+    if (!formData.substation || !formData.surveyor) { toast.error('Required'); return; }
+    if (editingId) { setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d)); toast.success('Updated'); }
+    else { const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1; setData([{ ...formData, id: Date.now(), s_no: n }, ...data]); toast.success('Added'); }
+    setShowForm(false); setEditingId(null);
+  };
+
+  const columns = [
+    { key: 'substation', label: 'Substation', strong: true }, { key: 'subdivision', label: 'Subdivision' },
+    { key: 'surveyor', label: 'Surveyor' }, { key: 'district', label: 'District' },
+    { key: 'transformer_capacity', label: 'Transformer' }, { key: 'pending_capacity', label: 'Spare' },
+    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
+  ];
+
+  if (showForm) {
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    return (
+      <div style={S.page}>
+        <ToastContainer position="top-right" autoClose={3000} />
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ marginBottom: 'clamp(12px, 2.5vw, 20px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+            <h1 style={S.title}>{editingId ? 'Edit Survey' : 'New Survey'}</h1>
+            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+          </div>
+          <div style={{ background: '#fff', borderRadius: '12px', padding: 'clamp(12px, 2.5vw, 24px)', border: '1px solid #f3f4f6' }}>
+            <form onSubmit={submit}>
+              <div style={S.formGrid3}>
+                <Field label="Substation" icon={<Zap size={11} />} name="substation" value={formData.substation} onChange={onChange} required />
+                <Field label="Subdivision" icon={<MapPin size={11} />} name="subdivision" value={formData.subdivision} onChange={onChange} />
+                <Field label="Surveyor" icon={<User size={11} />} name="surveyor" value={formData.surveyor} onChange={onChange} required />
+                <Field label="District" icon={<MapPin size={11} />} name="district" value={formData.district} onChange={onChange} options={['JALGAON', 'AHILYANAGAR', 'SOLAPUR', 'NASHIK']} />
+                <Field label="Taluka" icon={<MapPin size={11} />} name="taluka" value={formData.taluka} onChange={onChange} />
+                <Field label="Survey Date" icon={<Calendar size={11} />} name="survey_date" type="date" value={formData.survey_date} onChange={onChange} />
+                <Field label="Voltage Level" icon={<Zap size={11} />} name="voltage_level" value={formData.voltage_level} onChange={onChange} />
+                <Field label="Connected Feeders" icon={<List size={11} />} name="connected_feeders" value={formData.connected_feeders} onChange={onChange} />
+                <Field label="Transformer" icon={<Zap size={11} />} name="transformer_capacity" value={formData.transformer_capacity} onChange={onChange} />
+                <Field label="Tap Changer" icon={<Zap size={11} />} name="tap_changer" value={formData.tap_changer} onChange={onChange} />
+                <Field label="Oil Condition" icon={<Shield size={11} />} name="oil_condition" value={formData.oil_condition} onChange={onChange} />
+                <Field label="Feeder Demand" icon={<Gauge size={11} />} name="feeder_demand" value={formData.feeder_demand} onChange={onChange} />
+                <Field label="Pending Capacity" icon={<TrendingUp size={11} />} name="pending_capacity" value={formData.pending_capacity} onChange={onChange} />
+                <Field label="Coordinates" icon={<Compass size={11} />} name="coordinates" value={formData.coordinates} onChange={onChange} />
+                <Field label="Status" icon={<Shield size={11} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
+                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={11} /> Remarks</label>
+                  <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
+                </div>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e5e7eb' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+                <button type="submit" style={S.btnSubmit}><CheckCircle size={13} /> {editingId ? 'Update' : 'Submit'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Full checklist sections for the modal
+  const renderFullChecklist = (item) => {
+    const sections = [
+      {
+        title: '1. Substation & Feeder Basics',
+        color: '#1e3a8a',
+        rows: [
+          ['1.1', 'Substation name, voltage level (33/11 kV), DISCOM / circle / division', item.substation ? `${item.substation}, ${item.voltage_level}, ${item.discom_division}` : '—'],
+          ['1.2', 'Connected Feeder Details', item.connected_feeders || '—'],
+          ['1.3', 'Feeder length (km), no. of DTs', item.feeder_length || '—'],
+          ['1.4', 'Connected agri pumps and total load (HP / kW)', item.agri_pumps_load || '—'],
+          ['1.5', 'Peak and average feeder load (last 12 months)', item.peak_load || '—'],
+          ['1.6', 'Supply hours (day / night) and outage history', [item.supply_hours, item.outage_history].filter(Boolean).join(' / ') || '—'],
+        ],
+      },
+      {
+        title: '2. Transformer Details',
+        color: '#ea580c',
+        rows: [
+          ['2.1', 'Power transformer capacity (MVA), make, year of installation', item.transformer_capacity || '—'],
+          ['2.2', 'Loading % and spare capacity available', [item.loading_percent, item.spare_capacity].filter(Boolean).join(' / ') || '—'],
+          ['2.3', 'Tap changer type / range', item.tap_changer || '—'],
+          ['2.4', 'Condition of oil, bushings and earthing', [item.oil_condition, item.bushing_condition, item.earthing_condition].filter(Boolean).join(', ') || '—'],
+        ],
+      },
+      {
+        title: '3. Interconnection Readiness',
+        color: '#16a34a',
+        rows: [
+          ['3.1', 'Spare 11 kV / 33 kV bay available (or new bay needed)', item.spare_bay || '—'],
+          ['3.2', 'Space for new bay, metering and protection panels', item.bay_space || '—'],
+          ['3.3', 'Switchgear condition (VCB, isolators, CTs, PTs)', item.switchgear || '—'],
+          ['3.4', 'Protection relays, SCADA / RTU availability', [item.protection_relays, item.scada_rtu].filter(Boolean).join(', ') || '—'],
+          ['3.5', 'Metering (ABT / energy meter) provision', item.metering || '—'],
+          ['3.6', 'Distance and route of evacuation line to solar plant', item.evacuation_distance || '—'],
+          ['3.7', 'Right-of-way issues', item.right_of_way || '—'],
+        ],
+      },
+      {
+        title: '4. Grid Quality & Safety',
+        color: '#7c3aed',
+        rows: [
+          ['4.1', 'Received Voltage By Solar Plant', item.received_voltage || '—'],
+          ['4.2', 'Fault level at the bus', item.fault_level || '—'],
+          ['4.3', 'Is Earthing system and lightning protection in good condition', item.lightning_protection || '—'],
+          ['4.4', 'Fire safety and clearances', item.fire_safety || '—'],
+        ],
+      },
+      {
+        title: '5. Solar Plant Sizing Inputs',
+        color: '#ca8a04',
+        rows: [
+          ['5.1', 'Feeder demand to be met (MW)', item.feeder_demand || '—'],
+          ['5.2', 'Existing Plant Connected Capacity (MW)', item.existing_capacity || '—'],
+          ['5.3', 'Pending Capacity For Injecting Solar Plant (MW)', item.pending_capacity || '—'],
+          ['5.4', 'Plant capacity vs substation transformer capacity check', item.transformer_capacity_check || '—'],
+        ],
+      },
+      {
+        title: '6. Regulatory & Documentation',
+        color: '#0891b2',
+        rows: [
+          ['6.1', 'Single line diagram (SLD) of substation', item.sld_available || '—'],
+          ['6.2', 'Environmental, forest and revenue clearances for solar plant to substation (Transmission line)', item.environmental_clearance || '—'],
+          ['6.3', 'Feeder-wise load data', item.feeder_load_data || '—'],
+        ],
+      },
+      {
+        title: '7. Site Photos & Records',
+        color: '#dc2626',
+        rows: [
+          ['7.1', 'Geo-tagged photos: land, substation, bays, approach road', item.geotagged_photos || '—'],
+          ['7.2', 'Coordinates (lat / long) and survey map', item.coordinates || '—'],
+          ['', 'Surveyor signature / DISCOM representative signature', [item.surveyor_sign, item.discom_sign].filter(Boolean).join(' / ') || '—'],
+        ],
+      },
+    ];
+
+    return (
+      <div>
+        {sections.map((sec, si) => (
+          <div key={si} style={{ marginTop: si === 0 ? 0 : '18px' }}>
+            <h3 style={{ fontSize: 'clamp(11px, 2vw, 12px)', fontWeight: '700', color: sec.color, marginBottom: '8px', paddingBottom: '5px', borderBottom: `2px solid ${sec.color}30` }}>{sec.title}</h3>
+            <div style={{ borderRadius: '8px', overflow: 'hidden', border: '1px solid #e5e7eb' }}>
+              {sec.rows.map(([code, label, value], ri) => (
+                <div key={ri} style={{ display: 'grid', gridTemplateColumns: 'minmax(50px, 60px) 1fr minmax(120px, 200px)', gap: '8px', padding: '8px 10px', background: ri % 2 === 0 ? '#fff' : '#f9fafb', borderBottom: ri < sec.rows.length - 1 ? '1px solid #f3f4f6' : 'none', alignItems: 'start' }}>
+                  <span style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '600' }}>{code || '—'}</span>
+                  <span style={{ fontSize: 'clamp(10px, 1.8vw, 11px)', color: '#4b5563', lineHeight: 1.4 }}>{label}</span>
+                  <span style={{ fontSize: 'clamp(10px, 1.8vw, 11px)', color: value === '—' ? '#9ca3af' : '#1f2937', fontWeight: value === '—' ? '400' : '600', textAlign: 'right', wordBreak: 'break-word', lineHeight: 1.4 }}>{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+        {item.remarks && (
+          <div style={{ marginTop: '16px', padding: '10px', background: '#fef3c7', borderRadius: '6px', border: '1px solid #fde68a' }}>
+            <p style={{ fontSize: '10px', fontWeight: '700', color: '#92400e', margin: '0 0 3px 0' }}>REMARKS</p>
+            <p style={{ fontSize: '12px', color: '#78350f', margin: 0 }}>{item.remarks}</p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div style={S.page}>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div style={S.header}><h1 style={S.title}>Substation Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation</p></div>
+
+      <TopToolbar itemsPerPage={itemsPerPage} onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
+        onExcel={() => exportToExcel(filtered, columns, 'substation_surveys')}
+        onPrint={() => printReport(filtered, columns, 'Substation Surveys')} />
+
+      <div style={S.searchBar}>
+        <div style={{ position: 'relative', flex: '1 1 200px', minWidth: 0 }}>
+          <Search size={14} style={S.searchIcon} />
+          <input type="text" placeholder="Search substation, surveyor..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
+          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={12} /></button>}
+        </div>
+        <button onClick={openNew} style={S.btnPrimary}><Plus size={13} /> Add</button>
+      </div>
+
+      <div style={S.tableCard}>
+        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Surveys</h2><span style={S.countBadge}>{filtered.length}</span></div>
+        <div style={S.tableWrap}>
+          <table style={S.table}>
+            <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}<th style={S.th}>Actions</th></tr></thead>
+            <tbody>
+              {display.map((item, idx) => (
+                <tr key={item.id}>
+                  <td style={S.td}>{start + idx + 1}</td>
+                  {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
+                  <td style={S.td}>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }}><Eye size={14} /></button>
+                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }}><Edit size={14} /></button>
+                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }}><Trash2 size={14} /></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <BottomPagination currentPage={page} totalPages={totalPages} totalItems={filtered.length} itemsPerPage={itemsPerPage} onPageChange={setPage} />
+      </div>
+
+      {showView && selected && (
+        <div style={S.modalOverlay} onClick={() => setShowView(false)}>
+          <div style={{ ...S.modal, maxWidth: '900px' }} onClick={e => e.stopPropagation()}>
+            <div style={S.modalHeader}>
+              <div>
+                <h2 style={S.modalTitle}>Substation Survey Details</h2>
+                <p style={{ fontSize: '10px', color: '#6b7280', margin: '2px 0 0 0' }}>{selected.substation} • {selected.subdivision} • Surveyor: {selected.surveyor}</p>
+              </div>
+              <button onClick={() => setShowView(false)} style={{ ...S.iconBtn }}><X size={18} /></button>
+            </div>
+            <div style={S.modalBody}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
+                <span style={{ ...S.statusBadge, ...getStatusStyle(selected.status) }}>{selected.status}</span>
+                {selected.district && <span style={{ ...S.statusBadge, background: '#dbeafe', color: '#1e40af' }}>{selected.district}</span>}
+                {selected.survey_date && <span style={{ ...S.statusBadge, background: '#f3e8ff', color: '#6b21a8' }}>{selected.survey_date}</span>}
+              </div>
+
+              {renderFullChecklist(selected)}
+
+              {selected.coordinates && (
+                <div style={{ marginTop: '16px' }}>
+                  <a href={getGoogleEarthUrl(selected.coordinates)} target="_blank" rel="noopener noreferrer"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '8px 14px', background: '#0d9488', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '600' }}>
+                    <Globe size={14} /> Open {selected.coordinates} in Google Earth
+                  </a>
+                </div>
+              )}
+            </div>
+            <div style={S.modalFooter}>
+              <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
+              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={13} /> Edit</button>
+              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={13} /> Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// =============================================
+// LAND SURVEY PAGE
+// =============================================
+const MSKVYLandSurveyPage = () => {
+  const [data, setData] = useState(() => loadMSKVY('mskvy_land_v7', MSKVY_LAND_SURVEYS));
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showView, setShowView] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  useEffect(() => { saveMSKVY('mskvy_land_v7', data); }, [data]);
+
+  const emptyForm = { village: '', block: '', district: 'JALGAON', feeder: '', surveyor: '', survey_date: '', status: 'Pending', land_nearby: '', distance_km: '', ownership: '', title_status: '', topography: '', approach_road: '', water_availability: '', environmental_clearance: '', geotagged_photos: '', coordinates: '', survey_map: '', remarks: '' };
+  const [formData, setFormData] = useState(emptyForm);
+
+  const filtered = data.filter(i => !searchTerm || ['village', 'block', 'feeder', 'surveyor'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase())));
+  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+  const start = (page - 1) * itemsPerPage;
+  const display = filtered.slice(start, start + itemsPerPage);
+
+  const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
+  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
+  const del = (item) => { if (!window.confirm('Delete?')) return; setData(data.filter(d => d.id !== item.id)); toast.success('Deleted'); setShowView(false); };
+  const submit = (e) => {
+    e.preventDefault();
+    if (!formData.village || !formData.surveyor) { toast.error('Required'); return; }
+    if (editingId) { setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d)); toast.success('Updated'); }
+    else { const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1; setData([{ ...formData, id: Date.now(), s_no: n }, ...data]); toast.success('Added'); }
+    setShowForm(false); setEditingId(null);
+  };
+
+  const columns = [
+    { key: 'village', label: 'Village', strong: true }, { key: 'block', label: 'Block' }, { key: 'district', label: 'District' },
+    { key: 'feeder', label: 'Feeder' }, { key: 'surveyor', label: 'Surveyor' }, { key: 'ownership', label: 'Ownership' },
+    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
+  ];
+
+  if (showForm) {
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    return (
+      <div style={S.page}>
+        <ToastContainer position="top-right" autoClose={3000} />
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ marginBottom: 'clamp(12px, 2.5vw, 20px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+            <h1 style={S.title}>{editingId ? 'Edit Land Survey' : 'New Land Survey'}</h1>
+            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+          </div>
+          <div style={{ background: '#fff', borderRadius: '12px', padding: 'clamp(12px, 2.5vw, 24px)', border: '1px solid #f3f4f6' }}>
+            <form onSubmit={submit}>
+              <div style={S.formGrid3}>
+                <Field label="Village" icon={<MapPin size={11} />} name="village" value={formData.village} onChange={onChange} required />
+                <Field label="Block" icon={<MapPin size={11} />} name="block" value={formData.block} onChange={onChange} />
+                <Field label="District" icon={<MapPin size={11} />} name="district" value={formData.district} onChange={onChange} options={['JALGAON', 'AHILYANAGAR', 'SOLAPUR', 'NASHIK']} />
+                <Field label="Feeder" icon={<Zap size={11} />} name="feeder" value={formData.feeder} onChange={onChange} />
+                <Field label="Surveyor" icon={<User size={11} />} name="surveyor" value={formData.surveyor} onChange={onChange} required />
+                <Field label="Survey Date" icon={<Calendar size={11} />} name="survey_date" type="date" value={formData.survey_date} onChange={onChange} />
+                <Field label="Ownership" icon={<Shield size={11} />} name="ownership" value={formData.ownership} onChange={onChange} options={['Private', 'Govt', 'Panchayat']} />
+                <Field label="Topography" icon={<FileText size={11} />} name="topography" value={formData.topography} onChange={onChange} />
+                <Field label="Coordinates" icon={<Compass size={11} />} name="coordinates" value={formData.coordinates} onChange={onChange} />
+                <Field label="Status" icon={<Shield size={11} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
+                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={11} /> Remarks</label>
+                  <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
+                </div>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e5e7eb' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
+                <button type="submit" style={S.btnSubmit}><CheckCircle size={13} /> {editingId ? 'Update' : 'Submit'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const renderLandChecklist = (item) => {
+    const sections = [
+      {
+        title: '1. Land Suitability',
+        color: '#15803d',
+        rows: [
+          ['1.1', 'Land within / adjacent to substation (ideally within 5 km)', [item.land_nearby, item.distance_km].filter(Boolean).join(' — ') || '—'],
+          ['1.2', 'Ownership (govt / private / panchayat) and area in acres', [item.ownership, item.area_acres].filter(Boolean).join(' — ') || '—'],
+          ['1.3', 'Land title, encumbrances and litigation status', item.title_status || '—'],
+          ['1.4', 'Topography, shading, flooding / waterlogging risk', [item.topography, item.waterlogging].filter(Boolean).join(' / ') || '—'],
+          ['1.5', 'Soil type, approach road, access for heavy vehicles', item.approach_road || '—'],
+          ['1.6', 'Water availability for panel cleaning', item.water_availability || '—'],
+          ['1.7', 'Environmental, forest and revenue clearances for solar plant to substation (Transmission line)', item.environmental_clearance || '—'],
+        ],
+      },
+      {
+        title: '2. Site Photos & Records',
+        color: '#0d9488',
+        rows: [
+          ['2.1', 'Geo-tagged photos: land, approach road', item.geotagged_photos || '—'],
+          ['2.2', 'Coordinates (lat / long) and survey map', [item.coordinates, item.survey_map].filter(Boolean).join(' — ') || '—'],
+        ],
+      },
+    ];
+    return (
+      <div>
+        {sections.map((sec, si) => (
+          <div key={si} style={{ marginTop: si === 0 ? 0 : '18px' }}>
+            <h3 style={{ fontSize: 'clamp(11px, 2vw, 12px)', fontWeight: '700', color: sec.color, marginBottom: '8px', paddingBottom: '5px', borderBottom: `2px solid ${sec.color}30` }}>{sec.title}</h3>
+            <div style={{ borderRadius: '8px', overflow: 'hidden', border: '1px solid #e5e7eb' }}>
+              {sec.rows.map(([code, label, value], ri) => (
+                <div key={ri} style={{ display: 'grid', gridTemplateColumns: 'minmax(50px, 60px) 1fr minmax(120px, 200px)', gap: '8px', padding: '8px 10px', background: ri % 2 === 0 ? '#fff' : '#f9fafb', borderBottom: ri < sec.rows.length - 1 ? '1px solid #f3f4f6' : 'none', alignItems: 'start' }}>
+                  <span style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '600' }}>{code}</span>
+                  <span style={{ fontSize: 'clamp(10px, 1.8vw, 11px)', color: '#4b5563', lineHeight: 1.4 }}>{label}</span>
+                  <span style={{ fontSize: 'clamp(10px, 1.8vw, 11px)', color: value === '—' ? '#9ca3af' : '#1f2937', fontWeight: value === '—' ? '400' : '600', textAlign: 'right', wordBreak: 'break-word', lineHeight: 1.4 }}>{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+        {item.remarks && (
+          <div style={{ marginTop: '16px', padding: '10px', background: '#dcfce7', borderRadius: '6px', border: '1px solid #bbf7d0' }}>
+            <p style={{ fontSize: '10px', fontWeight: '700', color: '#166534', margin: '0 0 3px 0' }}>REMARKS</p>
+            <p style={{ fontSize: '12px', color: '#14532d', margin: 0 }}>{item.remarks}</p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div style={S.page}>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div style={S.header}><h1 style={S.title}>Land Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation</p></div>
+
+      <TopToolbar itemsPerPage={itemsPerPage} onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
+        onExcel={() => exportToExcel(filtered, columns, 'land_surveys')}
+        onPrint={() => printReport(filtered, columns, 'Land Surveys')} />
+
+      <div style={S.searchBar}>
+        <div style={{ position: 'relative', flex: '1 1 200px', minWidth: 0 }}>
+          <Search size={14} style={S.searchIcon} />
+          <input type="text" placeholder="Search village, feeder..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
+          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={12} /></button>}
+        </div>
+        <button onClick={openNew} style={S.btnPrimary}><Plus size={13} /> Add</button>
+      </div>
+
+      <div style={S.tableCard}>
+        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Land Surveys</h2><span style={S.countBadge}>{filtered.length}</span></div>
+        <div style={S.tableWrap}>
+          <table style={S.table}>
+            <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}<th style={S.th}>Actions</th></tr></thead>
+            <tbody>
+              {display.map((item, idx) => (
+                <tr key={item.id}>
+                  <td style={S.td}>{start + idx + 1}</td>
+                  {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
+                  <td style={S.td}>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }}><Eye size={14} /></button>
+                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }}><Edit size={14} /></button>
+                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }}><Trash2 size={14} /></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <BottomPagination currentPage={page} totalPages={totalPages} totalItems={filtered.length} itemsPerPage={itemsPerPage} onPageChange={setPage} />
+      </div>
+
+      {showView && selected && (
+        <div style={S.modalOverlay} onClick={() => setShowView(false)}>
+          <div style={{ ...S.modal, maxWidth: '900px' }} onClick={e => e.stopPropagation()}>
+            <div style={S.modalHeader}>
+              <div>
+                <h2 style={S.modalTitle}>Land Survey Details</h2>
+                <p style={{ fontSize: '10px', color: '#6b7280', margin: '2px 0 0 0' }}>{selected.village} • {selected.block} • Surveyor: {selected.surveyor}</p>
+              </div>
+              <button onClick={() => setShowView(false)} style={{ ...S.iconBtn }}><X size={18} /></button>
+            </div>
+            <div style={S.modalBody}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
+                <span style={{ ...S.statusBadge, ...getStatusStyle(selected.status) }}>{selected.status}</span>
+                {selected.district && <span style={{ ...S.statusBadge, background: '#dbeafe', color: '#1e40af' }}>{selected.district}</span>}
+                {selected.survey_date && <span style={{ ...S.statusBadge, background: '#f3e8ff', color: '#6b21a8' }}>{selected.survey_date}</span>}
+              </div>
+
+              {renderLandChecklist(selected)}
+
+              {selected.coordinates && (
+                <div style={{ marginTop: '16px' }}>
+                  <a href={getGoogleEarthUrl(selected.coordinates)} target="_blank" rel="noopener noreferrer"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '8px 14px', background: '#0d9488', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '600' }}>
+                    <Globe size={14} /> Open {selected.coordinates} in Google Earth
+                  </a>
+                </div>
+              )}
+            </div>
+            <div style={S.modalFooter}>
+              <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
+              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={13} /> Edit</button>
+              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={13} /> Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// =============================================
 // DISTRICT MASTER
 // =============================================
 const DistrictMasterPage = () => {
-  const [data, setData] = useState(() => loadMSKVY('mskvy_district_v5', MASTER_MSKVY_DISTRICT));
+  const [data, setData] = useState(() => loadMSKVY('mskvy_district_v6', MASTER_MSKVY_DISTRICT));
   const [searchTerm, setSearchTerm] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [showView, setShowView] = useState(false);
@@ -863,7 +1397,7 @@ const DistrictMasterPage = () => {
   const [editingId, setEditingId] = useState(null);
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  useEffect(() => { saveMSKVY('mskvy_district_v5', data); }, [data]);
+  useEffect(() => { saveMSKVY('mskvy_district_v6', data); }, [data]);
 
   const emptyForm = { code: '', name: '', state: 'Maharashtra', talukas: '', total_substations: '', contractors: '', status: 'Active', remarks: '' };
   const [formData, setFormData] = useState(emptyForm);
@@ -1003,14 +1537,14 @@ const DistrictMasterPage = () => {
 // SURVEY STATUS MASTER
 // =============================================
 const SurveyStatusMasterPage = () => {
-  const [data, setData] = useState(() => loadMSKVY('mskvy_survey_status_v5', MASTER_MSKVY_SURVEY_STATUS));
+  const [data, setData] = useState(() => loadMSKVY('mskvy_survey_status_v6', MASTER_MSKVY_SURVEY_STATUS));
   const [showForm, setShowForm] = useState(false);
   const [showView, setShowView] = useState(false);
   const [selected, setSelected] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const emptyForm = { code: '', name: '', status: 'Active', remarks: '' };
   const [formData, setFormData] = useState(emptyForm);
-  useEffect(() => { saveMSKVY('mskvy_survey_status_v5', data); }, [data]);
+  useEffect(() => { saveMSKVY('mskvy_survey_status_v6', data); }, [data]);
 
   const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
   const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
@@ -1113,322 +1647,6 @@ const SurveyStatusMasterPage = () => {
             <div style={S.modalFooter}>
               <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
               <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={13} /> Edit</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-// =============================================
-// SUBSTATION SURVEY PAGE
-// =============================================
-const MSKVYSubstationSurveyPage = () => {
-  const [data, setData] = useState(() => loadMSKVY('mskvy_substation_v5', MSKVY_SUBSTATION_SURVEYS));
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showView, setShowView] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [selected, setSelected] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  useEffect(() => { saveMSKVY('mskvy_substation_v5', data); }, [data]);
-
-  const emptyForm = { substation: '', subdivision: '', surveyor: '', district: 'JALGAON', taluka: '', contractor: '', survey_date: '', status: 'Pending', voltage_level: '', connected_feeders: '', transformer_capacity: '', tap_changer: '', oil_condition: '', feeder_demand: '', pending_capacity: '', coordinates: '', remarks: '' };
-  const [formData, setFormData] = useState(emptyForm);
-
-  const filtered = data.filter(i => !searchTerm || ['substation', 'surveyor', 'district'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase())));
-  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
-  const start = (page - 1) * itemsPerPage;
-  const display = filtered.slice(start, start + itemsPerPage);
-
-  const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
-  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
-  const del = (item) => { if (!window.confirm('Delete?')) return; setData(data.filter(d => d.id !== item.id)); toast.success('Deleted'); setShowView(false); };
-  const submit = (e) => {
-    e.preventDefault();
-    if (!formData.substation || !formData.surveyor) { toast.error('Required'); return; }
-    if (editingId) { setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d)); toast.success('Updated'); }
-    else { const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1; setData([{ ...formData, id: Date.now(), s_no: n }, ...data]); toast.success('Added'); }
-    setShowForm(false); setEditingId(null);
-  };
-
-  const columns = [
-    { key: 'substation', label: 'Substation', strong: true }, { key: 'subdivision', label: 'Subdivision' },
-    { key: 'surveyor', label: 'Surveyor' }, { key: 'district', label: 'District' },
-    { key: 'transformer_capacity', label: 'Transformer' }, { key: 'pending_capacity', label: 'Spare' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-
-  if (showForm) {
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-    return (
-      <div style={S.page}>
-        <ToastContainer position="top-right" autoClose={3000} />
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: 'clamp(12px, 2.5vw, 20px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-            <h1 style={S.title}>{editingId ? 'Edit Survey' : 'New Survey'}</h1>
-            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
-          </div>
-          <div style={{ background: '#fff', borderRadius: '12px', padding: 'clamp(12px, 2.5vw, 24px)', border: '1px solid #f3f4f6' }}>
-            <form onSubmit={submit}>
-              <div style={S.formGrid3}>
-                <Field label="Substation" icon={<Zap size={11} />} name="substation" value={formData.substation} onChange={onChange} required />
-                <Field label="Subdivision" icon={<MapPin size={11} />} name="subdivision" value={formData.subdivision} onChange={onChange} />
-                <Field label="Surveyor" icon={<User size={11} />} name="surveyor" value={formData.surveyor} onChange={onChange} required />
-                <Field label="District" icon={<MapPin size={11} />} name="district" value={formData.district} onChange={onChange} options={['JALGAON', 'AHILYANAGAR', 'SOLAPUR', 'NASHIK']} />
-                <Field label="Taluka" icon={<MapPin size={11} />} name="taluka" value={formData.taluka} onChange={onChange} />
-                <Field label="Survey Date" icon={<Calendar size={11} />} name="survey_date" type="date" value={formData.survey_date} onChange={onChange} />
-                <Field label="Voltage Level" icon={<Zap size={11} />} name="voltage_level" value={formData.voltage_level} onChange={onChange} />
-                <Field label="Connected Feeders" icon={<List size={11} />} name="connected_feeders" value={formData.connected_feeders} onChange={onChange} />
-                <Field label="Transformer" icon={<Zap size={11} />} name="transformer_capacity" value={formData.transformer_capacity} onChange={onChange} />
-                <Field label="Tap Changer" icon={<Zap size={11} />} name="tap_changer" value={formData.tap_changer} onChange={onChange} />
-                <Field label="Oil Condition" icon={<Shield size={11} />} name="oil_condition" value={formData.oil_condition} onChange={onChange} />
-                <Field label="Feeder Demand" icon={<Gauge size={11} />} name="feeder_demand" value={formData.feeder_demand} onChange={onChange} />
-                <Field label="Pending Capacity" icon={<TrendingUp size={11} />} name="pending_capacity" value={formData.pending_capacity} onChange={onChange} />
-                <Field label="Coordinates" icon={<Compass size={11} />} name="coordinates" value={formData.coordinates} onChange={onChange} />
-                <Field label="Status" icon={<Shield size={11} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
-                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={11} /> Remarks</label>
-                  <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-                </div>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e5e7eb' }}>
-                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
-                <button type="submit" style={S.btnSubmit}><CheckCircle size={13} /> {editingId ? 'Update' : 'Submit'}</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div style={S.page}>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>Substation Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation</p></div>
-
-      <TopToolbar itemsPerPage={itemsPerPage} onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
-        onExcel={() => exportToExcel(filtered, columns, 'substation_surveys')}
-        onPrint={() => printReport(filtered, columns, 'Substation Surveys')} />
-
-      <div style={S.searchBar}>
-        <div style={{ position: 'relative', flex: '1 1 200px', minWidth: 0 }}>
-          <Search size={14} style={S.searchIcon} />
-          <input type="text" placeholder="Search substation, surveyor..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
-          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={12} /></button>}
-        </div>
-        <button onClick={openNew} style={S.btnPrimary}><Plus size={13} /> Add</button>
-      </div>
-
-      <div style={S.tableCard}>
-        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Surveys</h2><span style={S.countBadge}>{filtered.length}</span></div>
-        <div style={S.tableWrap}>
-          <table style={S.table}>
-            <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}<th style={S.th}>Actions</th></tr></thead>
-            <tbody>
-              {display.map((item, idx) => (
-                <tr key={item.id}>
-                  <td style={S.td}>{start + idx + 1}</td>
-                  {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
-                  <td style={S.td}>
-                    <div style={{ display: 'flex', gap: '2px' }}>
-                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }}><Eye size={14} /></button>
-                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }}><Edit size={14} /></button>
-                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }}><Trash2 size={14} /></button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <BottomPagination currentPage={page} totalPages={totalPages} totalItems={filtered.length} itemsPerPage={itemsPerPage} onPageChange={setPage} />
-      </div>
-
-      {showView && selected && (
-        <div style={S.modalOverlay} onClick={() => setShowView(false)}>
-          <div style={S.modal} onClick={e => e.stopPropagation()}>
-            <div style={S.modalHeader}><h2 style={S.modalTitle}>Substation Survey Details</h2><button onClick={() => setShowView(false)} style={{ ...S.iconBtn }}><X size={18} /></button></div>
-            <div style={S.modalBody}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '12px' }}>
-                {[['Substation', selected.substation], ['Subdivision', selected.subdivision], ['Surveyor', selected.surveyor], ['District', selected.district], ['Voltage', selected.voltage_level], ['Feeders', selected.connected_feeders], ['Transformer', selected.transformer_capacity], ['Spare', selected.pending_capacity], ['Status', selected.status]].map(([l, v]) => (
-                  <div key={l}>
-                    <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 3px 0', fontWeight: '600', textTransform: 'uppercase' }}>{l}</p>
-                    <p style={{ fontSize: '13px', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
-                  </div>
-                ))}
-              </div>
-              {selected.coordinates && (
-                <div style={{ marginTop: '12px' }}>
-                  <a href={getGoogleEarthUrl(selected.coordinates)} target="_blank" rel="noopener noreferrer"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '8px 14px', background: '#0d9488', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '600' }}>
-                    <Globe size={14} /> Open {selected.coordinates} in Google Earth
-                  </a>
-                </div>
-              )}
-              {selected.remarks && <div style={{ marginTop: '12px', padding: '10px', background: '#fef3c7', borderRadius: '6px' }}><p style={{ fontSize: '10px', fontWeight: '700', color: '#92400e', margin: '0 0 3px 0' }}>REMARKS</p><p style={{ fontSize: '12px', color: '#78350f', margin: 0 }}>{selected.remarks}</p></div>}
-            </div>
-            <div style={S.modalFooter}>
-              <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
-              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={13} /> Edit</button>
-              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={13} /> Delete</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-// =============================================
-// LAND SURVEY PAGE
-// =============================================
-const MSKVYLandSurveyPage = () => {
-  const [data, setData] = useState(() => loadMSKVY('mskvy_land_v5', MSKVY_LAND_SURVEYS));
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showView, setShowView] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [selected, setSelected] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  useEffect(() => { saveMSKVY('mskvy_land_v5', data); }, [data]);
-
-  const emptyForm = { village: '', block: '', district: 'JALGAON', feeder: '', surveyor: '', survey_date: '', status: 'Pending', land_nearby: '', distance_km: '', ownership: '', title_status: '', topography: '', approach_road: '', water_availability: '', environmental_clearance: '', geotagged_photos: '', coordinates: '', survey_map: '', remarks: '' };
-  const [formData, setFormData] = useState(emptyForm);
-
-  const filtered = data.filter(i => !searchTerm || ['village', 'block', 'feeder', 'surveyor'].some(k => String(i[k] || '').toLowerCase().includes(searchTerm.toLowerCase())));
-  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
-  const start = (page - 1) * itemsPerPage;
-  const display = filtered.slice(start, start + itemsPerPage);
-
-  const openNew = () => { setFormData(emptyForm); setEditingId(null); setShowForm(true); };
-  const openEdit = (item) => { setFormData({ ...item }); setEditingId(item.id); setShowForm(true); setShowView(false); };
-  const del = (item) => { if (!window.confirm('Delete?')) return; setData(data.filter(d => d.id !== item.id)); toast.success('Deleted'); setShowView(false); };
-  const submit = (e) => {
-    e.preventDefault();
-    if (!formData.village || !formData.surveyor) { toast.error('Required'); return; }
-    if (editingId) { setData(data.map(d => d.id === editingId ? { ...d, ...formData } : d)); toast.success('Updated'); }
-    else { const n = data.length > 0 ? Math.max(...data.map(d => d.s_no || 0)) + 1 : 1; setData([{ ...formData, id: Date.now(), s_no: n }, ...data]); toast.success('Added'); }
-    setShowForm(false); setEditingId(null);
-  };
-
-  const columns = [
-    { key: 'village', label: 'Village', strong: true }, { key: 'block', label: 'Block' }, { key: 'district', label: 'District' },
-    { key: 'feeder', label: 'Feeder' }, { key: 'surveyor', label: 'Surveyor' }, { key: 'ownership', label: 'Ownership' },
-    { key: 'status', label: 'Status', render: (i) => <span style={{ ...S.statusBadge, ...getStatusStyle(i.status) }}>{i.status}</span> },
-  ];
-
-  if (showForm) {
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-    return (
-      <div style={S.page}>
-        <ToastContainer position="top-right" autoClose={3000} />
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: 'clamp(12px, 2.5vw, 20px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-            <h1 style={S.title}>{editingId ? 'Edit Land Survey' : 'New Land Survey'}</h1>
-            <button onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
-          </div>
-          <div style={{ background: '#fff', borderRadius: '12px', padding: 'clamp(12px, 2.5vw, 24px)', border: '1px solid #f3f4f6' }}>
-            <form onSubmit={submit}>
-              <div style={S.formGrid3}>
-                <Field label="Village" icon={<MapPin size={11} />} name="village" value={formData.village} onChange={onChange} required />
-                <Field label="Block" icon={<MapPin size={11} />} name="block" value={formData.block} onChange={onChange} />
-                <Field label="District" icon={<MapPin size={11} />} name="district" value={formData.district} onChange={onChange} options={['JALGAON', 'AHILYANAGAR', 'SOLAPUR', 'NASHIK']} />
-                <Field label="Feeder" icon={<Zap size={11} />} name="feeder" value={formData.feeder} onChange={onChange} />
-                <Field label="Surveyor" icon={<User size={11} />} name="surveyor" value={formData.surveyor} onChange={onChange} required />
-                <Field label="Survey Date" icon={<Calendar size={11} />} name="survey_date" type="date" value={formData.survey_date} onChange={onChange} />
-                <Field label="Ownership" icon={<Shield size={11} />} name="ownership" value={formData.ownership} onChange={onChange} options={['Private', 'Govt', 'Panchayat']} />
-                <Field label="Topography" icon={<Layers size={11} />} name="topography" value={formData.topography} onChange={onChange} />
-                <Field label="Coordinates" icon={<Compass size={11} />} name="coordinates" value={formData.coordinates} onChange={onChange} />
-                <Field label="Status" icon={<Shield size={11} />} name="status" value={formData.status} onChange={onChange} options={['Pending', 'In Progress', 'Completed']} />
-                <div style={S.formGroupFull}><label style={S.formLabel}><FileText size={11} /> Remarks</label>
-                  <textarea name="remarks" value={formData.remarks} onChange={onChange} rows={3} style={S.formTextarea} />
-                </div>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e5e7eb' }}>
-                <button type="button" onClick={() => setShowForm(false)} style={S.btnSecondary}><X size={13} /> Cancel</button>
-                <button type="submit" style={S.btnSubmit}><CheckCircle size={13} /> {editingId ? 'Update' : 'Submit'}</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div style={S.page}>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <div style={S.header}><h1 style={S.title}>Land Survey Checklist</h1><p style={S.subtitle}>MSKVY Feeder Solarisation</p></div>
-
-      <TopToolbar itemsPerPage={itemsPerPage} onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
-        onExcel={() => exportToExcel(filtered, columns, 'land_surveys')}
-        onPrint={() => printReport(filtered, columns, 'Land Surveys')} />
-
-      <div style={S.searchBar}>
-        <div style={{ position: 'relative', flex: '1 1 200px', minWidth: 0 }}>
-          <Search size={14} style={S.searchIcon} />
-          <input type="text" placeholder="Search village, feeder..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); setPage(1); }} style={S.searchInput} />
-          {searchTerm && <button onClick={() => setSearchTerm('')} style={S.clearIcon}><X size={12} /></button>}
-        </div>
-        <button onClick={openNew} style={S.btnPrimary}><Plus size={13} /> Add</button>
-      </div>
-
-      <div style={S.tableCard}>
-        <div style={S.tableHeaderBar}><h2 style={S.tableTitle}>All Land Surveys</h2><span style={S.countBadge}>{filtered.length}</span></div>
-        <div style={S.tableWrap}>
-          <table style={S.table}>
-            <thead style={S.thead}><tr><th style={S.th}>S/No.</th>{columns.map(c => <th key={c.key} style={S.th}>{c.label}</th>)}<th style={S.th}>Actions</th></tr></thead>
-            <tbody>
-              {display.map((item, idx) => (
-                <tr key={item.id}>
-                  <td style={S.td}>{start + idx + 1}</td>
-                  {columns.map(c => <td key={c.key} style={c.strong ? S.tdStrong : S.td}>{c.render ? c.render(item) : (item[c.key] ?? '—')}</td>)}
-                  <td style={S.td}>
-                    <div style={{ display: 'flex', gap: '2px' }}>
-                      <button onClick={() => { setSelected(item); setShowView(true); }} style={{ ...S.iconBtn, color: '#2563eb' }}><Eye size={14} /></button>
-                      <button onClick={() => openEdit(item)} style={{ ...S.iconBtn, color: '#7c3aed' }}><Edit size={14} /></button>
-                      <button onClick={() => del(item)} style={{ ...S.iconBtn, color: '#dc2626' }}><Trash2 size={14} /></button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <BottomPagination currentPage={page} totalPages={totalPages} totalItems={filtered.length} itemsPerPage={itemsPerPage} onPageChange={setPage} />
-      </div>
-
-      {showView && selected && (
-        <div style={S.modalOverlay} onClick={() => setShowView(false)}>
-          <div style={S.modal} onClick={e => e.stopPropagation()}>
-            <div style={S.modalHeader}><h2 style={S.modalTitle}>Land Survey Details</h2><button onClick={() => setShowView(false)} style={{ ...S.iconBtn }}><X size={18} /></button></div>
-            <div style={S.modalBody}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '12px' }}>
-                {[['Village', selected.village], ['Block', selected.block], ['District', selected.district], ['Feeder', selected.feeder], ['Surveyor', selected.surveyor], ['Ownership', selected.ownership], ['Topography', selected.topography], ['Status', selected.status]].map(([l, v]) => (
-                  <div key={l}>
-                    <p style={{ fontSize: '10px', color: '#6b7280', margin: '0 0 3px 0', fontWeight: '600', textTransform: 'uppercase' }}>{l}</p>
-                    <p style={{ fontSize: '13px', margin: 0, wordBreak: 'break-word' }}>{v || '—'}</p>
-                  </div>
-                ))}
-              </div>
-              {selected.coordinates && (
-                <div style={{ marginTop: '12px' }}>
-                  <a href={getGoogleEarthUrl(selected.coordinates)} target="_blank" rel="noopener noreferrer"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '8px 14px', background: '#0d9488', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '600' }}>
-                    <Globe size={14} /> Open {selected.coordinates} in Google Earth
-                  </a>
-                </div>
-              )}
-              {selected.remarks && <div style={{ marginTop: '12px', padding: '10px', background: '#dcfce7', borderRadius: '6px' }}><p style={{ fontSize: '10px', fontWeight: '700', color: '#166534', margin: '0 0 3px 0' }}>REMARKS</p><p style={{ fontSize: '12px', color: '#14532d', margin: 0 }}>{selected.remarks}</p></div>}
-            </div>
-            <div style={S.modalFooter}>
-              <button onClick={() => setShowView(false)} style={S.btnSecondary}>Close</button>
-              <button onClick={() => openEdit(selected)} style={S.btnSubmit}><Edit size={13} /> Edit</button>
-              <button onClick={() => del(selected)} style={{ ...S.btnSecondary, color: '#dc2626', borderColor: '#fecaca' }}><Trash2 size={13} /> Delete</button>
             </div>
           </div>
         </div>
