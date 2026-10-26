@@ -932,11 +932,11 @@ const MSKVYContractorPage = () => {
     setShowForm(false); setEditingId(null);
   };
 
+  // KMZ Verified card removed — only 3 stats remain, grid auto-fits them evenly
   const stats = [
     { label: 'Total Records', value: data.length, color: '#2563eb', icon: <Building2 size={18} /> },
     { label: 'Districts', value: [...new Set(data.map(c => c.district))].length, color: '#7c3aed', icon: <MapPin size={18} /> },
     { label: 'Total Area (acres)', value: data.reduce((s, c) => s + (parseFloat(c.area) || 0), 0).toFixed(2), color: '#16a34a', icon: <Ruler size={18} /> },
-    { label: 'KMZ Verified', value: data.filter(c => c.coordinates).length, color: '#0d9488', icon: <Compass size={18} /> },
   ];
 
   const exportCols = [
@@ -1015,7 +1015,7 @@ const MSKVYContractorPage = () => {
       <StatsRow stats={stats} />
 
       <TopToolbar itemsPerPage={itemsPerPage} onItemsPerPageChange={(v) => { setItemsPerPage(v); setPage(1); }}
-        onExcel={() => exportToExcel(filtered, exportCols, 'mskvy_contractors')}
+        onExcel={() => exportToExcel(filtered, exportCols, 'mskv y_contractors')}
         onPrint={() => printReport(filtered, exportCols, 'MSKVY Contractor List')} />
 
       <div style={S.searchBar}>
